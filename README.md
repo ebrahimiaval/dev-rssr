@@ -1,1 +1,1 @@
-# dev-rssr
+Reacr Server Side Rendering Project

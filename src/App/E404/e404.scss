@@ -1,0 +1,51 @@
+@import "utility";
+
+
+#e404 {
+    .e404-wrap img {
+        margin  : 130px auto;
+        display : block;
+    }
+
+    .recommend-area {
+        border                     : 1px solid #eeeeee;
+        border-bottom-left-radius  : 10px;
+        border-bottom-right-radius : 10px;
+        border-top-width           : 2px;
+        margin                     : 0;
+
+        .section-title {
+            background-color : #eeeeee;
+            display          : block;
+            width            : 100%;
+            padding          : 10px 20px;
+            font-size        : 14px;
+        }
+        .recommend-ballance {
+            padding : 0 70px 15px;
+        }
+
+        .title {
+            background-color : #f8f8f8;
+            color            : #808991;
+            display          : block;
+            font-size        : 14px;
+            line-height      : 40px;
+            padding-right    : 10px;
+            width            : 100%;
+        }
+
+        .recommend-item {
+            height      : 200px;
+            margin-left : 25px;
+            width       : 155px;
+            span {
+                font-weight : 500;
+            }
+        }
+        img {
+            max-height     : 145px;
+            padding-bottom : 10px;
+        }
+    }
+}
