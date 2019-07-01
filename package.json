@@ -5,7 +5,7 @@
     "scripts": {
         "dev": "NODE_ENV=development node ./provider/server.development.js",
         "build": "NODE_ENV=production webpack --config ./provider/config/webpack.config.production.js --display-entrypoints --display-depth --verbose --display-used-exports --display-provided-exports --debug --display-reasons --display-chunks --progress --display-origins --display-exclude --display-optimization-bailout --display-modules --display-max-modules --display-error-details --profile --display-cached-assets --colors --display-cached",
-        "serv": "NODE_ENV=production pm2 start ./provider/server.production.js --node-args='--max-old-space-size=4000' --merge-logs --log-date-format='YYYY-MM-DD HH:mm'",
+        "serv": "NODE_ENV=production pm2 start ./provider/server.production.js",
         "up": "pm2 delete server.production & npm run serv",
         "lint": "eslint src"
     },
