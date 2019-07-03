@@ -55,8 +55,8 @@ app.listen(PORT, error => {
             .then(function () {
                 // open project in browser
                 opn(`http://localhost:${PORT}`);
-            });
 
-        console.log(`development server running at http://localhost:${process.env.PORT}`);
+                console.log(`development server running at http://localhost:${process.env.PORT}`);
+            });
     }
 });
