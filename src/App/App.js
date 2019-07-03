@@ -3,12 +3,12 @@ import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
 import {Route, Switch} from "react-router-dom";
 // component
-import SignInModal from "./_component/Auth/SignInModal";
-import SignUpModal from "./_component/Auth/SignUpModal";
+// import SignInModal from "./_component/Auth/SignInModal";
+// import SignUpModal from "./_component/Auth/SignUpModal";
 // action
 import {firstSetup} from "../action/authentication";
 // utility
-import {jumpScrollToTop} from "../utility/jumpScrollToTop";
+// import {jumpScrollToTop} from "../utility/jumpScrollToTop";
 import {routeMap} from "../config/routeMap";
 // npm styles
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -34,12 +34,12 @@ class App extends Component {
                     }
                     {
                         // move scroll bar to top of page when route changed
-                        jumpScrollToTop()
+                        // jumpScrollToTop()
                     }
                 </Switch>
                 <Helmet defaultTitle="React Server Side Rendering"/>
-                <SignInModal/>
-                <SignUpModal/>
+                {/*<SignInModal/>*/}
+                {/*<SignUpModal/>*/}
                 <ToastContainer rtl={true}/>
             </Fragment>
         )
