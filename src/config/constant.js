@@ -1,4 +1,3 @@
-
 /**
  *
  * @type {boolean}: in client is 'true' and in server is 'false
@@ -19,3 +18,14 @@ export const IS_BROWSER = typeof window !== 'undefined';
  *     API_HOST_IN_SERVER = 192.168.2.1
  */
 export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.env.API_HOST_IN_SERVER;
+
+
+
+/**
+ * used in tamplate for inject date to tamplate
+ * see: renderTemplate.js and Template.js
+ */
+export const templatePlaceHolder = {
+    renderdApp: '__renderedApp__',
+    updatedState: '__UPDATED_REDUX_STATES__'
+}

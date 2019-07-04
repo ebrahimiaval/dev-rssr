@@ -4,21 +4,32 @@ import {Helmet} from "react-helmet";
 import {pickUpdatedStates} from "./pickUpdatedStates";
 import ReactDOMServer from "react-dom/server";
 import serialize from "serialize-javascript";
+import {templatePlaceHolder} from "../config/constant";
 
 export const renderTemplate = function (renderedApp, store) {
+    const
+        {renderdApp, updatedState} = templatePlaceHolder,
+        regExp = new RegExp(Object.keys(templatePlaceHolder).join("|"), "gi"),
+        injectMap = {};
+
+    // inject rendered app in server to template
+    injectMap[renderdApp] = renderedApp;
+
+    // inject updated redux states to template
+    injectMap[updatedState] = serialize(pickUpdatedStates(store));
+
     let template = <Template helmet={Helmet.renderStatic()}/>;
 
     template = ReactDOMServer.renderToString(template);
 
     template = '<!DOCTYPE html>' + template;
 
-    const injectMap = {
-        '__renderedApp__' : renderedApp, // inject rendered app in server to template
-        '__UPDATED_REDUX_STATES__':serialize(pickUpdatedStates(store)) // inject updated redux states to template
-    }
-
-    template = template.replace(/__renderedApp__|__UPDATED_REDUX_STATES__/gi, function (matched) {
+    // injector
+    template = template.replace(regExp, function (matched) {
+        if (injectMap.hasOwnProperty(matched))
             return injectMap[matched];
+        else
+            return matched;
     });
 
     return template;

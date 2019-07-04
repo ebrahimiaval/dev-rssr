@@ -1,8 +1,10 @@
 import React from 'react';
+import {templatePlaceHolder} from "./constant";
 
 
 export default function (props) {
     const
+        {renderdApp, updatedState} = templatePlaceHolder,
         {helmet} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
@@ -22,9 +24,9 @@ export default function (props) {
             </head>
 
             <body className="rtl" {...bodyAttrs}>
-                <div id="app-root">__renderedApp__</div>
+                <div id="app-root">{renderdApp}</div>
                 <script>
-                    window.UPDATED_REDUX_STATES = __UPDATED_REDUX_STATES__
+                    window.UPDATED_REDUX_STATES = {updatedState}
                 </script>
                 <script src={`/dist/client.js?v=${process.env.VERSION}`}></script>
             </body>
