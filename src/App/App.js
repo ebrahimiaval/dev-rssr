@@ -12,7 +12,6 @@ import {firstSetup} from "../action/authentication";
 import {routeMap} from "../config/routeMap";
 // npm styles
 import 'react-toastify/dist/ReactToastify.min.css';
-import "flickity/dist/flickity.min.css";
 // App component styles and application public styles
 import "./_style/style.scss";
 
