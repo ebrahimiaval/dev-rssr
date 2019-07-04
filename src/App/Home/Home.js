@@ -33,6 +33,7 @@ class Home extends Component {
 
     componentDidMount() {
         // jQuery('#exampleModal').modal('show');
+        // $('body').samplePlugin();
     }
 
 
@@ -45,7 +46,7 @@ class Home extends Component {
                     <h1>RSSR</h1>
                     <p className="lead">پروژه تنظیمات باز با قابلیت پردازش سمت سرور ری‌اکت</p>
                 </div>
-                
+
                 <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     Launch demo modal
                 </button>

@@ -64,10 +64,24 @@ module.exports = [
                             }
                         }
                     ]
+                },
+                {
+                    test: require.resolve('jquery'),
+                    use: [{
+                        loader: 'expose-loader',
+                        options: 'jQuery'
+                    }, {
+                        loader: 'expose-loader',
+                        options: '$'
+                    }]
                 }
             ],
         },
         plugins: [
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery"
+            }),
             new MiniCssExtractPlugin({
                 filename: 'styles.css'
             }),

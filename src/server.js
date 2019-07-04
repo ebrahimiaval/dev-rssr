@@ -11,8 +11,8 @@ import {errorLogger} from "./utility/errorLogger";
 import {isSet} from "./utility/isSet";
 import {htmlMinify} from "./utility/htmlMinify";
 // HTML template
-import Template from './config/template.main';
-import E500 from './config/template.error500';
+import mainTemplate from './config/template.main';
+import e500Template from './config/template.error500';
 // component
 import App from './App/App';
 
@@ -29,7 +29,7 @@ export default function serverRenderer() {
             errorLogger('server.js', proccessTimeStart, error);
 
             // ERROR 500 - when occurs an error during process
-            res.status(500).send(E500(error));
+            res.status(500).send(e500Template(error));
         }
 
         try {
@@ -102,7 +102,7 @@ export default function serverRenderer() {
                         }
 
                         // return view
-                        let template = Template({
+                        let template = mainTemplate({
                             markup: markup,
                             helmet: Helmet.renderStatic(), // meta tags
                             storeState: nowState // redux store state
