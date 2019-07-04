@@ -4,7 +4,7 @@ const
     rateLimit = require('./utility/rateLimit'),
 
     // utility
-    evnLoader = require('../utility/evnLoader'),
+    evnLoader = require('./utility/evnLoader'),
 
     // express app
     express = require('express'),
@@ -46,7 +46,7 @@ app.use(serverRenderer(stats));
 
 // run server
 const
-    PORT = process.env.PORT || 4000,
+    PORT = process.env.PORT || 3000,
     HOST = process.env.HOST || '0.0.0.0';
 
 app.listen(PORT, HOST, error => {

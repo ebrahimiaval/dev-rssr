@@ -4,7 +4,7 @@ const
     waitForLocalhost = require('wait-for-localhost'),
 
     // utility
-    evnLoader = require('../utility/evnLoader'),
+    evnLoader = require('./utility/evnLoader'),
 
     // express app
     express = require('express'),
