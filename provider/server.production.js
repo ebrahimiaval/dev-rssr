@@ -1,10 +1,10 @@
+// load .env files and define environment varibale before all actions
+require('./utility/evnLoader');
+
 const
     path = require('path'),
     seoOptimization = require('./utility/seoOptimization'),
     rateLimit = require('./utility/rateLimit'),
-
-    // utility
-    evnLoader = require('./utility/evnLoader'),
 
     // express app
     express = require('express'),
@@ -21,9 +21,6 @@ const
 
 
 
-
-// load .env files and define environment varibale
-evnLoader();
 
 // make bundled final project source files accessable
 app.use('/dist', express.static(path.resolve(process.cwd(), './dist')));

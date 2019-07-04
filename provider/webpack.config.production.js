@@ -1,5 +1,5 @@
-const evnLoader = require('./utility/evnLoader');
-
+// load .env files and define environment varibale before all actions
+require('./utility/evnLoader');
 
 const path = require('path'),
     webpack = require('webpack'),
@@ -14,10 +14,9 @@ const path = require('path'),
     srcDir = path.resolve(process.cwd(), './src');
 
 
-evnLoader();
 
 module.exports = [
-    //---------------- production client.js config ----------------//
+    //---------------- client ----------------//
     {
         name: 'client',
         mode: 'production',
@@ -115,7 +114,7 @@ module.exports = [
         },
     },
 
-    //---------------- production server.js config ----------------//
+    //---------------- server ----------------//
     {
         name: 'server',
         mode: 'production',

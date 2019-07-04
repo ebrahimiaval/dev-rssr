@@ -1,10 +1,10 @@
+// load .env files and define environment varibale before all actions
+require('./utility/evnLoader');
+
 const
     opn = require('opn'),
     path = require('path'),
     waitForLocalhost = require('wait-for-localhost'),
-
-    // utility
-    evnLoader = require('./utility/evnLoader'),
 
     // express app
     express = require('express'),
@@ -13,7 +13,6 @@ const
     // webpack
     webpack = require('webpack'),
     config = require('./webpack.config.development'),
-    compiler = webpack(config),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
     webpackHotServerMiddleware = require('webpack-hot-server-middleware');
@@ -22,8 +21,8 @@ const
 
 
 
-// load .env files and define environment varibale
-evnLoader();
+// create webpack compiler
+const compiler = webpack(config);
 
 // make bundled project source files accessable from memory
 app.use(webpackDevMiddleware(compiler, {

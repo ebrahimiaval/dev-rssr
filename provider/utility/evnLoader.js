@@ -80,28 +80,26 @@ function config(options) {
  *
  * NOTICE: .env load in all environment
  */
-module.exports = function () {
-    const ROOT = process.cwd();
-    let selectedEnv = null;
+const ROOT = process.cwd();
+let selectedEnv = null;
 
-    switch (process.env.NODE_ENV) {
-        case 'development':
-            selectedEnv = path.resolve(ROOT, '.env.development');
-            break;
-        case 'production':
-            selectedEnv = path.resolve(ROOT, '.env.production');
-            break;
-        case 'test':
-            selectedEnv = path.resolve(ROOT, '.env.test');
-            break;
-    }
-
-    // import app version
-    process.env.VERSION = version;
-
-    // load .env
-    config({path: path.resolve(ROOT, '.env')});
-
-    // load selected environment
-    config({path: selectedEnv});
+switch (process.env.NODE_ENV) {
+    case 'development':
+        selectedEnv = path.resolve(ROOT, '.env.development');
+        break;
+    case 'production':
+        selectedEnv = path.resolve(ROOT, '.env.production');
+        break;
+    case 'test':
+        selectedEnv = path.resolve(ROOT, '.env.test');
+        break;
 }
+
+// import app version
+process.env.VERSION = version;
+
+// load .env
+config({path: path.resolve(ROOT, '.env')});
+
+// load selected environment
+config({path: selectedEnv});

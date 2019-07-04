@@ -7,10 +7,9 @@ const
     srcDir = path.resolve(process.cwd(), './src');
 
 
-
 //?quiet=true
 module.exports = [
-    //---------------- development client.js config ----------------//
+    //---------------- client ----------------//
     {
         name: 'client',
         mode: 'development',
@@ -84,7 +83,7 @@ module.exports = [
         ]
     },
 
-    //---------------- development server.js config ----------------//
+    //---------------- server ----------------//
     {
         name: 'server',
         mode: 'development',
