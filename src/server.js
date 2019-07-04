@@ -12,7 +12,7 @@ import {isSet} from "./utility/isSet";
 import TemplateE500 from './config/TemplateE500';
 // component
 import App from './App/App';
-import {renderMainTemplate} from "./utility/renderMainTemplate";
+import {renderTemplate} from "./utility/renderTemplate";
 
 
 
@@ -84,7 +84,7 @@ export default function serverRenderer() {
                     if (context.url)
                         res.redirect(301, context.url); // if <Redirect> was rendered
                     else
-                        res.status(status).send(renderMainTemplate(renderedApp, store)); // usual app render
+                        res.status(status).send(renderTemplate(renderedApp, store)); // usual app render
                 })
                 .catch(errorReporter);
         } catch (error) {

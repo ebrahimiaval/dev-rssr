@@ -1,10 +1,9 @@
 import React from 'react';
-import serialize from 'serialize-javascript';
 
 
 export default function (props) {
     const
-        {helmet, updatedStates} = props,
+        {helmet} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -25,7 +24,7 @@ export default function (props) {
             <body className="rtl" {...bodyAttrs}>
                 <div id="app-root">__renderedApp__</div>
                 <script>
-                    window.UPDATED_REDUX_STATES = {serialize(updatedStates)}
+                    window.UPDATED_REDUX_STATES = __UPDATED_REDUX_STATES__
                 </script>
                 <script src={`/dist/client.js?v=${process.env.VERSION}`}></script>
             </body>
