@@ -12,7 +12,7 @@ const
 
     // webpack
     webpack = require('webpack'),
-    config = require('./config/webpack.config.development'),
+    config = require('./webpack.config.development'),
     compiler = webpack(config),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),

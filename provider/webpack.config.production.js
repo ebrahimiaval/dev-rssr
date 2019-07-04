@@ -1,4 +1,4 @@
-const evnLoader = require('../utility/evnLoader');
+const evnLoader = require('./utility/evnLoader');
 
 
 const path = require('path'),
