@@ -3,7 +3,6 @@ import {connect} from "trim-redux";
 import {toast} from 'react-toastify';
 // config
 import {regexpPattern} from "../../../config/regexpPattern";
-import {$} from "../../../config/jquery";
 import {api} from "../../../config/api";
 import {route} from "../../../config/route";
 // action

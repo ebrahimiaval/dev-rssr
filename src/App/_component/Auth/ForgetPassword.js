@@ -3,7 +3,6 @@ import {withRouter} from 'react-router-dom';
 import {toast} from 'react-toastify';
 // utility
 import {ajax, validationForm} from "../../../utility/helper/helper";
-import {$} from "../../../utility/jquery";
 import {regexpPattern} from "../../../utility/pattern";
 import {api} from "../../../utility/api";
 import {route} from "../../../utility/route";

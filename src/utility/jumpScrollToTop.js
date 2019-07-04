@@ -1,4 +1,3 @@
-import {$} from "../config/jquery";
 
 
 /**

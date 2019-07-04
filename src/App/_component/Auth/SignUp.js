@@ -3,7 +3,6 @@ import {connect} from "trim-redux";
 import {withRouter} from "react-router-dom";
 // config
 import {regexpPattern} from "../../../config/regexpPattern";
-import {$} from "../../../config/jquery";
 import {api} from "../../../config/api";
 // utility
 import {validationForm} from "../../../utility/validationForm";

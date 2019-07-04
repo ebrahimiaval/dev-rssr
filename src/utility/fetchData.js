@@ -1,5 +1,4 @@
 import {getStore} from "trim-redux";
-import {$} from "../config/jquery";
 import {isSet} from "./isSet";
 
 
