@@ -20,7 +20,7 @@ export default ({markup, helmet, storeState}) => {
    <div id="app-root">${markup}</div>    
    
    <script>
-      window.__rssrـstatesــ = ${serialize(storeState)}  
+      window.UPDATED_REDUX_STATES = ${serialize(storeState)}  
    </script>    
    <script src="/dist/client.js?v=${process.env.VERSION}"></script>
 </body>
