@@ -34,7 +34,7 @@ app.use(webpackDevMiddleware(compiler, {
 app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));
 
 // recompile webpack when file changes
-app.use(webpackHotMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler.compilers.find(compiler => compiler.name === 'client')));
 
 // hot update Webpack bundles on the server
 app.use(webpackHotServerMiddleware(compiler));

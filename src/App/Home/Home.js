@@ -8,6 +8,7 @@ import {IS_BROWSER} from "../../config/constant";
 import {route} from "../../config/route";
 // style
 import "./home.scss";
+import {Helmet} from "react-helmet";
 
 
 
@@ -32,16 +33,24 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        // jQuery('#exampleModal').modal('show');
-        // $('body').samplePlugin();
+        // fetch if home have default state
+        if (this.props.home.length === 0)
+            Home.fetchData({});
     }
 
+
+    componentWillUnmount() {
+        // clear store
+        setStore({home: []})
+    }
 
 
     render() {
         const {home} = this.props;
+
         return (
             <div className="container-fluid">
+                <Helmet title="صفحه ‌اصلی"/>
                 <div className="jumbotron mt-3" id="abc">
                     <h1>RSSR</h1>
                     <p className="lead">پروژه تنظیمات باز با قابلیت پردازش سمت سرور ری‌اکت</p>

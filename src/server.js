@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import {StaticRouter, matchPath} from "react-router-dom";
-import {Helmet} from "react-helmet";
+import {matchPath, StaticRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 // config
 import {createStore, defaultState} from "./config/store";
@@ -9,27 +8,32 @@ import {routeMap} from "./config/routeMap";
 // utility
 import {errorLogger} from "./utility/errorLogger";
 import {isSet} from "./utility/isSet";
-import {htmlMinify} from "./utility/htmlMinify";
 // HTML template
-import mainTemplate from './config/template.main';
-import e500Template from './config/template.error500';
+import TemplateE500 from './config/TemplateE500';
 // component
 import App from './App/App';
+import {renderMainTemplate} from "./utility/renderMainTemplate";
 
 
 
 
 
 export default function serverRenderer() {
-    return (req, res) => {
+    return (req, res, next) => {
         // start proccess timer
         let proccessTimeStart = Date.now();
 
         const errorReporter = function (error) {
             errorLogger('server.js', proccessTimeStart, error);
 
+            let template = <TemplateE500 error={error}/>;
+
+            template = ReactDOMServer.renderToString(template);
+
+            template = '<!DOCTYPE html>' + template;
+
             // ERROR 500 - when occurs an error during process
-            res.status(500).send(e500Template(error));
+            res.status(500).send(template);
         }
 
         try {
@@ -65,55 +69,22 @@ export default function serverRenderer() {
              */
             Promise.resolve(initialData)
                 .then(() => {
-                    //create redux store
-                    const store = createStore(storeState);
+                    const
+                        store = createStore(storeState),
+                        context = {},
+                        app = (
+                            <Provider store={store}>
+                                <StaticRouter location={req.url} context={context}>
+                                    <App/>
+                                </StaticRouter>
+                            </Provider>
+                        ),
+                        renderedApp = ReactDOMServer.renderToString(app);
 
-                    const context = {};
-
-                    const jsx = (
-                        <Provider store={store}>
-                            <StaticRouter location={req.url} context={context}>
-                                <App/>
-                            </StaticRouter>
-                        </Provider>
-                    );
-
-                    // body html
-                    const markup = ReactDOMServer.renderToString(jsx);
-
-                    if (context.url) {
-                        // Somewhere a `<Redirect>` was rendered
-                        // console.log("redirect from " + req.path + ' to ' + context.url);
-                        res.redirect(301, context.url);
-                    } else {
-                        // remove unchanged items from redux store state
-                        let nowState = store.getState();
-                        for (let key in defaultState) {
-                            // skip loop if the property is from prototype
-                            if (!defaultState.hasOwnProperty(key))
-                                continue;
-
-                            const
-                                lastValue = JSON.stringify(nowState[key]),
-                                nowValue = JSON.stringify(defaultState[key]);
-
-                            if (lastValue === nowValue)
-                                delete nowState[key];
-                        }
-
-                        // return view
-                        let template = mainTemplate({
-                            markup: markup,
-                            helmet: Helmet.renderStatic(), // meta tags
-                            storeState: nowState // redux store state
-                        });
-
-                        // minify response in production mode
-                        if (process.env.NODE_ENV === 'production')
-                            template = htmlMinify(template);
-
-                        res.status(status).send(template);
-                    }
+                    if (context.url)
+                        res.redirect(301, context.url); // if <Redirect> was rendered
+                    else
+                        res.status(status).send(renderMainTemplate(renderedApp, store)); // usual app render
                 })
                 .catch(errorReporter);
         } catch (error) {

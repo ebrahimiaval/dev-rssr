@@ -14,6 +14,7 @@ import {routeMap} from "../config/routeMap";
 import 'react-toastify/dist/ReactToastify.min.css';
 // App component styles and application public styles
 import "./_style/style.scss";
+import Menu from "./Menu/Menu";
 
 
 
@@ -25,8 +26,13 @@ class App extends Component {
     }
 
     render() {
+        // var x = '';
+        // x.map(function () {
+        //
+        // });
         return (
             <Fragment>
+                <Menu/>
                 <Switch>
                     {
                         routeMap.map((route, index) => <Route key={index} {...route} />)
