@@ -22,7 +22,7 @@ module.exports = [
         mode: 'production',
         target: 'web',
         performance: {hints: false},
-        entry: `${srcDir}/client.js`,
+        entry: `${srcDir}/render/client.js`,
         output: {
             path: distDir,
             filename: 'client.js',
@@ -120,7 +120,7 @@ module.exports = [
         mode: 'production',
         target: 'node',
         performance: {hints: false},
-        entry: [`${srcDir}/server.js`],
+        entry: [`${srcDir}/render/server.js`],
         output: {
             path: distDir,
             filename: 'server.js',

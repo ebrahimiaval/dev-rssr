@@ -15,7 +15,7 @@ module.exports = [
         mode: 'development',
         target: 'web',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=client&reload=true', `${srcDir}/client.js`],
+        entry: ['webpack-hot-middleware/client?name=client&reload=true', `${srcDir}/render/client.js`],
         output: {
             filename: 'client.js',
             publicPath: '/dist/',
@@ -89,7 +89,7 @@ module.exports = [
         mode: 'development',
         target: 'node',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=server&reload=true', `${srcDir}/server.js`],
+        entry: ['webpack-hot-middleware/client?name=server&reload=true', `${srcDir}/render/server.js`],
         output: {
             filename: 'server.js',
             libraryTarget: 'commonjs2',

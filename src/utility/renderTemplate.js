@@ -1,10 +1,10 @@
 import React from 'react';
-import Template from "../config/Template";
 import {Helmet} from "react-helmet";
-import {pickUpdatedStates} from "./pickUpdatedStates";
 import ReactDOMServer from "react-dom/server";
 import serialize from "serialize-javascript";
+import {pickUpdatedStates} from "./pickUpdatedStates";
 import {templatePlaceHolder} from "../config/constant";
+import Template from "../render/Template";
 
 export const renderTemplate = function (renderedApp, store) {
     const

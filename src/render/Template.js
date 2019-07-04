@@ -1,5 +1,5 @@
 import React from 'react';
-import {templatePlaceHolder} from "./constant";
+import {templatePlaceHolder} from "../config/constant";
 
 
 export default function (props) {

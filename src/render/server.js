@@ -3,13 +3,13 @@ import ReactDOMServer from 'react-dom/server';
 import {matchPath, StaticRouter} from "react-router-dom";
 import {Provider} from "react-redux";
 // config
-import {createStore, defaultState} from "./config/store";
-import {routeMap} from "./config/routeMap";
+import {createStore, defaultState} from "../config/store";
+import {routeMap} from "../config/routeMap";
 // utility
-import {renderTemplate} from "./utility/renderTemplate";
-import {serverError} from "./utility/serverError";
+import {renderTemplate} from "../utility/renderTemplate";
+import {serverError} from "../utility/serverError";
 // component
-import App from './App/App';
+import App from '../App/App';
 
 
 export default function serverRenderer() {
