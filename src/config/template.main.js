@@ -13,7 +13,7 @@ export default ({markup, helmet, storeState}) => {
     ${helmet.meta.toString()}
     ${helmet.link.toString()}             
     <link rel="shortcut icon" href="/fav.ico" type="image/icon"/>
-    <link rel="stylesheet" href="/dist/styles.css?v=${global.version}"/>
+    <link rel="stylesheet" href="/dist/styles.css?v=${process.env.VERSION}"/>
 </head>      
 
 <body ${helmet.bodyAttributes.toString()} class="rtl">
@@ -22,7 +22,7 @@ export default ({markup, helmet, storeState}) => {
    <script>
       window.__rssrـstatesــ = ${serialize(storeState)}  
    </script>    
-   <script src="/dist/client.js?v=${global.version}"></script>
+   <script src="/dist/client.js?v=${process.env.VERSION}"></script>
 </body>
 </html>`);
 };

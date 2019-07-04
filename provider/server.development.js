@@ -1,21 +1,19 @@
 const
-    // utility
     opn = require('opn'),
+    path = require('path'),
     waitForLocalhost = require('wait-for-localhost'),
+
+    // utility
+    evnLoader = require('../utility/evnLoader'),
 
     // express app
     express = require('express'),
     app = express(),
 
-    // common setup
-    commonServerSetup = require('./config/commonServerSetup'),
-
-    // webpack compiler
+    // webpack
     webpack = require('webpack'),
     config = require('./config/webpack.config.development'),
     compiler = webpack(config),
-
-    // reload project when files changed
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
     webpackHotServerMiddleware = require('webpack-hot-server-middleware');
@@ -24,14 +22,17 @@ const
 
 
 
-// common action between production and development environments
-commonServerSetup(app);
+// load .env files and define environment varibale
+evnLoader();
 
 // make bundled project source files accessable from memory
 app.use(webpackDevMiddleware(compiler, {
     serverSideRender: true,
     publicPath: "/dist/"
 }));
+
+// load static files
+app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));
 
 // recompile webpack when file changes
 app.use(webpackHotMiddleware(compiler));

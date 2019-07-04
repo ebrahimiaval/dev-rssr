@@ -2,8 +2,10 @@
  * envLoader is customed version of dotenv package
  * https://www.npmjs.com/package/dotenv
  */
-const fs = require('fs')
-const path = require('path')
+const
+    fs = require('fs'),
+    path = require('path'),
+    version = require("../../package").version;
 
 /**
  * Parses a string or buffer into an object
@@ -93,6 +95,9 @@ module.exports = function () {
             selectedEnv = path.resolve(ROOT, '.env.test');
             break;
     }
+
+    // import app version
+    process.env.VERSION = version;
 
     // load .env
     config({path: path.resolve(ROOT, '.env')});

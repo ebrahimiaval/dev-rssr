@@ -1,15 +1,14 @@
 const
-    // utility
     path = require('path'),
     seoOptimization = require('./utility/seoOptimization'),
     rateLimit = require('./utility/rateLimit'),
 
+    // utility
+    evnLoader = require('../utility/evnLoader'),
+
     // express app
     express = require('express'),
     app = express(),
-
-    // common setup
-    commonSetup = require('./config/commonServerSetup'),
 
     // dist/server.js
     serverRendererPath = path.resolve(process.cwd(), './dist/server.js'),
@@ -23,13 +22,16 @@ const
 
 
 
+// load .env files and define environment varibale
+evnLoader();
+
 // make bundled final project source files accessable
 app.use('/dist', express.static(path.resolve(process.cwd(), './dist')));
 
-// common action between production and development environments
-commonSetup(app);
+// load static files
+app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));
 
-// Redirect domains starting with www to non-www and remove slash at the end of URL for improve SEO
+// Redirect from www to non-www and remove slash at the end of URL
 seoOptimization(app);
 
 // limit the request number of each user in 'windowMs' milliseconds
@@ -37,6 +39,8 @@ rateLimit(app);
 
 // load server script and render app (do react SSR)
 app.use(serverRenderer(stats));
+
+
 
 
 
