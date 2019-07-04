@@ -28,7 +28,7 @@ module.exports = [
                     exclude: /(node_modules[\\\/])/,
                     use: [
                         "babel-loader",
-                        // "eslint-loader"
+                        "eslint-loader"
                     ]
                 },
                 {
@@ -103,7 +103,7 @@ module.exports = [
                     exclude: /(node_modules[\\\/])/,
                     use: [
                         "babel-loader",
-                        // "eslint-loader"
+                        "eslint-loader"
                     ]
                 },
                 {

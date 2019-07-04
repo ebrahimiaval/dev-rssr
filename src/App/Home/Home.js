@@ -32,7 +32,7 @@ class Home extends Component {
     }
 
     componentDidMount() {
-        $('#exampleModal').modal('show')
+        // jQuery('#exampleModal').modal('show');
     }
 
 

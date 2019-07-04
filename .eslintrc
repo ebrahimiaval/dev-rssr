@@ -23,6 +23,10 @@
       "experimentalObjectRestSpread": true
     }
   },
+  "globals": {
+    "$": true,
+    "jQuery": true
+  },
   "rules": {
     "array-callback-return": "warn",
     "default-case": [
