@@ -4,17 +4,17 @@ import {StaticRouter, matchPath} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {Provider} from "react-redux";
 // config
-import {createStore, defaultState} from "../config/store";
-import {routeMap} from "../config/routeMap";
+import {createStore, defaultState} from "./config/store";
+import {routeMap} from "./config/routeMap";
 // utility
-import {errorLogger} from "../utility/errorLogger";
-import {isSet} from "../utility/isSet";
-import {htmlMinify} from "../utility/htmlMinify";
+import {errorLogger} from "./utility/errorLogger";
+import {isSet} from "./utility/isSet";
+import {htmlMinify} from "./utility/htmlMinify";
 // HTML template
-import Template from './template.main';
-import E500 from './template.error500';
+import Template from './config/template.main';
+import E500 from './config/template.error500';
 // component
-import App from '../App/App';
+import App from './App/App';
 
 
 

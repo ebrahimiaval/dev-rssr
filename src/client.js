@@ -3,11 +3,11 @@ import {render} from "react-dom";
 import {Provider} from "trim-redux";
 import {Router} from 'react-router-dom';
 // config
-import {browserHistory} from "../config/browserHistory";
-import {clientCreateStore} from "../config/store";
-import localStorageSetup from "../config/localStorage";
+import {browserHistory} from "./config/browserHistory";
+import {clientCreateStore} from "./config/store";
+import localStorageSetup from "./config/localStorage";
 // Component
-import App from "../App/App";
+import App from "./App/App";
 // module
 import 'bootstrap-v4-rtl';
 

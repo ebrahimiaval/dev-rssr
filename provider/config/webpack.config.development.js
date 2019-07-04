@@ -16,7 +16,7 @@ module.exports = [
         mode: 'development',
         target: 'web',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=client&reload=true', `${srcDir}/render/client.js`],
+        entry: ['webpack-hot-middleware/client?name=client&reload=true', `${srcDir}/client.js`],
         output: {
             filename: 'client.js',
             publicPath: '/dist/',
@@ -90,7 +90,7 @@ module.exports = [
         mode: 'development',
         target: 'node',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=server&reload=true', `${srcDir}/render/server.js`],
+        entry: ['webpack-hot-middleware/client?name=server&reload=true', `${srcDir}/server.js`],
         output: {
             filename: 'server.js',
             libraryTarget: 'commonjs2',
@@ -130,24 +130,10 @@ module.exports = [
                             }
                         }
                     ]
-                },
-                {
-                    test: require.resolve('jquery'),
-                    use: [{
-                        loader: 'expose-loader',
-                        options: 'jQuery'
-                    }, {
-                        loader: 'expose-loader',
-                        options: '$'
-                    }]
                 }
             ],
         },
         plugins: [
-            new webpack.ProvidePlugin({
-                $: "jquery",
-                jQuery: "jquery"
-            }),
             new webpack.HotModuleReplacementPlugin()
         ]
     }
