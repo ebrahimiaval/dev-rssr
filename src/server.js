@@ -6,35 +6,16 @@ import {Provider} from "react-redux";
 import {createStore, defaultState} from "./config/store";
 import {routeMap} from "./config/routeMap";
 // utility
-import {errorLogger} from "./utility/errorLogger";
-import {isSet} from "./utility/isSet";
-// HTML template
-import TemplateE500 from './config/TemplateE500';
+import {renderTemplate} from "./utility/renderTemplate";
+import {serverError} from "./utility/serverError";
 // component
 import App from './App/App';
-import {renderTemplate} from "./utility/renderTemplate";
-
-
-
 
 
 export default function serverRenderer() {
     return (req, res, next) => {
         // start proccess timer
-        let proccessTimeStart = Date.now();
-
-        const errorReporter = function (error) {
-            errorLogger('server.js', proccessTimeStart, error);
-
-            let template = <TemplateE500 error={error}/>;
-
-            template = ReactDOMServer.renderToString(template);
-
-            template = '<!DOCTYPE html>' + template;
-
-            // ERROR 500 - when occurs an error during process
-            res.status(500).send(template);
-        }
+        const proccessTimeStart = Date.now();
 
         try {
             let storeState = {...defaultState};
@@ -42,7 +23,6 @@ export default function serverRenderer() {
             // default status code
             let status = 200;
 
-            //---------- fetch api data and set status code -------------- //
             // matchPath can not know Query string Because of this we split and remvoe Query strin.
             // EXP: '/search?q=watch' -> '/search'
             const reqUrl = req.url.split('?')[0];
@@ -51,13 +31,11 @@ export default function serverRenderer() {
             // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
             const currentRoute = routeMap.find(route => matchPath(reqUrl, route));
 
-            // fetch data of component from server when have component and component have fetchData property
-            // fetch reuirement data of matched component
-
-            const initialData = isSet(currentRoute.component) ?
-                currentRoute.component.fetchData && currentRoute.component.fetchData({req, storeState})
-                :
-                true;
+            // fetch data from server
+            let initialData = true;
+            if (currentRoute.hasOwnProperty('component'))
+                if (currentRoute.component.hasOwnProperty('fetchData'))
+                    initialData = currentRoute.component.fetchData({req, storeState});
 
             // set response status code if route have status prop (default is 200)
             // it is useful for 404 page
@@ -65,7 +43,7 @@ export default function serverRenderer() {
                 status = currentRoute.status;
 
             /**
-             * render template after API fetched
+             * render template when API resolved
              */
             Promise.resolve(initialData)
                 .then(() => {
@@ -86,9 +64,11 @@ export default function serverRenderer() {
                     else
                         res.status(status).send(renderTemplate(renderedApp, store)); // usual app render
                 })
-                .catch(errorReporter);
+                .catch((error) => {
+                    serverError(res, error, proccessTimeStart);
+                });
         } catch (error) {
-            errorReporter(error);
+            serverError(res, error, proccessTimeStart);
         }
     };
 }

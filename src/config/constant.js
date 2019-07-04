@@ -26,6 +26,6 @@ export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.
  * see: renderTemplate.js and Template.js
  */
 export const templatePlaceHolder = {
-    renderdApp: '__renderedApp__',
-    updatedState: '__UPDATED_REDUX_STATES__'
+    renderdApp: '__RENDERED_APP_INJECT_PLACE__',
+    updatedState: '__UPDATED_STATES_INJECT_PLACE__'
 }

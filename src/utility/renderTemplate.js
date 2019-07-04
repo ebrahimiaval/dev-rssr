@@ -9,7 +9,7 @@ import {templatePlaceHolder} from "../config/constant";
 export const renderTemplate = function (renderedApp, store) {
     const
         {renderdApp, updatedState} = templatePlaceHolder,
-        regExp = new RegExp(Object.keys(templatePlaceHolder).join("|"), "gi"),
+        regExp = new RegExp(Object.values(templatePlaceHolder).join("|"), "gi"),
         injectMap = {};
 
     // inject rendered app in server to template
