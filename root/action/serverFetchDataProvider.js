@@ -1,0 +1,39 @@
+import {routeMap} from "../config/routeMap";
+import {matchPath} from "react-router-dom";
+
+export const serverFetchDataProvider = function (duct) {
+    // find mached routeMap item and define duct.match
+    // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
+    const selectedRoute = routeMap.find(route => {
+        // match is null OR object
+        // match object is equal with compoent match props posted by react-router-dom
+        // exp: match object of www.site.com/post/1
+        // {
+        //     path: '/post/:postId',
+        //     url: '/post/1',
+        //     isExact: true,
+        //     params: {postId: '1'}
+        // }
+        const match = matchPath(duct.req.path, route);
+
+        if (match)
+            duct.match = match;
+
+        return match;
+    });
+
+    // set response status code
+    // when routeMap item have status prop (default is 200)
+    // it is useful for none 200 status page like error 404
+    // NOTICE: can change status in fetchData() by change duct.status
+    if (selectedRoute.status)
+        duct.status = selectedRoute.status;
+
+    // fetch data from server
+    let dataFetched = true;
+    if (selectedRoute.hasOwnProperty('component'))
+        if (selectedRoute.component.hasOwnProperty('fetchData'))
+            dataFetched = selectedRoute.component.fetchData(duct);
+
+    return dataFetched;
+}

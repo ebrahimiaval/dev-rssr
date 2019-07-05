@@ -29,7 +29,7 @@ const renderIndexTemplate = function (renderedApp, updatedState) {
 
 
 
-export const successfulResponse = function (req, res, status, storeState) {
+export const successfulResponse = function ({req, res, status, storeState}) {
     const
         store = createStore(storeState),
         context = {},

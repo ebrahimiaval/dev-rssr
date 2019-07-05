@@ -25,12 +25,8 @@ const renderErrorTemplate = function (error) {
 
 
 
-/**
- * @param res {object}: express response object
- * @param error {object}: error obejct
- * @param proccessTimeStart
- */
-export const errorResponse = function (res, error, proccessTimeStart) {
+
+export const errorResponse = function (error, res, proccessTimeStart) {
     errorLogger('server.js', proccessTimeStart, error);
 
     // ERROR 500 - when occurs an error during process
