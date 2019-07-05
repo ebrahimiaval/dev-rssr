@@ -4,7 +4,7 @@ const
     Dotenv = require('dotenv-webpack'),
     MiniCssExtractPlugin = require("mini-css-extract-plugin"),
     //
-    srcDir = path.resolve(process.cwd(), './src');
+    SCSS_UTILITY_PATH = path.resolve(process.cwd(), './root/config');
 
 
 //?quiet=true
@@ -15,7 +15,7 @@ module.exports = [
         mode: 'development',
         target: 'web',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=client&reload=true', `${srcDir}/render/client.js`],
+        entry: ['webpack-hot-middleware/client?name=client&reload=true', `./root/client.js`],
         output: {
             filename: 'client.js',
             publicPath: '/dist/',
@@ -53,7 +53,7 @@ module.exports = [
                             options: {
                                 sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [`${srcDir}/config`]
+                                includePaths: [SCSS_UTILITY_PATH]
                             }
                         }
                     ]
@@ -89,7 +89,7 @@ module.exports = [
         mode: 'development',
         target: 'node',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=server&reload=true', `${srcDir}/render/server.js`],
+        entry: ['webpack-hot-middleware/client?name=server&reload=true', `./root/server.js`],
         output: {
             filename: 'server.js',
             libraryTarget: 'commonjs2',
@@ -125,7 +125,7 @@ module.exports = [
                             options: {
                                 sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [`${srcDir}/config`]
+                                includePaths: [SCSS_UTILITY_PATH]
                             }
                         }
                     ]

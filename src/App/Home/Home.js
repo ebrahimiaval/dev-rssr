@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {connect, setStore} from "trim-redux";
-import * as axios from "axios";
+import {Helmet} from "react-helmet";
+import axios from "axios";
 // config
-import {api} from "../../config/api";
-import {IS_BROWSER} from "../../config/constant";
-import {route} from "../../config/route";
+import {api} from "../../../root/config/api";
+import {IS_BROWSER} from "../../../root/config/constant";
+import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
-import {Helmet} from "react-helmet";
 
 
 

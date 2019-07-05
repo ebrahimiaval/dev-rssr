@@ -2,19 +2,16 @@ import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
 import {Route, Switch} from "react-router-dom";
+// action
+import {firstSetup} from "../action/authentication";
+// config
+import {routeMap} from "../../root/config/routeMap";
 // component
 // import SignInModal from "./_component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
-// action
-import {firstSetup} from "../action/authentication";
-// utility
-// import {jumpScrollToTop} from "../utility/jumpScrollToTop";
-import {routeMap} from "../config/routeMap";
-// npm styles
-import 'react-toastify/dist/ReactToastify.min.css';
-// App component styles and application public styles
-import "./_style/style.scss";
 import Menu from "./Menu/Menu";
+// app style
+import "./app.scss";
 
 
 

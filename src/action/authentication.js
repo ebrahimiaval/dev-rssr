@@ -1,11 +1,11 @@
 import {getStore, setStore} from "trim-redux";
 import {toast} from 'react-toastify';
 // config
-import {api} from "../config/api";
+import {api} from "../../root/config/api";
 // utility
-import {isSet} from "../utility/isSet";
-import {storage} from "../utility/storage";
-import {ajax} from "../utility/fetchData";
+import {isSet} from "../../root/utility/isSet";
+import {storage} from "../../root/utility/storage";
+import {ajax} from "../../root/utility/fetchData";
 
 
 
@@ -31,12 +31,6 @@ export const isValidUser = () => {
 
     return localUser.token !== null;
 }
-
-
-
-
-
-
 
 
 

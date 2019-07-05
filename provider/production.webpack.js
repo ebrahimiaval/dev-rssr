@@ -11,7 +11,7 @@ const path = require('path'),
     UglifyJsPlugin = require('uglifyjs-webpack-plugin'),
     //
     distDir = path.resolve(process.cwd(), './dist'),
-    srcDir = path.resolve(process.cwd(), './src');
+    SCSS_UTILITY_PATH = path.resolve(process.cwd(), './root/config');
 
 
 
@@ -22,7 +22,7 @@ module.exports = [
         mode: 'production',
         target: 'web',
         performance: {hints: false},
-        entry: `${srcDir}/render/client.js`,
+        entry: './root/client.js',
         output: {
             path: distDir,
             filename: 'client.js',
@@ -59,7 +59,7 @@ module.exports = [
                             options: {
                                 // sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [`${srcDir}/config`]
+                                includePaths: [SCSS_UTILITY_PATH]
                             }
                         }
                     ]
@@ -120,7 +120,7 @@ module.exports = [
         mode: 'production',
         target: 'node',
         performance: {hints: false},
-        entry: [`${srcDir}/render/server.js`],
+        entry: './root/server.js',
         output: {
             path: distDir,
             filename: 'server.js',
@@ -158,7 +158,7 @@ module.exports = [
                             options: {
                                 // sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [`${srcDir}/config`]
+                                includePaths: [SCSS_UTILITY_PATH]
                             }
                         }
                     ]
