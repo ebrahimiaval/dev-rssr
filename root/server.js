@@ -8,41 +8,57 @@ import {errorResponse} from "./action/serverResponse.error";
 
 
 
-
 export default function serverRenderer() {
     return (req, res, next) => {
         // start proccess timer
         const proccessTimeStart = Date.now();
 
         try {
-            let storeState = {...defaultState};
+            // SSR data transfer duct
+            const duct = {
+                req: req,
+                res: res,
+                storeState: {...defaultState},
+                status: 200, // default response status
+                query: req.query,// is like {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+            };
 
-            // default status code
-            let status = 200;
-
-            // matchPath can not know Query string Because of this we split and remvoe Query strin.
-            // EXP: '/search?q=watch' -> '/search'
-            const reqUrl = req.url.split('?')[0];
-
-            // find route item mached with reqUrl
+            // find mached routeMap item and define duct.match
             // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
-            const currentRoute = routeMap.find(route => matchPath(reqUrl, route));
+            const currentRoute = routeMap.find(route => {
+                // match is null OR object
+                // match object is equal with compoent match props posted by react-router-dom
+                // exp: match object of www.site.com/post/1
+                // {
+                //     path: '/post/:postId',
+                //     url: '/post/1',
+                //     isExact: true,
+                //     params: {postId: '1'}
+                // }
+                const match = matchPath(req.path, route);
+
+                if (match)
+                    duct.match = match;
+
+                return match;
+            });
+
+            // set response status code
+            // when routeMap item have status prop (default is 200)
+            // it is useful for none 200 status page like error 404
+            // NOTICE: can change status in fetchData() by change duct.status
+            if (currentRoute.status)
+                duct.status = currentRoute.status;
 
             // fetch data from server
             let initialData = true;
             if (currentRoute.hasOwnProperty('component'))
                 if (currentRoute.component.hasOwnProperty('fetchData'))
-                    initialData = currentRoute.component.fetchData({req, storeState});
-
-            // set response status code if route have status prop (default is 200)
-            // it is useful for 404 page
-            if (currentRoute.status)
-                status = currentRoute.status;
-
+                    initialData = currentRoute.component.fetchData(duct);
 
             Promise.resolve(initialData)
                 .then(() => {
-                    successfulResponse(req, res, status, storeState);
+                    successfulResponse(req, res, duct.status, duct.storeState);
                 })
                 .catch((error) => {
                     errorResponse(res, error, proccessTimeStart);
