@@ -37,19 +37,22 @@ class Home extends Component {
 
     componentDidMount() {
         // fetch if home have default state
-        if (this.props.home.length === 0)
+        if (this.props.home === null)
             Home.fetchData({});
     }
 
 
     componentWillUnmount() {
         // clear store
-        setStore({home: []})
+        setStore({home: null})
     }
 
 
     render() {
         const {home} = this.props;
+
+        if (home === null)
+            return "در حال بارگذاری...";
 
         return (
             <div className="container-fluid">
