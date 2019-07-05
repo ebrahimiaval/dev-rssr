@@ -70,11 +70,11 @@ export const createStore = (state = defaultState) => createStoreProvider(state, 
 export const clientCreateStore = function () {
     const combindedState = {
         ...defaultState,
-        ...window.UPDATED_REDUX_STATES
+        ...window.RSSR_UPDATED_REDUX_STATES
     };
 
-    // fix RAM usage
-    delete window.UPDATED_REDUX_STATES;
+    // Improvement RAM usage
+    delete window.RSSR_UPDATED_REDUX_STATES;
 
     return createStore(combindedState);
 }

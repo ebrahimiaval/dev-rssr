@@ -16,7 +16,7 @@ import App from "../App/App";
 localStorageSetup();
 
 const
-    // create redux store with posted value from "UPDATED_REDUX_STATES"
+    // create redux store with posted value from "RSSR_UPDATED_REDUX_STATES"
     store = clientCreateStore(),
     // root element of application
     appWrap = document.getElementById('app-root');

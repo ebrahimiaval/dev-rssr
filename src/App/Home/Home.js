@@ -17,19 +17,22 @@ import {Helmet} from "react-helmet";
 class Home extends Component {
 
     static fetchData({storeState}) {
-        return new Promise(function (resolve) {
-            axios({
-                url: api.posts
-            })
-                .then((response) => {
-                    if (IS_BROWSER)
-                        setStore({home: response.data})
-                    else
-                        storeState.home = response.data;
-
-                    resolve();
-                })
+        return axios({
+            url: api.posts
         })
+            .then((response) => {
+                // var x = '';
+                // x = x.map(() => '');
+                // console.log(x);
+
+                if (IS_BROWSER)
+                    setStore({home: response.data})
+                else
+                    storeState.home = response.data;
+            })
+            .catch(function (error) {
+                throw error;
+            });
     }
 
     componentDidMount() {

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import {errorLogger} from "./errorLogger";
-import TemplateE500 from "../render/TemplateE500";
+import {errorLogger} from "../../utility/errorLogger";
+import TemplateE500 from "../template/TemplateE500";
 
 export const  serverError = function (res, error, proccessTimeStart) {
     errorLogger('server.js', proccessTimeStart, error);

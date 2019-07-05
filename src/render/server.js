@@ -1,15 +1,13 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import {matchPath, StaticRouter} from "react-router-dom";
-import {Provider} from "react-redux";
+
+import {matchPath} from "react-router-dom";
 // config
-import {createStore, defaultState} from "../config/store";
+import {defaultState} from "../config/store";
 import {routeMap} from "../config/routeMap";
 // utility
-import {renderTemplate} from "../utility/renderTemplate";
-import {serverError} from "../utility/serverError";
-// component
-import App from '../App/App';
+import {serverRender} from "./action/serverRender";
+import {serverError} from "./action/serverError";
+
+
 
 
 export default function serverRenderer() {
@@ -47,22 +45,7 @@ export default function serverRenderer() {
              */
             Promise.resolve(initialData)
                 .then(() => {
-                    const
-                        store = createStore(storeState),
-                        context = {},
-                        app = (
-                            <Provider store={store}>
-                                <StaticRouter location={req.url} context={context}>
-                                    <App/>
-                                </StaticRouter>
-                            </Provider>
-                        ),
-                        renderedApp = ReactDOMServer.renderToString(app);
-
-                    if (context.url)
-                        res.redirect(301, context.url); // if <Redirect> was rendered
-                    else
-                        res.status(status).send(renderTemplate(renderedApp, store)); // usual app render
+                    serverRender(storeState, req, res, status);
                 })
                 .catch((error) => {
                     serverError(res, error, proccessTimeStart);

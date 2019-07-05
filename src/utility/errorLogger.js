@@ -19,6 +19,6 @@ export const errorLogger = (title, proccessTimeStart, error) => {
         type = "public error";
     }
 
-    console.log(`${type} in ${title} at ${Date.now() - proccessTimeStart} ms.\n`, errorMessage, '\n________________________________');
+    console.log(`${type} in ${title} at ${Date.now() - proccessTimeStart} ms.\n`, errorMessage);
 }
 

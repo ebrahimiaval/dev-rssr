@@ -18,14 +18,3 @@ export const IS_BROWSER = typeof window !== 'undefined';
  *     API_HOST_IN_SERVER = 192.168.2.1
  */
 export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.env.API_HOST_IN_SERVER;
-
-
-
-/**
- * used in tamplate for inject date to tamplate
- * see: renderTemplate.js and Template.js
- */
-export const templatePlaceHolder = {
-    renderdApp: '__RENDERED_APP_INJECT_PLACE__',
-    updatedState: '__UPDATED_STATES_INJECT_PLACE__'
-}

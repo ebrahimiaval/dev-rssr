@@ -1,11 +1,10 @@
 import React from 'react';
-import {templatePlaceHolder} from "../config/constant";
+import serialize from "serialize-javascript";
 
 
 export default function (props) {
     const
-        {renderdApp, updatedState} = templatePlaceHolder,
-        {helmet} = props,
+        {helmet, updatedState, renderedApp} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -22,12 +21,12 @@ export default function (props) {
                 <link rel="shortcut icon" href="/fav.ico" type="image/icon"/>
                 <link rel="stylesheet" href={`/dist/styles.css?v=${process.env.VERSION}`}/>
             </head>
-
             <body className="rtl" {...bodyAttrs}>
-                <div id="app-root">{renderdApp}</div>
-                <script>
-                    window.UPDATED_REDUX_STATES = {updatedState}
-                </script>
+                <div id="app-root" dangerouslySetInnerHTML={{__html: renderedApp}}></div>
+
+                {/* transfer redux updated states (contain fetched data from API) */}
+                <script dangerouslySetInnerHTML={{__html: 'RSSR_UPDATED_REDUX_STATES = ' + serialize(updatedState)}}/>
+
                 <script src={`/dist/client.js?v=${process.env.VERSION}`}></script>
             </body>
         </html>
