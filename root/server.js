@@ -1,9 +1,9 @@
 // config
 import {defaultState} from "./config/store";
 // action
-import {successfulResponse} from "./action/serverResponse.successful";
-import {errorResponse} from "./action/serverResponse.error";
-import {serverFetchDataProvider} from "./action/serverFetchDataProvider";
+import {successfulResponse} from "./action/server/successfulResponse";
+import {errorResponse} from "./action/server/errorResponse";
+import {fetchDataProvider} from "./action/server/fetchDataProvider";
 
 
 
@@ -28,9 +28,10 @@ export default function serverRenderer() {
                 match: {},
             };
 
-            const dataFetched = serverFetchDataProvider(duct);
+            // call fetchData of matched path component and return true or promise
+            const fetchingData = fetchDataProvider(duct);
 
-            Promise.resolve(dataFetched)
+            Promise.resolve(fetchingData)
                 .then(() => successfulResponse(duct))
                 .catch((error) => errorResponse(error, res, proccessTimeStart));
         } catch (error) {
@@ -38,4 +39,3 @@ export default function serverRenderer() {
         }
     };
 }
-

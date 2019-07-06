@@ -4,12 +4,12 @@ import {StaticRouter} from "react-router-dom";
 import {Helmet} from "react-helmet";
 import {Provider} from "react-redux";
 // config
-import {createStore} from "../config/store";
+import {createStore} from "../../config/store";
 // utility
-import {pickUpdatedStates} from "../utility/pickUpdatedStates";
+import {pickUpdatedStates} from "../../utility/pickUpdatedStates";
 // component
-import App from "../../src/App/App";
-import Index from "../template/Index";
+import App from "../../../src/App/App";
+import Index from "../../template";
 
 
 

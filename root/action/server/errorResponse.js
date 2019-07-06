@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 // utility
-import {errorLogger} from "../utility/errorLogger";
+import {errorLogger} from "../../utility/errorLogger";
 // component
-import Error from "../template/Error";
+import Error from "../../template/Error";
 
 
 

@@ -18,20 +18,22 @@ import App from "../src/App/App";
 
 
 
-// define and manage localstorage variables
+// define localstorage variables
 localStorageSetup();
 
 const
     // create redux store with posted value from "RSSR_UPDATED_REDUX_STATES"
     store = clientCreateStore(),
     // root element of application
-    appWrap = document.getElementById('app-root');
+    appWrap = document.getElementById('app-root'),
+    // clinet app
+    app = (
+        <Provider store={store}>
+            <Router history={browserHistory}>
+                <App/>
+            </Router>
+        </Provider>
+    );
 
 // render in browser
-render((
-    <Provider store={store}>
-        <Router history={browserHistory}>
-            <App/>
-        </Router>
-    </Provider>
-), appWrap);
+render(app, appWrap);

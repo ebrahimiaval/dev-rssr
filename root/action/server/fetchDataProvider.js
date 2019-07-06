@@ -1,7 +1,7 @@
-import {routeMap} from "../config/routeMap";
+import {routeMap} from "../../config/routeMap";
 import {matchPath} from "react-router-dom";
 
-export const serverFetchDataProvider = function (duct) {
+export const fetchDataProvider = function (duct) {
     // find mached routeMap item and define duct.match
     // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
     const selectedRoute = routeMap.find(route => {
