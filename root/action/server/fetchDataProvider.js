@@ -6,6 +6,8 @@ export const fetchDataProvider = function (duct) {
     // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
     const selectedRoute = routeMap.find(route => {
         // match is null OR object
+        const match = matchPath(duct.req.path, route);
+
         // match object is equal with compoent match props posted by react-router-dom
         // exp: match object of www.site.com/post/1
         // {
@@ -14,8 +16,6 @@ export const fetchDataProvider = function (duct) {
         //     isExact: true,
         //     params: {postId: '1'}
         // }
-        const match = matchPath(duct.req.path, route);
-
         if (match)
             duct.match = match;
 
