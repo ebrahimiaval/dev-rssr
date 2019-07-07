@@ -2,22 +2,27 @@ import React, {Component} from 'react';
 import * as axios from "axios";
 import {connect, setStore} from "trim-redux";
 import {Helmet} from "react-helmet";
-import {matchPath} from "react-router-dom";
 // config
-import {IS_BROWSER} from "../../../root/config/constant";
+import {IS_BROWSER, IS_SERVER} from "../../../root/config/constant";
 import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
+import Link from "react-router-dom/es/Link";
+import {fecher} from "../../../root/utility/fetcher";
 
 
 
 
 class Post extends Component {
 
-    static fetchData({req, storeState, postId}) {
-        if (!IS_BROWSER) {
-            postId = matchPath(req.url, route.post()).params.postId;
-            postId = postId.split('?')[0];
-        }
+    constructor(props, context) {
+        super(props, context);
+
+        this.props.setFtechParams({postId: this.props.match.params.postId});
+    }
+
+    static fetchData({req, storeState, match, postId}) {
+        if (IS_SERVER)
+            postId = match.params.postId;
 
         return axios({
             url: api.post(postId)
@@ -30,21 +35,14 @@ class Post extends Component {
             })
     }
 
-    componentDidMount() {
-        // fetch if home have default state
-        if (this.props.post === null)
-            Post.fetchData({postId: this.props.match.params.postId});
+    componentDidUpdate() {
+        this.props.setFtechParams({postId: this.props.match.params.postId});
     }
-
-
-    componentWillUnmount() {
-        // clear store
-        setStore({post: null})
-    }
-
 
     render() {
-        const {post} = this.props;
+        const
+            postId = Number(this.props.match.params.postId),
+            {post} = this.props;
 
         if (post === null)
             return "در حال بارگذاری...";
@@ -56,9 +54,17 @@ class Post extends Component {
                     <h1>{post.title}</h1>
                     <p className="lead">{post.body}</p>
                 </div>
+                <div className="d-flex justify-content-between pb-5">
+                    <Link to={route.post(postId - 1)} className="btn btn-secondary">last post</Link>
+                    <Link to={route.post(postId + 1)} className="btn btn-secondary">next post</Link>
+                </div>
             </div>
         );
     }
 }
 
-export default connect(s => ({post: s.post}))(Post);
+// HOC
+Post = connect(s => ({post: s.post}))(Post)
+Post = fecher(Post, 'post');
+
+export default Post;

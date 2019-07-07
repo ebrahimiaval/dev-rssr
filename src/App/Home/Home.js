@@ -9,6 +9,7 @@ import {IS_BROWSER} from "../../../root/config/constant";
 import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
+import {fecher} from "../../../root/utility/fetcher";
 
 
 
@@ -33,18 +34,6 @@ class Home extends Component {
             .catch(function (error) {
                 throw error;
             });
-    }
-
-    componentDidMount() {
-        // fetch if home have default state
-        if (this.props.home === null)
-            Home.fetchData({});
-    }
-
-
-    componentWillUnmount() {
-        // clear store
-        setStore({home: null})
     }
 
 
@@ -82,4 +71,8 @@ class Home extends Component {
     }
 }
 
-export default connect(s => ({home: s.home}))(Home);
+// HOC
+Home = connect(s => ({home: s.home}))(Home);
+Home = fecher(Home, 'home');
+
+export default Home;

@@ -58,7 +58,7 @@ composeEnhancer = composeEnhancer(applyMiddleware(thunk));
  * @param state <object>: object of states with default value
  * @returns {any} : redux store object
  */
-export const createStore = (state = defaultState) => createStoreProvider(state, composeEnhancer);
+export const createStore = (state = {...defaultState}) => createStoreProvider(state, composeEnhancer);
 
 
 

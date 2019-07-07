@@ -1,6 +1,6 @@
 import {getStore} from "trim-redux";
 // utility
-import {isSet} from "./isSet";
+import {isSet} from "./checkSet";
 
 
 /**

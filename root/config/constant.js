@@ -1,8 +1,8 @@
 /**
- *
- * @type {boolean}: in client is 'true' and in server is 'false
+ * @type {boolean}: IS_BROWSER in client is 'true' and in server is 'false' and IS_SERVER is reversed
  */
 export const IS_BROWSER = typeof window !== 'undefined';
+export const IS_SERVER = !IS_BROWSER;
 
 
 
