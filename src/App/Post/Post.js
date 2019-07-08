@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import * as axios from "axios";
 import {connect, setStore} from "trim-redux";
 import {Helmet} from "react-helmet";
@@ -44,15 +44,20 @@ class Post extends Component {
             postId = Number(this.props.match.params.postId),
             {post} = this.props;
 
-        if (post === null)
-            return "در حال بارگذاری...";
-
         return (
-            <div className="container-fluid">
-                <Helmet title={post.title}/>
+            <div className="container">
+                <Helmet title={post !== null ? post.title : 'باگذاری ...'}/>
                 <div className="jumbotron mt-3" id="abc">
-                    <h1>{post.title}</h1>
-                    <p className="lead">{post.body}</p>
+                    {
+                        (post !== null) ? (
+                                <Fragment>
+                                    <h1>{post.title}</h1>
+                                    <p className="lead">{post.body}</p>
+                                </Fragment>
+                            )
+                            :
+                            'در حال بار گذاری مطلب ...'
+                    }
                 </div>
                 <div className="d-flex justify-content-between pb-5">
                     <Link to={route.post(postId - 1)} className="btn btn-secondary">last post</Link>

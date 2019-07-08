@@ -40,30 +40,37 @@ class Home extends Component {
     render() {
         const {home} = this.props;
 
-        if (home === null)
-            return "در حال بارگذاری...";
-
         return (
-            <div className="container-fluid">
+            <div id="hme" className="container">
                 <Helmet title="صفحه ‌اصلی"/>
                 <div className="jumbotron mt-3" id="abc">
-                    <h1>RSSR</h1>
-                    <p className="lead">پروژه تنظیمات باز با قابلیت پردازش سمت سرور ری‌اکت</p>
+                    <h1>موفقیت اتفاقی نیست!</h1>
+                    <p className="lead">
+                        برای خلق بهترین‌ها باید بیشتر تلاش کرد، چیزی که ساده به دست بیاد، می‌تونه خیلی ساده هم از دست بره.
+                    </p>
                 </div>
 
                 <div className="row">
                     {
-                        home.map((item) => (
-                            <div className="col-md-6 mb-3" key={item.id}>
-                                <div className="card">
-                                    <div className="card-body">
-                                        <h5 className="card-title">{item.title}</h5>
-                                        <p className="card-text">{item.body}</p>
-                                        <Link to={route.post(item.id)} className="btn btn-primary">مشاهده</Link>
+                        (home !== null) ? (
+                                home.map((item) => (
+                                    <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
+                                        <Link to={route.post(item.id)} className="card">
+                                            <div className="card-body">
+                                                <h3 className="card-title text-truncate h6">{item.title}</h3>
+                                                <p className="card-text text-truncate">{item.body}</p>
+                                                <span>مشاهده مطلب</span>
+                                            </div>
+                                        </Link>
                                     </div>
+                                ))
+                            )
+                            :
+                            (
+                                <div className="col-12 text-center">
+                                    در حال بار گذاری مطالب . . .
                                 </div>
-                            </div>
-                        ))
+                            )
                     }
                 </div>
             </div>

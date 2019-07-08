@@ -18,6 +18,8 @@ import "./app.scss";
 class App extends Component {
 
     componentDidMount() {
+        document.getElementById('app-loading').style.display = 'none';
+
         // user Authentication, get cart, set theme and more.
         firstSetup();
     }
@@ -29,6 +31,7 @@ class App extends Component {
         // });
         return (
             <Fragment>
+                <div id="app-loading"></div>
                 <Menu/>
                 <Switch>
                     {
