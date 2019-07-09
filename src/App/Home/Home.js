@@ -81,6 +81,6 @@ class Home extends Component {
 
 // HOC
 Home = connect(s => ({home: s.home}))(Home);
-Home = fecher(Home, 'home');
+Home = fecher(Home);
 
 export default Home;

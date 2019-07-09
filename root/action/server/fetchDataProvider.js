@@ -1,8 +1,7 @@
 import {routeMap} from "../../config/routeMap";
 import {matchPath} from "react-router-dom";
-import {defaultState} from "../../config/store";
 
-export const fetchDataProvider = function (duct) {
+export const fetchDataProvider = async function (duct) {
     // find mached routeMap item and define duct.match
     // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
     const selectedRoute = routeMap.find(route => {
@@ -30,27 +29,25 @@ export const fetchDataProvider = function (duct) {
     if (selectedRoute.status)
         duct.status = selectedRoute.status;
 
+
     // fetch data from server
-    let dataFetched = true;
     if (selectedRoute.hasOwnProperty('component'))
-        if (selectedRoute.component.hasOwnProperty('fetchData')) {
-            dataFetched =
+        if (selectedRoute.component.hasOwnProperty('fetchData'))
+            await
                 selectedRoute
                     .component
                     .fetchData(duct)
                     .then(function (response) {
                         if (selectedRoute.redux) {
                             // clone of default redux store states
-                            duct.storeState = {...defaultState};
                             duct.storeState[selectedRoute.redux] = response.data;
                             // value of RSSR_UPDATED_REDUX_STATES in index template
                             duct.updatedState = {};
                             duct.updatedState[selectedRoute.redux] = response.data;
                         } else {
+                            // value of RSSR_FETCHED_DATA in index template
                             duct.fetchedData = response.data;
                         }
                     });
-        }
 
-    return dataFetched;
 }

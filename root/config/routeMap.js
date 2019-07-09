@@ -11,7 +11,7 @@ export const routeMap = [
         path: route.home,
         component: Home,
         exact: true,
-        redux: 'home'
+        // redux: 'home'
     },
     {
         path: route.post(),

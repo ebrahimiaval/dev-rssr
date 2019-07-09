@@ -1,9 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import * as axios from "axios";
-import {connect, setStore} from "trim-redux";
+import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 // config
-import {IS_BROWSER, IS_SERVER} from "../../../root/config/constant";
+import {IS_SERVER} from "../../../root/config/constant";
 import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 import Link from "react-router-dom/es/Link";
@@ -26,13 +26,7 @@ class Post extends Component {
 
         return axios({
             url: api.post(postId)
-        })
-            .then((response) => {
-                if (IS_BROWSER)
-                    setStore({post: response.data})
-                else
-                    storeState.post = response.data;
-            })
+        });
     }
 
     componentDidUpdate() {

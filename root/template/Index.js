@@ -9,11 +9,12 @@ export default function (props) {
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
 
+    // transfer setched data to client
     let dataHolder = '';
     if (isSet(updatedState))
         dataHolder = `RSSR_UPDATED_REDUX_STATES = ${serialize(updatedState)};`;
     else if (isSet(fetchedData))
-        dataHolder =` RSSR_FECHED_DATA = ${serialize(fetchedData)}; `;
+        dataHolder =`RSSR_FETCHED_DATA = ${serialize(fetchedData)};`;
 
     return (
         <html lang="fa" {...htmlAttrs}>

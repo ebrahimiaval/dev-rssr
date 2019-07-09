@@ -1,15 +1,52 @@
 import React, {Component} from 'react';
 import {defaultState} from "../config/store";
 import {getStore, setStore} from "trim-redux";
+import {routeMap} from "../config/routeMap";
+import {matchPath} from "react-router-dom";
+import {IS_SERVER} from "../config/constant";
+import {isNotSet, isSet} from "./checkSet";
+import serialize from "serialize-javascript";
 
 
-export const fecher = (TheComponent, stateName) => {
+export const fecher = (TheComponent) => {
+    // pass clean component on server
+    if (IS_SERVER)
+        return class FechProvider extends Component {
+
+            static fetchData = TheComponent.fetchData;
+
+            render() {
+                return (
+                    // use Context to pass fetchedData ti it
+                    <TheComponent {...this.props} fetchedData={''} setFtechParams={this.setFtechParams}/>
+                );
+            }
+        }
+
+
     return class FechProvider extends Component {
 
         static ftechParams = {};
+        static fetchData = TheComponent.fetchData;
+
+        constructor(props) {
+            super(props);
+
+            // select matched routeMap item and get redux param
+            this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
+            this.isReduxBase = isSet(this.stateName);
+
+            this.state = {
+                fetchedData: this.isReduxBase ? undefined : window.RSSR_FETCHED_DATA
+            }
+
+            // delete window.RSSR_FETCHED_DATA;
+
+            console.log(window.RSSR_FETCHED_DATA);
+            console.log(this.state.fetchedData);
+        }
 
 
-        static  fetchData = TheComponent.fetchData;
 
 
         // Parameters that Client wants to send to FetchData method
@@ -36,8 +73,12 @@ export const fecher = (TheComponent, stateName) => {
 
         // reset state to default value
         resetState() {
-            const defaultValue = defaultState[stateName];
-            setStore(stateName, defaultValue);
+            // if fetch mode is redux base (is prop base)
+            if (!this.isReduxBase)
+                return;
+
+            const defaultValue = defaultState[this.stateName];
+            setStore(this.stateName, defaultValue);
         }
 
 
@@ -47,14 +88,19 @@ export const fecher = (TheComponent, stateName) => {
         // handel fetch data in first load (component mounting)
         // just when value of state is not default value
         componentDidMount() {
-            const
-                defaultValue = defaultState[stateName],
-                nowValue = getStore(stateName);
+            if (this.isReduxBase) {
+                const
+                    defaultValue = defaultState[this.stateName],
+                    nowValue = getStore(this.stateName);
 
-            // fetch data when state has default value and mean
-            // does not exist fetched data on server and need to fetch on client
-            if (defaultValue === nowValue)
-                this.fetchingData();
+                // fetch data when state has default value and mean
+                // does not exist fetched data on server and need to fetch on client
+                if (serialize(defaultValue) === serialize(nowValue))
+                    this.fetchingData();
+            } else {
+                if (isNotSet(this.state.fetchedData))
+                    this.fetchingData();
+            }
         }
 
 
@@ -68,8 +114,6 @@ export const fecher = (TheComponent, stateName) => {
                 // to show loading
                 this.resetState();
 
-
-
                 // get data of new route
                 this.fetchingData();
             }
@@ -80,7 +124,7 @@ export const fecher = (TheComponent, stateName) => {
 
 
         componentWillUnmount() {
-            // clear state to refetching data on next mounting
+            // then clear state to refetching data on next mounting
             this.resetState();
         }
 
@@ -90,7 +134,7 @@ export const fecher = (TheComponent, stateName) => {
 
         render() {
             return (
-                <TheComponent {...this.props} setFtechParams={this.setFtechParams}/>
+                <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>
             );
         }
     }
