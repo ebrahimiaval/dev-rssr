@@ -1,5 +1,3 @@
-// config
-import {defaultState} from "./config/store";
 // action
 import {successfulResponse} from "./action/server/successfulResponse";
 import {errorResponse} from "./action/server/errorResponse";
