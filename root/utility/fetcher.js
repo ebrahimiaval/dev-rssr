@@ -9,9 +9,10 @@ export const fecher = (TheComponent, stateName) => {
         static ftechParams = {};
 
 
+        static  fetchData = TheComponent.fetchData;
 
 
-
+        // Parameters that Client wants to send to FetchData method
         setFtechParams(ftechParams) {
             FechProvider.ftechParams = ftechParams;
         }
@@ -20,8 +21,21 @@ export const fecher = (TheComponent, stateName) => {
 
 
 
+        // fetch data and insert to redux
+        fetchingData() {
+            TheComponent.fetchData(FechProvider.ftechParams)
+                .then(function (response) {
+                    // console.log(response);
+                    setStore({home: response.data})
+                })
+        }
+
+
+
+
+
+        // reset state to default value
         resetState() {
-            // insert default value to state
             const defaultValue = defaultState[stateName];
             setStore(stateName, defaultValue);
         }
@@ -30,48 +44,43 @@ export const fecher = (TheComponent, stateName) => {
 
 
 
+        // handel fetch data in first load (component mounting)
+        // just when value of state is not default value
         componentDidMount() {
-            // first load fetch data
-            // if value of state is not default value
             const
                 defaultValue = defaultState[stateName],
                 nowValue = getStore(stateName);
 
-            if (defaultValue === nowValue) {
-                TheComponent.fetchData(FechProvider.ftechParams);
-            }
+            // fetch data when state has default value and mean
+            // does not exist fetched data on server and need to fetch on client
+            if (defaultValue === nowValue)
+                this.fetchingData();
         }
 
 
 
 
 
-        // shouldComponentUpdate(nextProps, nextState, nextContext) {
-        //
-        //     if (this.props.location.key !== nextProps.location.key) {
-        //
-        //         this.resetState();
-        //
-        //         console.log('do update');
-        //
-        //         TheComponent.fetchData(FechProvider.ftechParams);
-        //     }
-        //
-        //     return true;
-        // }
-
-
-        componentDidUpdate(prevProps){
+        componentDidUpdate(prevProps) {
+            // update when route update
+            // exp: click on '/post/2' in mounted 'post 1'
             if (this.props.location.key !== prevProps.location.key) {
+                // to show loading
                 this.resetState();
-                TheComponent.fetchData(FechProvider.ftechParams);
+
+
+
+                // get data of new route
+                this.fetchingData();
             }
         }
+
 
 
 
 
         componentWillUnmount() {
+            // clear state to refetching data on next mounting
             this.resetState();
         }
 
@@ -85,4 +94,6 @@ export const fecher = (TheComponent, stateName) => {
             );
         }
     }
+
+
 }

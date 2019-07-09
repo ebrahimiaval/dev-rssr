@@ -18,8 +18,6 @@ export default function serverRenderer() {
                 req: req,
                 res: res,
                 next: next,
-                // clone of default redux store states
-                storeState: {...defaultState},
                 // default response status. can chenge to routeMap item status or change in fetchData()
                 status: 200,
                 // is like {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'

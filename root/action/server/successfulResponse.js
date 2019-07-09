@@ -6,7 +6,6 @@ import {Provider} from "react-redux";
 // config
 import {createStore} from "../../config/store";
 // utility
-import {pickUpdatedStates} from "../../utility/pickUpdatedStates";
 // component
 import App from "../../../src/App/App";
 import Index from "../../template";
@@ -15,8 +14,8 @@ import Index from "../../template";
 
 
 
-const renderIndexTemplate = function (renderedApp, updatedState) {
-    let template = <Index renderedApp={renderedApp} updatedState={updatedState} helmet={Helmet.renderStatic()}/>;
+const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
+    let template = <Index renderedApp={renderedApp} updatedState={updatedState} fetchedData={fetchedData} helmet={Helmet.renderStatic()}/>;
 
     template = ReactDOMServer.renderToString(template);
 
@@ -29,8 +28,9 @@ const renderIndexTemplate = function (renderedApp, updatedState) {
 
 
 
-export const successfulResponse = function ({req, res, status, storeState}) {
+export const successfulResponse = function (duct) {
     const
+        {req, res, status, storeState, updatedState, fetchedData} = duct,
         store = createStore(storeState),
         context = {},
         app = (
@@ -45,7 +45,6 @@ export const successfulResponse = function ({req, res, status, storeState}) {
     if (context.url)
         res.redirect(301, context.url); // if <Redirect> was rendered
     else {
-        const updatedState = pickUpdatedStates(store);
-        res.status(status).send(renderIndexTemplate(renderedApp, updatedState)); // usual app render
+        res.status(status).send(renderIndexTemplate(renderedApp, updatedState, fetchedData)); // usual app render
     }
 }

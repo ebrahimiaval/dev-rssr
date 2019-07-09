@@ -1,12 +1,19 @@
 import React from 'react';
 import serialize from "serialize-javascript";
+import {isSet} from "../utility/checkSet";
 
 
 export default function (props) {
     const
-        {helmet, updatedState, renderedApp} = props,
+        {helmet, renderedApp, updatedState, fetchedData} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
+
+    let dataHolder = '';
+    if (isSet(updatedState))
+        dataHolder = `RSSR_UPDATED_REDUX_STATES = ${serialize(updatedState)};`;
+    else if (isSet(fetchedData))
+        dataHolder =` RSSR_FECHED_DATA = ${serialize(fetchedData)}; `;
 
     return (
         <html lang="fa" {...htmlAttrs}>
@@ -25,7 +32,7 @@ export default function (props) {
                 <div id="app-root" dangerouslySetInnerHTML={{__html: renderedApp}}></div>
 
                 {/* transfer redux updated states (contain fetched data from API) */}
-                <script dangerouslySetInnerHTML={{__html: 'RSSR_UPDATED_REDUX_STATES = ' + serialize(updatedState)}}/>
+                <script dangerouslySetInnerHTML={{__html: dataHolder}}/>
 
                 <script src={`/dist/client.js?v=${process.env.VERSION}`}></script>
             </body>

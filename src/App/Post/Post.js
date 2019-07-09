@@ -14,8 +14,8 @@ import {fecher} from "../../../root/utility/fetcher";
 
 class Post extends Component {
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         this.props.setFtechParams({postId: this.props.match.params.postId});
     }

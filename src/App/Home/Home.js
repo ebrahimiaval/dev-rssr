@@ -1,11 +1,10 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import {connect, setStore} from "trim-redux";
+import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 import axios from "axios";
 // config
 import {api} from "../../../root/config/api";
-import {IS_BROWSER} from "../../../root/config/constant";
 import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
@@ -17,7 +16,9 @@ import {fecher} from "../../../root/utility/fetcher";
 
 class Home extends Component {
 
-    static fetchData({storeState}) {
+    // static fetchData = () => axios({url: api.posts});
+
+    static fetchData() {
         return axios({
             url: api.posts
         })
@@ -26,10 +27,9 @@ class Home extends Component {
                 // x = x.map(() => '');
                 // console.log(x);
 
-                if (IS_BROWSER)
-                    setStore({home: response.data})
-                else
-                    storeState.home = response.data;
+                return response;
+
+                // storeState.home = response.data;
             })
             .catch(function (error) {
                 throw error;
@@ -77,6 +77,7 @@ class Home extends Component {
         );
     }
 }
+
 
 // HOC
 Home = connect(s => ({home: s.home}))(Home);

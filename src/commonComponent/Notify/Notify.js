@@ -9,8 +9,8 @@ import "./notify.scss";
 
 class Notify extends Component {
 
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
 
         this.state = {
             isOpen: false
