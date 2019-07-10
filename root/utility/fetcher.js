@@ -6,44 +6,50 @@ import {matchPath} from "react-router-dom";
 import {IS_SERVER} from "../config/constant";
 import {isNotSet, isSet} from "./checkSet";
 import serialize from "serialize-javascript";
+import {duct} from "../config/duct";
+
 
 
 export const fecher = (TheComponent) => {
-    // pass clean component on server
+    // --------- for Server ------------//
     if (IS_SERVER)
         return class FechProvider extends Component {
-
             static fetchData = TheComponent.fetchData;
 
             render() {
-                return (
-                    // use Context to pass fetchedData ti it
-                    <TheComponent {...this.props} fetchedData={''} setFtechParams={this.setFtechParams}/>
-                );
+                // in server fetch provider just handle props base (get fetchedData from duct and pass to component as prop)
+                // redux base server fetch data handled in fetchDataProvider() server action
+                const {fetchedData} = duct;
+                return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={() => ''}/>;
             }
         }
 
 
+    // --------- for client ------------//
     return class FechProvider extends Component {
 
         static ftechParams = {};
-        static fetchData = TheComponent.fetchData;
 
         constructor(props) {
             super(props);
 
-            // select matched routeMap item and get redux param
+            // select matched routeMap item to get redux param
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
+
+            // in each time fetch can stand of Redux base OR Props Base
+            // in Redux base fetched data pased from redux store states
+            // and in props base pass from fetchedData prop
             this.isReduxBase = isSet(this.stateName);
+            this.isPropsBase = !this.isReduxBase;//to improve UX
 
-            this.state = {
-                fetchedData: this.isReduxBase ? undefined : window.RSSR_FETCHED_DATA
+            // create state to can update fetchedData prop in route update
+            if (this.isPropsBase) {
+                this.state = {
+                    fetchedData: window.RSSR_FETCHED_DATA
+                }
+                // Improvement RAM usage
+                delete window.RSSR_FETCHED_DATA;
             }
-
-            // delete window.RSSR_FETCHED_DATA;
-
-            console.log(window.RSSR_FETCHED_DATA);
-            console.log(this.state.fetchedData);
         }
 
 
@@ -71,8 +77,9 @@ export const fecher = (TheComponent) => {
 
 
 
-        // reset state to default value
-        resetState() {
+        // in redux base reset state to default value
+        // and in prop base
+        resetDataHolder() {
             // if fetch mode is redux base (is prop base)
             if (!this.isReduxBase)
                 return;
@@ -112,7 +119,7 @@ export const fecher = (TheComponent) => {
             // exp: click on '/post/2' in mounted 'post 1'
             if (this.props.location.key !== prevProps.location.key) {
                 // to show loading
-                this.resetState();
+                this.resetDataHolder();
 
                 // get data of new route
                 this.fetchingData();
@@ -125,7 +132,7 @@ export const fecher = (TheComponent) => {
 
         componentWillUnmount() {
             // then clear state to refetching data on next mounting
-            this.resetState();
+            this.resetDataHolder();
         }
 
 
@@ -133,8 +140,9 @@ export const fecher = (TheComponent) => {
 
 
         render() {
+            const fetchedData = this.isPropsBase ? this.state.fetchedData : undefined;
             return (
-                <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>
+                <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={this.setFtechParams}/>
             );
         }
     }

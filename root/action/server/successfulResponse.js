@@ -9,12 +9,14 @@ import {createStore} from "../../config/store";
 // component
 import App from "../../../src/App/App";
 import Index from "../../template";
+import {duct} from "../../config/duct";
 
 
 
 
 
-const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
+const renderIndexTemplate = function (renderedApp) {
+    const {updatedState, fetchedData} = duct;
     let template = <Index renderedApp={renderedApp} updatedState={updatedState} fetchedData={fetchedData} helmet={Helmet.renderStatic()}/>;
 
     template = ReactDOMServer.renderToString(template);
@@ -28,9 +30,9 @@ const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
 
 
 
-export const successfulResponse = function (duct) {
+export const successfulResponse = function () {
     const
-        {req, res, status, storeState, updatedState, fetchedData} = duct,
+        {req, res, status, storeState} = duct,
         store = createStore(storeState),
         context = {},
         app = (
@@ -45,6 +47,6 @@ export const successfulResponse = function (duct) {
     if (context.url)
         res.redirect(301, context.url); // if <Redirect> was rendered
     else {
-        res.status(status).send(renderIndexTemplate(renderedApp, updatedState, fetchedData)); // usual app render
+        res.status(status).send(renderIndexTemplate(renderedApp)); // usual app render
     }
 }

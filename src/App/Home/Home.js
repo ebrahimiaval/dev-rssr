@@ -38,7 +38,7 @@ class Home extends Component {
 
 
     render() {
-        const {home} = this.props;
+        const {fetchedData} = this.props;
 
         return (
             <div id="hme" className="container">
@@ -52,8 +52,8 @@ class Home extends Component {
 
                 <div className="row">
                     {
-                        (home !== null) ? (
-                                home.map((item) => (
+                        (fetchedData) ? (
+                                fetchedData.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">

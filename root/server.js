@@ -2,7 +2,7 @@
 import {successfulResponse} from "./action/server/successfulResponse";
 import {errorResponse} from "./action/server/errorResponse";
 import {fetchDataProvider} from "./action/server/fetchDataProvider";
-import {defaultState} from "./config/store";
+import {duct} from "./config/duct";
 
 
 
@@ -12,28 +12,15 @@ export default function serverRenderer() {
         const proccessTimeStart = Date.now();
 
         try {
-            // SSR data transfer duct
-            // NOTICE: updatedState and fetchedData can be params of duct
-            // but when have server fetch data.for more informaion see fetchDataProvider().
-            const duct = {
-                req: req,
-                res: res,
-                next: next,
-                // in none-redux server fetch storeState is equal
-                // and in redux base server fetch contain updated State.
-                // for more informaion see fetchDataProvider().
-                storeState: {...defaultState},
-                // default response status. can chenge to routeMap item status or change in fetchData()
-                status: 200,
-                // is like {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
-                query: req.query,
-                // set in routeMap item detector. match object is equal with compoent match props posted by react-router-dom
-                match: {},
-            };
+            // add request params to duct
+            duct.req = req;
+            duct.res = res;
+            duct.next = next;
+            duct.query = req.query; //query string of URL as object, for example {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
 
             // selected routeMap item and call fetchData if exist
-            fetchDataProvider(duct)
-                .then(() => successfulResponse(duct))
+            fetchDataProvider()
+                .then(() => successfulResponse())
                 .catch((error) => {
                     console.log('fetch error');
                     errorResponse(error, res, proccessTimeStart)
