@@ -47,12 +47,10 @@ export const fetchDataProvider = async function () {
                             // clone of default redux store states
                             duct.storeState[selectedRoute.redux] = response.data;
                             // value of RSSR_UPDATED_REDUX_STATES in index template
-                            duct.updatedState = {};
                             duct.updatedState[selectedRoute.redux] = response.data;
                         } else {
                             // value of RSSR_FETCHED_DATA in index template
                             duct.fetchedData = response.data;
                         }
                     });
-
 }

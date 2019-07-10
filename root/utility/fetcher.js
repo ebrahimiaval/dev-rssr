@@ -4,7 +4,7 @@ import {getStore, setStore} from "trim-redux";
 import {routeMap} from "../config/routeMap";
 import {matchPath} from "react-router-dom";
 import {IS_SERVER} from "../config/constant";
-import {isNotSet, isSet} from "./checkSet";
+import {isSet} from "./checkSet";
 import serialize from "serialize-javascript";
 import {duct} from "../config/duct";
 
@@ -20,6 +20,7 @@ export const fecher = (TheComponent) => {
                 // in server fetch provider just handle props base (get fetchedData from duct and pass to component as prop)
                 // redux base server fetch data handled in fetchDataProvider() server action
                 const {fetchedData} = duct;
+
                 return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={() => ''}/>;
             }
         }
@@ -39,7 +40,7 @@ export const fecher = (TheComponent) => {
             };
 
             // update this.ftechParams
-            this.setFtechParams = (params) => this.ftechParams = params;
+            this.setFtechParams = (params) => this.ftechParams = {...this.fetchedParams, ...params};
 
             // select matched routeMap item to get redux param
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
@@ -51,16 +52,15 @@ export const fecher = (TheComponent) => {
             this.isPropsBase = !this.isReduxBase;//to improve UX
 
             // create state to can update fetchedData prop in route update
-            if (this.isPropsBase) {
-                this.state = {
-                    // state.fetchedData { null || any}
-                    // if server fetch successfully {any}
-                    // and when server can not fetch data or does not SSR (SPA) is {null}
-                    fetchedData: window.RSSR_FETCHED_DATA ? window.RSSR_FETCHED_DATA : null
-                }
-                // Improvement RAM usage
-                delete window.RSSR_FETCHED_DATA;
+            this.state = {
+                // state.fetchedData { null || any}
+                // if server fetch successfully {any}
+                // and when server can not fetch data or does not SSR (SPA) is {null}
+                fetchedData: window.RSSR_FETCHED_DATA
             }
+
+            // Improvement RAM usage
+            delete window.RSSR_FETCHED_DATA;
         }
 
 
@@ -69,11 +69,11 @@ export const fecher = (TheComponent) => {
 
         // fetch data and insert to redux or fetchedData
         fetchingData() {
-            TheComponent.fetchData(FechProvider.ftechParams)
+            TheComponent.fetchData(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
                         this.setState({fetchedData: response.data});
-                     else
+                    else
                         setStore(this.stateName, response.data)
                 })
         }
@@ -147,9 +147,8 @@ export const fecher = (TheComponent) => {
 
         render() {
             // in props base fetchedData contain null OR any data and in redux base is undefined
-            const fetchedData = this.isPropsBase ? this.state.fetchedData : undefined;
 
-            return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={this.setFtechParams}/>;
+            return <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>;
         }
     }
 

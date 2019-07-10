@@ -4,9 +4,6 @@ import {defaultState} from "./store";
 /**
  * duct : SSR data transfer duct
  *
- * NOTICE: updatedState and fetchedData can be params of duct
- * but when have server fetch data.for more informaion see fetchDataProvider().
- *
  */
 export const duct = {
     // in none-redux server fetch storeState is equal
@@ -19,4 +16,12 @@ export const duct = {
 
     // set in routeMap item detector. match object is equal with compoent match props posted by react-router-dom
     match: {},
+
+    // value of RSSR_UPDATED_REDUX_STATES
+    // change to real data when server fetch is props base and fetched done successfully
+    // for more informaion see fetchDataProvider().
+    fetchedData: null,
+
+    // for more informaion see fetchDataProvider().
+    updatedState: {}
 }

@@ -56,7 +56,7 @@ class Home extends Component {
 
                 <div className="row">
                     {
-                        (fetchedData) ? (
+                        (fetchedData !== null) ? (
                                 fetchedData.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">

@@ -1,8 +1,7 @@
-import {createStore as createStoreProvider, compose, applyMiddleware} from 'trim-redux';
+import {applyMiddleware, compose, createStore as createStoreProvider} from 'trim-redux';
 import thunk from 'redux-thunk';
 // config
 import {IS_BROWSER} from "./constant";
-import {isSet} from "../utility/checkSet";
 
 
 
@@ -74,11 +73,10 @@ export const clientCreateStore = function () {
     // extend defaultState with RSSR_UPDATED_REDUX_STATES
     // when selected route map item has 'redux' param and
     // data fetch on the server successfully
-    if (isSet(window.RSSR_UPDATED_REDUX_STATES))
-        states = {
-            ...defaultState,
-            ...window.RSSR_UPDATED_REDUX_STATES
-        };
+    states = {
+        ...defaultState,
+        ...window.RSSR_UPDATED_REDUX_STATES
+    };
 
     // Improvement RAM usage
     delete window.RSSR_UPDATED_REDUX_STATES;
