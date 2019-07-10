@@ -3,7 +3,6 @@ import * as axios from "axios";
 import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 // config
-import {IS_SERVER} from "../../../root/config/constant";
 import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 import Link from "react-router-dom/es/Link";
@@ -14,24 +13,21 @@ import {fecher} from "../../../root/utility/fetcher";
 
 class Post extends Component {
 
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
+    //
+    //     this.props.setFtechParams({postId: this.props.match.params.postId});
+    // }
 
-        this.props.setFtechParams({postId: this.props.match.params.postId});
-    }
-
-    static fetchData({req, storeState, match, postId}) {
-        if (IS_SERVER)
-            postId = match.params.postId;
-
+    static fetchData({match}) {
         return axios({
-            url: api.post(postId)
+            url: api.post(match.params.postId)
         });
     }
 
-    componentDidUpdate() {
-        this.props.setFtechParams({postId: this.props.match.params.postId});
-    }
+    // componentDidUpdate() {
+    //     this.props.setFtechParams({postId: this.props.match.params.postId});
+    // }
 
     render() {
         const

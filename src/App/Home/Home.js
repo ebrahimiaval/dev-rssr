@@ -8,7 +8,6 @@ import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
 import {fecher} from "../../../root/utility/fetcher";
-import {IS_BROWSER} from "../../../root/config/constant";
 
 
 
@@ -20,7 +19,8 @@ class Home extends Component {
 
     static fetchData() {
         return axios({
-            url: IS_BROWSER ? api.posts : 'https://api.malltina.com/homes'
+            // url: IS_BROWSER ? api.posts : 'https://api.malltina.com/homes'
+            url: api.posts
         })
             .then((response) => {
                 // var x = '';

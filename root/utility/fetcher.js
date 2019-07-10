@@ -40,7 +40,9 @@ export const fecher = (TheComponent) => {
             };
 
             // update this.ftechParams
-            this.setFtechParams = (params) => this.ftechParams = {...this.fetchedParams, ...params};
+            this.setFtechParams = (params) => {
+                this.ftechParams = {...this.ftechParams, ...params}
+            };
 
             // select matched routeMap item to get redux param
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
@@ -51,15 +53,15 @@ export const fecher = (TheComponent) => {
             this.isReduxBase = isSet(this.stateName);
             this.isPropsBase = !this.isReduxBase;//to improve UX
 
-            // create state to can update fetchedData prop in route update
+            // create state to can update fetchedData prop in route update in props base
+            // state.fetchedData { null || any}
+            // if server fetch successfully {any}
+            // and when server can not fetch data or does not SSR (SPA) is {null}
             this.state = {
-                // state.fetchedData { null || any}
-                // if server fetch successfully {any}
-                // and when server can not fetch data or does not SSR (SPA) is {null}
-                fetchedData: window.RSSR_FETCHED_DATA
+                fetchedData: isSet(window.RSSR_FETCHED_DATA) ? window.RSSR_FETCHED_DATA : null
             }
 
-            // Improvement RAM usage
+            // Improvement RAM usage and fix SPA load conflict
             delete window.RSSR_FETCHED_DATA;
         }
 
@@ -69,6 +71,9 @@ export const fecher = (TheComponent) => {
 
         // fetch data and insert to redux or fetchedData
         fetchingData() {
+            const withBase = this.isPropsBase ? 'Props' : 'Redux';
+            this.logger(withBase, 'client');
+
             TheComponent.fetchData(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
@@ -110,20 +115,32 @@ export const fecher = (TheComponent) => {
                 // does not exist fetched data on server and need to fetch on client
                 if (serialize(defaultValue) === serialize(nowValue))
                     this.fetchingData();
+                else
+                    this.logger('Redux', 'server');
+
             } else {
                 if (this.state.fetchedData === null)
                     this.fetchingData();
+                else
+                    this.logger('Props', 'server');
+
             }
         }
 
 
 
+        logger(withBase, onThe) {
+            console.log('fetch "' + this.ftechParams.match.url + '" as ' + withBase + ' base on the ' + onThe + '.');
+        }
 
 
         componentDidUpdate(prevProps) {
             // update when route update
             // exp: click on '/post/2' in mounted 'post 1'
             if (this.props.location.key !== prevProps.location.key) {
+                // update match
+                this.ftechParams.match = this.props.match;
+
                 // to show loading
                 this.resetDataHolder();
 

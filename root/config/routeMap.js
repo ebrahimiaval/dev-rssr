@@ -15,7 +15,8 @@ export const routeMap = [
     },
     {
         path: route.post(),
-        component: Post
+        component: Post,
+        redux: 'post'
     },
 
     // ------- E404 -------
