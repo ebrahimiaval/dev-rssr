@@ -16,7 +16,6 @@ import {isSet} from "../utility/checkSet";
  */
 export const defaultState = {
     localUser: {updated: false, token: null},
-    home: null,
     post: null
 }
 

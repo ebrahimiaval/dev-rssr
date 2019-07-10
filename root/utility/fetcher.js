@@ -28,10 +28,18 @@ export const fecher = (TheComponent) => {
     // --------- for client ------------//
     return class FechProvider extends Component {
 
-        static ftechParams = {};
+
 
         constructor(props) {
             super(props);
+
+            // client passed params to fetchData()
+            this.ftechParams = {
+                match: this.props.match
+            };
+
+            // update this.ftechParams
+            this.setFtechParams = (params) => this.ftechParams = params;
 
             // select matched routeMap item to get redux param
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
@@ -45,7 +53,10 @@ export const fecher = (TheComponent) => {
             // create state to can update fetchedData prop in route update
             if (this.isPropsBase) {
                 this.state = {
-                    fetchedData: window.RSSR_FETCHED_DATA
+                    // state.fetchedData { null || any}
+                    // if server fetch successfully {any}
+                    // and when server can not fetch data or does not SSR (SPA) is {null}
+                    fetchedData: window.RSSR_FETCHED_DATA ? window.RSSR_FETCHED_DATA : null
                 }
                 // Improvement RAM usage
                 delete window.RSSR_FETCHED_DATA;
@@ -55,21 +66,15 @@ export const fecher = (TheComponent) => {
 
 
 
-        // Parameters that Client wants to send to FetchData method
-        setFtechParams(ftechParams) {
-            FechProvider.ftechParams = ftechParams;
-        }
 
-
-
-
-
-        // fetch data and insert to redux
+        // fetch data and insert to redux or fetchedData
         fetchingData() {
             TheComponent.fetchData(FechProvider.ftechParams)
-                .then(function (response) {
-                    // console.log(response);
-                    setStore({home: response.data})
+                .then((response) => {
+                    if (this.isPropsBase)
+                        this.setState({fetchedData: response.data});
+                     else
+                        setStore(this.stateName, response.data)
                 })
         }
 
@@ -81,11 +86,12 @@ export const fecher = (TheComponent) => {
         // and in prop base
         resetDataHolder() {
             // if fetch mode is redux base (is prop base)
-            if (!this.isReduxBase)
-                return;
-
-            const defaultValue = defaultState[this.stateName];
-            setStore(this.stateName, defaultValue);
+            if (this.isReduxBase) {
+                const defaultValue = defaultState[this.stateName];
+                setStore(this.stateName, defaultValue);
+            } else {
+                this.setState({fetchedData: null});
+            }
         }
 
 
@@ -105,7 +111,7 @@ export const fecher = (TheComponent) => {
                 if (serialize(defaultValue) === serialize(nowValue))
                     this.fetchingData();
             } else {
-                if (isNotSet(this.state.fetchedData))
+                if (this.state.fetchedData === null)
                     this.fetchingData();
             }
         }
@@ -140,10 +146,10 @@ export const fecher = (TheComponent) => {
 
 
         render() {
+            // in props base fetchedData contain null OR any data and in redux base is undefined
             const fetchedData = this.isPropsBase ? this.state.fetchedData : undefined;
-            return (
-                <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={this.setFtechParams}/>
-            );
+
+            return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={this.setFtechParams}/>;
         }
     }
 

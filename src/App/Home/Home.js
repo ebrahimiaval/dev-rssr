@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 import axios from "axios";
 // config
@@ -9,6 +8,7 @@ import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
 import {fecher} from "../../../root/utility/fetcher";
+import {IS_BROWSER} from "../../../root/config/constant";
 
 
 
@@ -20,7 +20,7 @@ class Home extends Component {
 
     static fetchData() {
         return axios({
-            url: api.posts
+            url: IS_BROWSER ? api.posts : 'https://api.malltina.com/homes'
         })
             .then((response) => {
                 // var x = '';
@@ -32,6 +32,10 @@ class Home extends Component {
                 // storeState.home = response.data;
             })
             .catch(function (error) {
+                if (error.response)
+                    if (error.response.status === 404)
+                        return;
+
                 throw error;
             });
     }
@@ -44,7 +48,7 @@ class Home extends Component {
             <div id="hme" className="container">
                 <Helmet title="صفحه ‌اصلی"/>
                 <div className="jumbotron mt-3" id="abc">
-                    <h1>موفقیت اتفاقی نیست!</h1>
+                    <h5>موفقیت اتفاقی نیست!</h5>
                     <p className="lead">
                         برای خلق بهترین‌ها باید بیشتر تلاش کرد، چیزی که ساده به دست بیاد، می‌تونه خیلی ساده هم از دست بره.
                     </p>
@@ -80,7 +84,6 @@ class Home extends Component {
 
 
 // HOC
-Home = connect(s => ({home: s.home}))(Home);
 Home = fecher(Home);
 
 export default Home;

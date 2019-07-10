@@ -13,6 +13,7 @@ export const duct = {
     // and in redux base server fetch contain updated State.
     // for more informaion see fetchDataProvider().
     storeState: {...defaultState},
+
     // default response status. can chenge to routeMap item status or change in fetchData()
     status: 200,
 

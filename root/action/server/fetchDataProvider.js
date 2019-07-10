@@ -1,6 +1,7 @@
 import {routeMap} from "../../config/routeMap";
 import {matchPath} from "react-router-dom";
 import {duct} from "../../config/duct";
+import {isNotSet} from "../../utility/checkSet";
 
 export const fetchDataProvider = async function () {
     // find mached routeMap item and define duct.match
@@ -39,6 +40,9 @@ export const fetchDataProvider = async function () {
                     .component
                     .fetchData(duct)
                     .then(function (response) {
+                        if (isNotSet(response))
+                            return 'with out data';
+
                         if (selectedRoute.redux) {
                             // clone of default redux store states
                             duct.storeState[selectedRoute.redux] = response.data;
