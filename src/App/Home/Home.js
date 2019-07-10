@@ -72,7 +72,8 @@ class Home extends Component {
                             :
                             (
                                 <div className="col-12 text-center">
-                                    در حال بار گذاری مطالب . . .
+                                    <img src="/asset/img/loading.gif" alt="loading"/>
+                                    <div> در حال بار گذاری مطالب</div>
                                 </div>
                             )
                     }

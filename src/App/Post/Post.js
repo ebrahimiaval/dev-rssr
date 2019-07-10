@@ -46,7 +46,12 @@ class Post extends Component {
                                 </Fragment>
                             )
                             :
-                            'در حال بار گذاری مطلب ...'
+                            (
+                                <div className="col-12 text-center">
+                                    <img src="/asset/img/loading.gif" alt="loading"/>
+                                    <div> در حال بار گذاری مطلب</div>
+                                </div>
+                            )
                     }
                 </div>
                 <div className="d-flex justify-content-between pb-5">
