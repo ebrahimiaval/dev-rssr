@@ -40,6 +40,13 @@ api = apiRouteBuilder(api);
  *  api.statistics = 'https://otherSite.com/api/statistics/2'
  */
 // different Hosts
+api.s404 = 'http://www.mocky.io/v2/5d285f852c000058003ed9c6';
+api.s200_empty = 'http://www.mocky.io/v2/5d288a902c0000e3393edae5'; // empty data
+api.s200 = 'http://www.mocky.io/v2/5d2881ef2c00008b633edab0'; // posts
+api.s201 = 'http://www.mocky.io/v2/5d2862592c0000cd2f3ed9d9';
+api.s500 = 'http://www.mocky.io/v2/5d287ce82c0000e3393eda93';
+api.s502 = 'http://www.mocky.io/v2/5d287c622c00005c693eda90';
+api.s504 = 'http://www.mocky.io/v2/5d2869b92c0000cd2f3eda17';
 
 
 export {api};

@@ -16,8 +16,16 @@ import {duct} from "../../config/duct";
 
 
 const renderIndexTemplate = function (renderedApp) {
-    const {updatedState, fetchedData} = duct;
-    let template = <Index renderedApp={renderedApp} updatedState={updatedState} fetchedData={fetchedData} helmet={Helmet.renderStatic()}/>;
+    const
+        {updatedState, fetchedData, status} = duct,
+        props = {
+            renderedApp: renderedApp,
+            updatedState: updatedState,
+            fetchedData: fetchedData,
+            helmet: Helmet.renderStatic(),
+            status: status
+        };
+    let template = <Index {...props}/>;
 
     template = ReactDOMServer.renderToString(template);
 

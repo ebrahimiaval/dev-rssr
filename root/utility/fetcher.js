@@ -63,6 +63,9 @@ export const fecher = (TheComponent) => {
 
             // Improvement RAM usage and fix SPA load conflict
             delete window.RSSR_FETCHED_DATA;
+
+            //
+            this.firstFetch();
         }
 
 
@@ -81,6 +84,13 @@ export const fecher = (TheComponent) => {
                     else
                         setStore(this.stateName, response.data)
                 })
+                // .catch(function (error) {
+                //     if (error.response)
+                //         if (error.response.status === 404)
+                //             return duct.status = 404;
+                //
+                //     throw error;
+                // });
         }
 
 
@@ -105,7 +115,7 @@ export const fecher = (TheComponent) => {
 
         // handel fetch data in first load (component mounting)
         // just when value of state is not default value
-        componentDidMount() {
+        firstFetch() {
             if (this.isReduxBase) {
                 const
                     defaultValue = defaultState[this.stateName],

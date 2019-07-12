@@ -3,6 +3,8 @@ import {matchPath} from "react-router-dom";
 import {duct} from "../../config/duct";
 import {isNotSet} from "../../utility/checkSet";
 
+
+
 export const fetchDataProvider = async function () {
     // find mached routeMap item and define duct.match
     // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
@@ -40,17 +42,32 @@ export const fetchDataProvider = async function () {
                     .component
                     .fetchData(duct)
                     .then(function (response) {
-                        if (isNotSet(response))
-                            return 'with out data';
+                        // insert api response status to server response
+                        duct.status = response.status;
 
+                        /** Redux Base **/
                         if (selectedRoute.redux) {
                             // clone of default redux store states
                             duct.storeState[selectedRoute.redux] = response.data;
                             // value of RSSR_UPDATED_REDUX_STATES in index template
                             duct.updatedState[selectedRoute.redux] = response.data;
-                        } else {
+                        }
+                        /** Props Base **/
+                        else {
                             // value of RSSR_FETCHED_DATA in index template
                             duct.fetchedData = response.data;
                         }
+                    })
+                    .catch(function (error) {
+                        // insert api response status to server response
+                        if (error.response)
+                            return duct.status = error.response.status;
+                        // handel ECONNABORTED (request time out) and ENOTFOUND (internet not found) errors
+                        else if (error.code === 'ECONNABORTED' || error.code === 'ENOTFOUND')
+                            return;
+
+                        // handel internal errors (like semantic errors)
+                        // and request errors (with out timeout)
+                        throw error;
                     });
 }

@@ -8,6 +8,7 @@ import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
 import {fecher} from "../../../root/utility/fetcher";
+import {IS_SERVER} from "../../../root/config/constant";
 
 
 
@@ -15,12 +16,21 @@ import {fecher} from "../../../root/utility/fetcher";
 
 class Home extends Component {
 
-    // static fetchData = () => axios({url: api.posts});
+    constructor(props, context) {
+        super(props, context);
+
+        this.data = this.props.fetchedData;
+        if (this.data === null)
+            this.data = {
+                isLoading: true
+            }
+    }
 
     static fetchData() {
         return axios({
-            // url: IS_BROWSER ? api.posts : 'https://api.malltina.com/homes'
-            url: api.posts
+            // timeout: IS_SERVER ? 20 : 1000,
+            url: api.s200 + '?mocky-delay=100ms'
+            // url: api.posts
         })
             .then((response) => {
                 // var x = '';
@@ -31,18 +41,37 @@ class Home extends Component {
 
                 // storeState.home = response.data;
             })
-            .catch(function (error) {
-                if (error.response)
-                    if (error.response.status === 404)
-                        return;
-
-                throw error;
-            });
+        // .catch(function (error) {
+        //     if (error.response)
+        //         if (error.response.status === 504) {
+        //             error.response.data = {error: true, message: 'oh, noooo!'};
+        //             return error.response;
+        //         }
+        //
+        //     throw error;
+        // });
     }
 
 
+    // static fetchData = () => axios({url: api.posts});
+
+    shouldComponentUpdate(nextProps) {
+        this.data = nextProps.fetchedData;
+        if (this.data === null) {
+
+            console.log('oooh!');
+
+            this.data = {
+                isLoading: true
+            }
+        }
+
+        return true;
+    }
+
     render() {
-        const {fetchedData} = this.props;
+        if (this.data.error)
+            return this.data.message;
 
         return (
             <div id="hme" className="container">
@@ -56,8 +85,8 @@ class Home extends Component {
 
                 <div className="row">
                     {
-                        (fetchedData !== null) ? (
-                                fetchedData.map((item) => (
+                        (!this.data.isLoading) ? (
+                                this.data.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">

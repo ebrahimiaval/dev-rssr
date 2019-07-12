@@ -1,11 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
-import {Route, Switch} from "react-router-dom";
 // action
 import {firstSetup} from "../action/authentication";
 // config
-import {routeMap} from "../../root/config/routeMap";
+import Router from "../../root/config/router";
 // component
 // import SignInModal from "./_component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
@@ -33,15 +32,7 @@ class App extends Component {
             <Fragment>
                 <div id="app-loading"></div>
                 <Menu/>
-                <Switch>
-                    {
-                        routeMap.map((route, index) => <Route key={index} {...route} />)
-                    }
-                    {
-                        // move scroll bar to top of page when route changed
-                        // jumpScrollToTop()
-                    }
-                </Switch>
+                <Router/>
                 <Helmet defaultTitle="React Server Side Rendering"/>
                 {/*<SignInModal/>*/}
                 {/*<SignUpModal/>*/}
