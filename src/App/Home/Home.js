@@ -15,6 +15,7 @@ import {fecher} from "../../../root/utility/fetcher";
 
 class Home extends Component {
 
+
     constructor(props, context) {
         super(props, context);
 
@@ -69,6 +70,10 @@ class Home extends Component {
     }
 
     render() {
+
+        if (!this.data)
+            return ' ';
+
         if (this.data.error)
             return this.data.message;
 

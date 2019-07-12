@@ -29,6 +29,8 @@ const renderErrorTemplate = function (error) {
 export const errorResponse = function (error, res, proccessTimeStart) {
     errorLogger('server.js', proccessTimeStart, error);
 
+
+
     // ERROR 500 - when occurs an error during process
     res.status(500).send(renderErrorTemplate(error));
 }

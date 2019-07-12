@@ -7,6 +7,8 @@ import {IS_SERVER} from "../config/constant";
 import {isSet} from "./checkSet";
 import serialize from "serialize-javascript";
 
+const als = IS_SERVER ? require("async-local-storage") : undefined;
+
 
 
 export const fecher = (TheComponent) => {
@@ -18,7 +20,9 @@ export const fecher = (TheComponent) => {
             render() {
                 // in server fetch provider just handle props base (get fetchedData from duct and pass to component as prop)
                 // redux base server fetch data handled in fetchDataProvider() server action
-                const fetchedData = null;
+                const fetchedData = als.get('fetchedData');
+
+                // console.log('2',als.get('fetchedData'));
 
                 return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={() => ''}/>;
             }

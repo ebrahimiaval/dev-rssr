@@ -2,20 +2,23 @@ import React from 'react';
 import ReactDOMServer from "react-dom/server";
 import {StaticRouter} from "react-router-dom";
 import {Helmet} from "react-helmet";
+import als from "async-local-storage";
 import {Provider} from "react-redux";
 // config
-import {createStore} from "../../config/store";
-// utility
+import {createStore, defaultState} from "../../config/store";
 // component
 import App from "../../../src/App/App";
-import Index from "../../template";
+// template
+import Index from "../../template/Index";
 
 
 
 
 
-const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
+const renderIndexTemplate = function (renderedApp, updatedState) {
+
     const
+        fetchedData = als.get('fetchedData'),
         props = {
             renderedApp: renderedApp,
             updatedState: updatedState,
@@ -35,23 +38,29 @@ const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
 
 
 
-export const successfulResponse = function (duct) {
+export const successfulResponse = function () {
     const
-        {req, res, status, storeState, updatedState, fetchedData} = duct,
-        store = createStore(storeState),
+        res = als.get('res'),
+        reqUrl = als.get('reqUrl'),
+        status = als.get('status'),
+        updatedState = als.get('updatedState'),
+        //
         context = {},
+        store = createStore({...defaultState, ...updatedState}),
         app = (
             <Provider store={store}>
-                <StaticRouter location={req.url} context={context}>
+                <StaticRouter location={reqUrl} context={context}>
                     <App/>
                 </StaticRouter>
             </Provider>
         ),
         renderedApp = ReactDOMServer.renderToString(app);
 
-    if (context.url)
-        res.redirect(301, context.url); // if <Redirect> was rendered
-    else {
-        res.status(status).send(renderIndexTemplate(renderedApp, updatedState, fetchedData)); // usual app render
+    if (context.url) {
+        // when <Redirect> rendered
+        res.redirect(301, context.url);
+    } else {
+        // usual app render
+        res.status(status).send(renderIndexTemplate(renderedApp, updatedState));
     }
 }
