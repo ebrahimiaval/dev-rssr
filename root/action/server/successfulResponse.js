@@ -9,21 +9,18 @@ import {createStore} from "../../config/store";
 // component
 import App from "../../../src/App/App";
 import Index from "../../template";
-import {duct} from "../../config/duct";
 
 
 
 
 
-const renderIndexTemplate = function (renderedApp) {
+const renderIndexTemplate = function (renderedApp, updatedState, fetchedData) {
     const
-        {updatedState, fetchedData, status} = duct,
         props = {
             renderedApp: renderedApp,
             updatedState: updatedState,
             fetchedData: fetchedData,
-            helmet: Helmet.renderStatic(),
-            status: status
+            helmet: Helmet.renderStatic()
         };
     let template = <Index {...props}/>;
 
@@ -38,9 +35,9 @@ const renderIndexTemplate = function (renderedApp) {
 
 
 
-export const successfulResponse = function () {
+export const successfulResponse = function (duct) {
     const
-        {req, res, status, storeState} = duct,
+        {req, res, status, storeState, updatedState, fetchedData} = duct,
         store = createStore(storeState),
         context = {},
         app = (
@@ -55,6 +52,6 @@ export const successfulResponse = function () {
     if (context.url)
         res.redirect(301, context.url); // if <Redirect> was rendered
     else {
-        res.status(status).send(renderIndexTemplate(renderedApp)); // usual app render
+        res.status(status).send(renderIndexTemplate(renderedApp, updatedState, fetchedData)); // usual app render
     }
 }

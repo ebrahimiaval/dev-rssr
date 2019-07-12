@@ -4,7 +4,7 @@ import serialize from "serialize-javascript";
 
 export default function (props) {
     const
-        {helmet, renderedApp, updatedState, fetchedData, status} = props,
+        {helmet, renderedApp, updatedState, fetchedData} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
 
@@ -12,7 +12,6 @@ export default function (props) {
     let dataHolder = `
         RSSR_FETCHED_DATA = ${serialize(fetchedData)};
         RSSR_UPDATED_REDUX_STATES = ${serialize(updatedState)};
-        RSSR_STATUS = ${serialize(status)};
     `;
 
     return (

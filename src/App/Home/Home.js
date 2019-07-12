@@ -8,7 +8,6 @@ import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
 import {fecher} from "../../../root/utility/fetcher";
-import {IS_SERVER} from "../../../root/config/constant";
 
 
 
@@ -29,7 +28,7 @@ class Home extends Component {
     static fetchData() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
-            url: api.s200 + '?mocky-delay=100ms'
+            url: api.s200_posts + '?mocky-delay=50ms'
             // url: api.posts
         })
             .then((response) => {

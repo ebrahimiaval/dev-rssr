@@ -21,7 +21,8 @@ class Post extends Component {
 
     static fetchData({match}) {
         return axios({
-            url: api.post(match.params.postId)
+            // url: api.post(match.params.postId)
+            url: api.s200_post
         });
     }
 
