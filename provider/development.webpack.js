@@ -79,7 +79,8 @@ module.exports = [
                 filename: 'styles.css'
             }),
             new Dotenv({systemvars: true}),
-            new webpack.HotModuleReplacementPlugin()
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.IgnorePlugin(/async-local-storage/)
         ]
     },
 

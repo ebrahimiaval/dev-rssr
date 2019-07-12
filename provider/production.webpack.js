@@ -91,6 +91,7 @@ module.exports = [
                 dry: false
             }),
             new webpack.optimize.OccurrenceOrderPlugin(),
+            new webpack.IgnorePlugin(/async-local-storage/)
         ],
         optimization: {
             minimizer: [
