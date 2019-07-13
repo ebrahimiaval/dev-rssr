@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import * as axios from "axios";
 import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 // config
@@ -7,6 +6,7 @@ import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 import Link from "react-router-dom/es/Link";
 import {fecher} from "../../../root/utility/fetcher";
+import {axios} from "../../../root/utility/axios";
 
 
 

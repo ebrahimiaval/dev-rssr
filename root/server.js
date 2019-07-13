@@ -16,16 +16,22 @@ export default function serverRenderer() {
         // start proccess timer
         const proccessTimeStart = Date.now();
 
-        try {
+        console.log('-------------');
+        console.log(req.url);
+        console.log('-------------');
 
-            /**
-             *  SSR data transfer duct
-             */
+        try {
+            //-------------- current request params -----------------//
             als.set('res', res, true);
 
+            //exp: reqPath is '/post/1' in 'http://www.site.com/post/1?foo=bar'
             als.set('reqPath', req.path, true);
-            als.set('reqPath', req.path, true);
-            als.set('query', req.query, true); //query string of URL as object, for example {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+
+            //exp: reqUrl is '/post/1?foo=bar' in 'http://www.site.com/post/1?foo=bar'
+            als.set('reqUrl', req.url, true);
+
+            //exp: query is {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+            als.set('query', req.query, true);
 
             // response status. can chenge to routeMap item status or change in fetchData() and get fetch response status code
             als.set('status', 200, true);
@@ -36,10 +42,9 @@ export default function serverRenderer() {
             // for more informaion see fetchDataProvider().
             als.set('updatedState', {}, true);
 
-            // value of RSSR_UPDATED_REDUX_STATES
-            // change to real data when server fetch is props base and fetched done successfully
-            // for more informaion see fetchDataProvider().
-            // als.set('fetchedData',null);
+            // value of RSSR_UPDATED_REDUX_STATES in index template
+            als.set('fetchedData', null, true);
+            //-------------------------------------------------------//
 
             // selected routeMap item and call fetchData if exist
             fetchDataProvider()

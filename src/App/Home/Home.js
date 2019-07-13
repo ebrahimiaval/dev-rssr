@@ -1,21 +1,19 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
-import axios from "axios";
 // config
 import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
 import {fecher} from "../../../root/utility/fetcher";
+import {axios} from "../../../root/utility/axios";
 
 
 
 
 
 class Home extends Component {
-
-
     constructor(props, context) {
         super(props, context);
 
@@ -29,18 +27,23 @@ class Home extends Component {
     static fetchData() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
-            url: api.s200_posts + '?mocky-delay=50ms'
-            // url: api.posts
+            // url: api.s200_posts + '?mocky-delay=50ms'
+            url: api.posts,
+            // token: true,
+            // token: '',
+            token: [''],
+            // headers: {sample: '---sample---'},
+            // baseURL: false,
         })
-            .then((response) => {
-                // var x = '';
-                // x = x.map(() => '');
-                // console.log(x);
-
-                return response;
-
-                // storeState.home = response.data;
-            })
+            // .then((response) => {
+            //     // var x = '';
+            //     // x = x.map(() => '');
+            //     // console.log(x);
+            //
+            //     return response;
+            //
+            //     // storeState.home = response.data;
+            // })
         // .catch(function (error) {
         //     if (error.response)
         //         if (error.response.status === 504) {

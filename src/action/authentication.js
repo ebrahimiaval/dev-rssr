@@ -1,11 +1,8 @@
 import {getStore, setStore} from "trim-redux";
-import {toast} from 'react-toastify';
 // config
-import {api} from "../../root/config/api";
 // utility
 import {isSet} from "../../root/utility/checkSet";
 import {storage} from "../../root/utility/storage";
-import {ajax} from "../../root/utility/fetchData";
 
 
 
@@ -139,36 +136,36 @@ export const signingout = () => {
  * @returns {Promise<any>}: when user is valid do then and when invalid do catch
  */
 export const authentication = (token) => {
-    return new Promise(function (resolve, reject) {
-        ajax({
-            name: 'authentication',
-            url: api.userDetails,
-            token: token
-        })
-        //--------------------------------------------------
-            .done(async (userDetails) => {
-                // set user as Real and valid user
-                // and insert user detail with detail property
-                setStore({
-                    localUser: {
-                        updated: true,
-                        token: token,
-                        detail: userDetails
-                    }
-                });
-
-                resolve('token is valid and user details ready to use');
-            })
-            //--------------------------------------------------
-            .fail((xhr, textStatus, text) => {
-                // when token is invalid
-                if (text !== 'abort') {
-                    signingout();
-
-                    toast.error('authentication error. please log in again.');
-
-                    reject(xhr);
-                }
-            });
-    })
+    // return new Promise(function (resolve, reject) {
+    //     ajax({
+    //         name: 'authentication',
+    //         url: api.userDetails,
+    //         token: token
+    //     })
+    //     //--------------------------------------------------
+    //         .done(async (userDetails) => {
+    //             // set user as Real and valid user
+    //             // and insert user detail with detail property
+    //             setStore({
+    //                 localUser: {
+    //                     updated: true,
+    //                     token: token,
+    //                     detail: userDetails
+    //                 }
+    //             });
+    //
+    //             resolve('token is valid and user details ready to use');
+    //         })
+    //         //--------------------------------------------------
+    //         .fail((xhr, textStatus, text) => {
+    //             // when token is invalid
+    //             if (text !== 'abort') {
+    //                 signingout();
+    //
+    //                 toast.error('authentication error. please log in again.');
+    //
+    //                 reject(xhr);
+    //             }
+    //         });
+    // })
 }

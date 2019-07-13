@@ -41,28 +41,6 @@ export const fetchDataProvider = async function () {
 
 
 
-    // push data to holder place as Redux base or props base
-    const insertData = function (data) {
-        // console.log('-------------------');
-        // console.log(als.get('match'));
-        // console.log('----');
-        // console.log('OOPs');
-        // console.log('-------------------');
-
-        /** Redux Base **/
-        if (selectedRoute.redux) {
-            // set value of RSSR_UPDATED_REDUX_STATES in index template
-            // contain update state
-            als.set('updatedState', {[selectedRoute.redux]: data}, true);
-        }
-        /** Props Base **/
-        else {
-            // value of RSSR_FETCHED_DATA in index template
-            als.set('fetchedData', data, true);
-
-
-        }
-    }
 
 
     // fetch data from server
@@ -73,37 +51,24 @@ export const fetchDataProvider = async function () {
                     .component
                     .fetchData({})
                     .then(function (response) {
+                        if (!response.hasOwnProperty('data') && !response.hasOwnProperty('status'))
+                            throw new Error('⛔ invalid fetchData() response. "data" and "status" is required in success responses. pleace check axios returns.\n')
+
                         // insert api response status to server response
                         als.set('status', response.status, true);
 
-                        insertData(response.data);
-                    })
-                    .catch(function (error) {
-                        // handel response none 200 status (3**, 4**, 5**)
-                        let data = {error: true, status: null};
-                        if (error.response) {
-                            data.data = error.response.data;
-                            data.status = error.response.status;
-                            return true;
+                        /** Redux Base **/
+                        if (selectedRoute.redux) {
+                            // contain only updated state.
+                            // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client
+                            // and merge with defaultState of redux to creare store on the server
+                            const updatedState = {[selectedRoute.redux]: response.data};
+                            als.set('updatedState', updatedState, true);
                         }
-                        // handel request time out error
-                        else if (error.code === 'ECONNABORTED') {
-                            data.status = 504;
+                        /** Props Base **/
+                        else {
+                            // value of RSSR_FETCHED_DATA in index template
+                            als.set('fetchedData', response.data, true);
                         }
-                        // handel internet not found error
-                        else if (error.code === 'ENOTFOUND') {
-                            data.status = 502;
-                        }
-
-                        if (data.status !== null) {
-                            data.code = error.code;
-                            insertData(data);
-                            als.set('status', data.status, true);
-                            return;
-                        }
-
-                        // handel internal errors (like semantic errors)
-                        // and request errors (with out timeout)
-                        throw error;
-                    });
+                    }); // catch() will be handel on the server.js with errorResponse()
 }

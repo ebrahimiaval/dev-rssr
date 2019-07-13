@@ -7,8 +7,6 @@ import {IS_SERVER} from "../config/constant";
 import {isSet} from "./checkSet";
 import serialize from "serialize-javascript";
 
-if (IS_SERVER)
-    var als = require("async-local-storage");
 
 
 export const fecher = (TheComponent) => {
@@ -18,12 +16,8 @@ export const fecher = (TheComponent) => {
             static fetchData = TheComponent.fetchData;
 
             render() {
-
-                // in server fetch provider just handle props base (get fetchedData from duct and pass to component as prop)
-                // redux base server fetch data handled in fetchDataProvider() server action
-                const fetchedData = als.get('fetchedData');
-
-                // console.log('2',als.get('fetchedData'));
+                // handle props base (redux base handeled with Redux)
+                const fetchedData = require("async-local-storage").get('fetchedData');
 
                 return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={() => ''}/>;
             }
@@ -35,7 +29,7 @@ export const fecher = (TheComponent) => {
         constructor(props) {
             super(props);
 
-            // client passed params to fetchData()
+            // params of fetchData(params) on the client
             this.ftechParams = {
                 match: this.props.match
             };
@@ -45,7 +39,7 @@ export const fecher = (TheComponent) => {
                 this.ftechParams = {...this.ftechParams, ...params}
             };
 
-            // select matched routeMap item to get redux param
+            // select matched routeMap item to get redux state name
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
 
             // in each time fetch can stand of Redux base OR Props Base
@@ -54,18 +48,19 @@ export const fecher = (TheComponent) => {
             this.isReduxBase = isSet(this.stateName);
             this.isPropsBase = !this.isReduxBase;//to improve UX
 
-            // create state to can update fetchedData prop in route update in props base
-            // state.fetchedData { null || any}
-            // if server fetch successfully {any}
-            // and when server can not fetch data or does not SSR (SPA) is {null}
-            this.state = {
-                fetchedData: isSet(window.RSSR_FETCHED_DATA) ? window.RSSR_FETCHED_DATA : null
+
+            if (this.isPropsBase) {
+                // create state to can update fetchedData prop in route update in props base
+                // state.fetchedData { null || any}
+                // if server fetch successfully {any}
+                // and when server can not fetch data or does not SSR (SPA) is {null}
+                this.state = {
+                    fetchedData: isSet(window.RSSR_FETCHED_DATA) ? window.RSSR_FETCHED_DATA : null
+                }
+                // Improvement RAM usage and fix SPA load conflict
+                delete window.RSSR_FETCHED_DATA;
             }
 
-            // Improvement RAM usage and fix SPA load conflict
-            delete window.RSSR_FETCHED_DATA;
-
-            //
             this.firstFetch();
         }
 

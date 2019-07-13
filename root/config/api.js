@@ -1,7 +1,3 @@
-// utility
-import {apiRouteBuilder} from "../utility/apiRouteBuilder";
-
-
 /**
  * API path of your application.
  * exp:
@@ -21,17 +17,6 @@ let api = {
 
 
 
-
-/**
- * apiRouteBuilder prepend API host like "https://api.site.com" to each item
- * and return api object with full path api routes.
- * API Route defined in '.env' as API_HOST_IN_CLIENT & API_HOST_IN_SERVER.
- *
- * NOTICE: you can eject apiRouteBuilder() and add API host manually by add 'API_DOMAIN' to each item.
- * API_DOMAIN defined in 'src/config/constant'.
- *
- */
-api = apiRouteBuilder(api);
 
 
 /**

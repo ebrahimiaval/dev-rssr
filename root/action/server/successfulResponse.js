@@ -16,13 +16,11 @@ import Index from "../../template/Index";
 
 
 const renderIndexTemplate = function (renderedApp, updatedState) {
-
     const
-        fetchedData = als.get('fetchedData'),
         props = {
             renderedApp: renderedApp,
             updatedState: updatedState,
-            fetchedData: fetchedData,
+            fetchedData: als.get('fetchedData'),
             helmet: Helmet.renderStatic()
         };
     let template = <Index {...props}/>;
@@ -42,7 +40,7 @@ export const successfulResponse = function () {
     const
         res = als.get('res'),
         reqUrl = als.get('reqUrl'),
-        status = als.get('status'),
+        status = als.get('status') || 500,
         updatedState = als.get('updatedState'),
         //
         context = {},
@@ -55,6 +53,8 @@ export const successfulResponse = function () {
             </Provider>
         ),
         renderedApp = ReactDOMServer.renderToString(app);
+
+
 
     if (context.url) {
         // when <Redirect> rendered
