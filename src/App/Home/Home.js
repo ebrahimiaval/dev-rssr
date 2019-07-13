@@ -24,7 +24,7 @@ class Home extends Component {
             }
     }
 
-    static fetchData() {
+    static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
             // url: api.s200_posts + '?mocky-delay=50ms'
@@ -56,7 +56,7 @@ class Home extends Component {
     }
 
 
-    // static fetchData = () => axios({url: api.posts});
+    // static fetch = () => axios({url: api.posts});
 
     shouldComponentUpdate(nextProps) {
         this.data = nextProps.duct;

@@ -13,7 +13,7 @@ export const fecher = (TheComponent) => {
     // --------- in Server ------------//
     if (IS_SERVER)
         return class FechProvider extends Component {
-            static fetchData = TheComponent.fetchData;
+            static fetch = TheComponent.fetch;
 
             render() {
                 // handle props base (redux base handeled with Redux)
@@ -29,7 +29,7 @@ export const fecher = (TheComponent) => {
         constructor(props) {
             super(props);
 
-            // params of fetchData(params) on the client
+            // params of fetch(params) on the client
             this.ftechParams = {
                 match: this.props.match
             };
@@ -73,7 +73,7 @@ export const fecher = (TheComponent) => {
             const withBase = this.isPropsBase ? 'Props' : 'Redux';
             this.logger(withBase, 'client');
 
-            TheComponent.fetchData(this.ftechParams)
+            TheComponent.fetch(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
                         this.setState({fetchedData: response.data});

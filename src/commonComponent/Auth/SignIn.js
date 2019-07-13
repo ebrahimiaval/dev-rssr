@@ -8,7 +8,7 @@ import {route} from "../../../../render/config/route";
 // action
 import {signingIn} from "../../action/authentication";
 // utility
-import {ajax} from "../../../../render/utility/fetchData";
+// import {ajax} from "../../../../render/utility/fetchData";
 import {isSet} from "../../../../render/utility/checkSet";
 import {errorHandeler} from "../../../../render/utility/errorHandeler";
 import {validationForm} from "../../../../render/utility/validationForm";
@@ -38,43 +38,43 @@ class SignIn extends Component {
 
         // set loading
         this.setState({isLoadingMod: true});
-
-        ajax({
-            name: 'submitSignIn',
-            url: api.signin(),
-            method: 'POST',
-            data: {email: userName, password: password}
-        })
-        //----------------------------------------------
-            .done((response) => {
-
-                // exist or not exist 2 step verificaton
-                if (isSet(response.token)) {
-                    // close the modal when launched from Notify modal
-                    if (isSet(this.props.notify))
-                        this.props.notify.$modal.modal('hide');
-                    // set token to localStorage if remember me checked and get user details
-                    signingIn(response.token, rememberMe);
-                } else {
-                    this.setState({viewType: 'twoStepVerification',isLoadingMod: false})
-                }
-            })
-            //----------------------------------------------
-            .fail((xhr, textStatus, text) => {
-                if (text !== 'abort') {
-                    // remove loading
-                    this.setState({isLoadingMod: false});
-
-                    if (xhr.status !== 0) {
-                        if (xhr.status === 401)
-                            toast.error('username or password is not currect!');
-
-                        errorHandeler.e422(xhr);
-                    } else {
-
-                    }
-                }
-            });
+        //
+        // ajax({
+        //     name: 'submitSignIn',
+        //     url: api.signin(),
+        //     method: 'POST',
+        //     data: {email: userName, password: password}
+        // })
+        // //----------------------------------------------
+        //     .done((response) => {
+        //
+        //         // exist or not exist 2 step verificaton
+        //         if (isSet(response.token)) {
+        //             // close the modal when launched from Notify modal
+        //             if (isSet(this.props.notify))
+        //                 this.props.notify.$modal.modal('hide');
+        //             // set token to localStorage if remember me checked and get user details
+        //             signingIn(response.token, rememberMe);
+        //         } else {
+        //             this.setState({viewType: 'twoStepVerification',isLoadingMod: false})
+        //         }
+        //     })
+        //     //----------------------------------------------
+        //     .fail((xhr, textStatus, text) => {
+        //         if (text !== 'abort') {
+        //             // remove loading
+        //             this.setState({isLoadingMod: false});
+        //
+        //             if (xhr.status !== 0) {
+        //                 if (xhr.status === 401)
+        //                     toast.error('username or password is not currect!');
+        //
+        //                 errorHandeler.e422(xhr);
+        //             } else {
+        //
+        //             }
+        //         }
+        //     });
     }
 
 

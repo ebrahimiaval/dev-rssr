@@ -36,7 +36,7 @@ const renderIndexTemplate = function (renderedApp, updatedState) {
 
 
 
-export const successfulResponse = function () {
+export const successfulRes = function () {
     const
         res = als.get('res'),
         reqUrl = als.get('reqUrl'),

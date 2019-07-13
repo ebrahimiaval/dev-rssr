@@ -6,7 +6,7 @@ import {regexpPattern} from "../../../../render/config/regexpPattern";
 import {api} from "../../../../render/config/api";
 // utility
 import {validationForm} from "../../../../render/utility/validationForm";
-import {ajax} from "../../../../render/utility/fetchData";
+// import {ajax} from "../../../../render/utility/fetchData";
 import {isSet} from "../../../../render/utility/checkSet";
 import {errorHandeler} from "../../../../render/utility/errorHandeler";
 // action
@@ -34,41 +34,41 @@ class SignUp extends Component {
         // active loading mod
         this.setState({isLoadingMod: true});
 
-        ajax({
-            name: 'submitSignUp',
-            url: api.signup(),
-            method: 'POST',
-            data: {
-                email: username,
-                password: password,
-                first_name: username.split('@')[0], // first section of user name
-            }
-        })
-        //--------------------------------------------------
-            .done((response) => {
-                // URL signup param (for google analytics)
-                // exp: '/faq' -> '/faq?siginup=true'
-                history.push({
-                    ...history.location,
-                    search: (history.search === "" || !isSet(history.search)) ? '?siginup=true' : history.search + '&siginup=true'
-                });
-
-                // close modal when launched from modal (Notify modal)
-                if (isSet(notify))
-                    notify.$modal.modal('hide');
-
-                // set token to localStorage if remember me checked and get user details
-                signingIn(response.token, true);
-            })
-            //--------------------------------------------------
-            .fail((xhr, textStatus, text) => {
-                if (text !== 'abort') {
-                    // remove loading mode
-                    this.setState({isLoadingMod: false});
-
-                    errorHandeler.e422(xhr);
-                }
-            });
+        // ajax({
+        //     name: 'submitSignUp',
+        //     url: api.signup(),
+        //     method: 'POST',
+        //     data: {
+        //         email: username,
+        //         password: password,
+        //         first_name: username.split('@')[0], // first section of user name
+        //     }
+        // })
+        // //--------------------------------------------------
+        //     .done((response) => {
+        //         // URL signup param (for google analytics)
+        //         // exp: '/faq' -> '/faq?siginup=true'
+        //         history.push({
+        //             ...history.location,
+        //             search: (history.search === "" || !isSet(history.search)) ? '?siginup=true' : history.search + '&siginup=true'
+        //         });
+        //
+        //         // close modal when launched from modal (Notify modal)
+        //         if (isSet(notify))
+        //             notify.$modal.modal('hide');
+        //
+        //         // set token to localStorage if remember me checked and get user details
+        //         signingIn(response.token, true);
+        //     })
+        //     //--------------------------------------------------
+        //     .fail((xhr, textStatus, text) => {
+        //         if (text !== 'abort') {
+        //             // remove loading mode
+        //             this.setState({isLoadingMod: false});
+        //
+        //             errorHandeler.e422(xhr);
+        //         }
+        //     });
     }
 
 

@@ -6,7 +6,7 @@ import als from "async-local-storage";
 
 
 
-export const fetchDataProvider = async function () {
+export const fetchProvider = async function () {
     // find mached routeMap item and define duct.match
     // route item is like this: { path: url.amazonSearch(), component: AmazonSearch, exact: true}
     const
@@ -35,23 +35,23 @@ export const fetchDataProvider = async function () {
     // set response status code
     // when routeMap item have status prop (default is 200)
     // it is useful for none 200 status page like error 404
-    // NOTICE: can change status in fetchData() by change duct.status
+    // NOTICE: can change status in fetch() by change duct.status
     if (selectedRoute.status)
         als.set('status', selectedRoute.status, true);
 
 
     // fetch data from server
-    if (selectedRoute.hasOwnProperty('component') && selectedRoute.component.hasOwnProperty('fetchData')) {
+    if (selectedRoute.hasOwnProperty('component') && selectedRoute.component.hasOwnProperty('fetch')) {
         const
-            fetchData = selectedRoute.component.fetchData,
+            fetch = selectedRoute.component.fetch,
             ftechParams = {
                 match: als.get('match'),
             };
 
-        await fetchData(ftechParams)
+        await fetch(ftechParams)
             .then(function (response) {
                 if (!response.hasOwnProperty('data') && !response.hasOwnProperty('status'))
-                    throw new Error('⛔ invalid fetchData() response. "data" and "status" is required in success responses. pleace check axios returns.\n')
+                    throw new Error('⛔ invalid fetch() response. "data" and "status" is required in success responses. pleace check axios returns.\n')
 
                 // insert api response status to server response
                 als.set('status', response.status, true);

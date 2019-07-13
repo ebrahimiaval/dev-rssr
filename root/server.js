@@ -1,7 +1,7 @@
 // action
-import {successfulResponse} from "./action/server/successfulResponse";
-import {errorResponse} from "./action/server/errorResponse";
-import {fetchDataProvider} from "./action/server/fetchDataProvider";
+import {successfulRes} from "./action/server/successfulRes";
+import {failedRes} from "./action/server/failedRes";
+import {fetchProvider} from "./action/server/fetchProvider";
 import als from "async-local-storage";
 
 
@@ -29,7 +29,7 @@ export default function serverRenderer() {
             //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
             als.set('query', req.query, true);
 
-            // response status. can chenge to routeMap item status or change in fetchData() and get fetch response status code
+            // response status. can chenge to routeMap item status or change in fetch() and get fetch response status code
             als.set('status', 200, true);
 
             // match object is equal with compoent match props posted by react-router-dom
@@ -44,12 +44,12 @@ export default function serverRenderer() {
             als.set('duct', null, true);
             //-------------------------------------------------------//
 
-            // selected routeMap item and call fetchData if exist
-            fetchDataProvider()
-                .then(() => successfulResponse())
-                .catch((error) => errorResponse(error, res, proccessTime));
+            // selected routeMap item and call fetch if exist
+            fetchProvider()
+                .then(() => successfulRes())
+                .catch((error) => failedRes(error, res, proccessTime));
         } catch (error) {
-            errorResponse(error, res, proccessTime);
+            failedRes(error, res, proccessTime);
         }
     };
 }
