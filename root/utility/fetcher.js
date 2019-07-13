@@ -11,21 +11,31 @@ import serialize from "serialize-javascript";
 
 export const fecher = (TheComponent) => {
     // --------- in Server ------------//
-    if (IS_SERVER)
-        return class FechProvider extends Component {
-            static fetch = TheComponent.fetch;
+    if (IS_SERVER) {
+        const Fecher = function (thisProps) {
+            // handle props base (redux base handeled with Redux)
+            const
+                als = require("async-local-storage"),
+                props = {...thisProps};
 
-            render() {
-                // handle props base (redux base handeled with Redux)
-                const duct = require("async-local-storage").get('duct');
+            if (als.get('isPropsBase') === true)
+                props.duct = als.get('duct');
 
-                return <TheComponent {...this.props} duct={duct} setFtechParams={() => ''}/>;
-            }
+            // props.setFtechParams = setFtechParams={() => ''}
+
+            return <TheComponent {...props} />;
         }
 
 
+        // get fetch() to can access to it in  server fetchProvider()
+        Fecher.fetch = TheComponent.fetch;
+
+        return Fecher;
+    }
+
+
     // --------- in client ------------//
-    return class FechProvider extends Component {
+    return class Fecher extends Component {
         constructor(props) {
             super(props);
 
@@ -34,10 +44,10 @@ export const fecher = (TheComponent) => {
                 match: this.props.match
             };
 
-            // update this.ftechParams
-            this.setFtechParams = (params) => {
-                this.ftechParams = {...this.ftechParams, ...params}
-            };
+            // // update this.ftechParams
+            // this.setFtechParams = (params) => {
+            //     this.ftechParams = {...this.ftechParams, ...params}
+            // };
 
             // select matched routeMap item to get redux state name
             this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
@@ -69,24 +79,18 @@ export const fecher = (TheComponent) => {
 
 
         // fetch data and insert to redux or duct
-        fetchingData() {
+        fetchProvider() {
             const withBase = this.isPropsBase ? 'Props' : 'Redux';
             this.logger(withBase, 'client');
 
-            TheComponent.fetch(this.ftechParams)
+            TheComponent
+                .fetch(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
                         this.setState({fetchedData: response.data});
                     else
                         setStore(this.stateName, response.data)
                 })
-            // .catch(function (error) {
-            //     if (error.response)
-            //         if (error.response.status === 404)
-            //             return duct.status = 404;
-            //
-            //     throw error;
-            // });
         }
 
 
@@ -120,13 +124,13 @@ export const fecher = (TheComponent) => {
                 // fetch data when state has default value and mean
                 // does not exist fetched data on server and need to fetch on client
                 if (serialize(defaultValue) === serialize(nowValue))
-                    this.fetchingData();
+                    this.fetchProvider();
                 else
                     this.logger('Redux', 'server');
 
             } else {
                 if (this.state.fetchedData === null)
-                    this.fetchingData();
+                    this.fetchProvider();
                 else
                     this.logger('Props', 'server');
 
@@ -136,7 +140,7 @@ export const fecher = (TheComponent) => {
 
 
         logger(withBase, onThe) {
-            console.log('fetch "' + this.ftechParams.match.url + '" as ' + withBase + ' base on the ' + onThe + '.');
+            console.log('fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + onThe + '.');
         }
 
 
@@ -151,7 +155,7 @@ export const fecher = (TheComponent) => {
                 this.resetDataHolder();
 
                 // get data of new route
-                this.fetchingData();
+                this.fetchProvider();
             }
         }
 
@@ -171,7 +175,15 @@ export const fecher = (TheComponent) => {
         render() {
             // in props base fetchedData contain null OR any data and in redux base is undefined
 
-            return <TheComponent {...this.props} duct={this.state.duct} setFtechParams={this.setFtechParams}/>;
+            const props = {
+                ...this.props,
+                // setFtechParams: this.setFtechParams
+            };
+
+            if (this.isPropsBase)
+                props.duct = this.state.duct;
+
+            return <TheComponent {...props} />;
         }
     }
 

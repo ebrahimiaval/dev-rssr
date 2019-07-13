@@ -14,15 +14,15 @@ import {axios} from "../../../root/utility/axios";
 
 
 class Home extends Component {
-    constructor(props, context) {
-        super(props, context);
-
-        this.data = this.props.duct;
-        if (this.data === null)
-            this.data = {
-                isLoading: true
-            }
-    }
+    // constructor(props, context) {
+    //     super(props, context);
+    //
+    //     this.data = this.props.duct;
+    //     if (this.data === null)
+    //         this.data = {
+    //             isLoading: true
+    //         }
+    // }
 
     static fetch() {
         return axios({
@@ -58,26 +58,27 @@ class Home extends Component {
 
     // static fetch = () => axios({url: api.posts});
 
-    shouldComponentUpdate(nextProps) {
-        this.data = nextProps.duct;
-        if (this.data === null) {
-
-            console.log('oooh!');
-
-            this.data = {
-                isLoading: true
-            }
-        }
-
-        return true;
-    }
+    // shouldComponentUpdate(nextProps) {
+    //     this.data = nextProps.duct;
+    //     if (this.data === null) {
+    //
+    //         console.log('oooh!');
+    //
+    //         this.data = {
+    //             isLoading: true
+    //         }
+    //     }
+    //
+    //     return true;
+    // }
 
     render() {
+        // if (!this.data)
+        //     return ' ';
 
-        if (!this.data)
-            return ' ';
+        const {duct} = this.props;
 
-        if (this.data.error)
+        if (duct.error)
             return this.data.message;
 
         return (
@@ -92,8 +93,8 @@ class Home extends Component {
 
                 <div className="row">
                     {
-                        (!this.data.isLoading) ? (
-                                this.data.map((item) => (
+                        (duct !== null) ? (
+                                duct.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">

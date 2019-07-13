@@ -69,7 +69,7 @@ export const axios = function (userConfig) {
         ...userConfig
     }
 
-    // handel authentiaction
+    // insert Authorization token
     config = tokenProvider(config);
 
     return axiosBase(config)
@@ -79,31 +79,36 @@ export const axios = function (userConfig) {
         .catch(function (error) {
             // handel error as response
             let response = {
-                error: true,
                 status: null,
-                code: error.code,
-                data: null
+                data: {
+                    error: true,
+                    code: error.code
+                }
             };
 
             if (error.response) {
-                response.data = error.response.data;
                 response.status = error.response.status;
+                response.data.data = error.response.data;
             }
             // handel request time out error
             else if (error.code === 'ECONNABORTED') {
-                response.data = error.message;
                 response.status = 504;
+                response.data.data = error.message;
             }
             // handel internet not found error
             else if (error.code === 'ENOTFOUND') {
-                response.data = error.message;
                 response.status = 502;
+                response.data.data = error.message;
             }
 
-            if (response.status !== null)
-                return response; // none-200 status (3**, 4**, 5**), request timeout and internet not found
-            else
-                throw error; // internal errors (like semantic errors) and other request errors (with out timeout)
+            if (response.status !== null) {
+                // none-200 status (3**, 4**, 5**), request timeout and internet not found
+                response.data.status = response.status;
+                return response;
+            } else {
+                // internal errors (like semantic errors) and other request errors (with out timeout)
+                throw error;
+            }
         });
 }
 

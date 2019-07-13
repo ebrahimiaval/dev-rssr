@@ -1,7 +1,7 @@
 // action
-import {successfulRes} from "./action/server/successfulRes";
-import {failedRes} from "./action/server/failedRes";
-import {fetchProvider} from "./action/server/fetchProvider";
+import {successfulRes} from "./action/successfulRes";
+import {failedRes} from "./action/failedRes";
+import {fetchProvider} from "./action/fetchProvider";
 import als from "async-local-storage";
 
 
@@ -34,6 +34,9 @@ export default function serverRenderer() {
 
             // match object is equal with compoent match props posted by react-router-dom
             als.set('match', {}, true);
+
+            // is true when fetch type is props base and is false when fetch type is Redux base
+            als.set('isPropsBase', null, true);
 
             // contain only updated state.
             // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client

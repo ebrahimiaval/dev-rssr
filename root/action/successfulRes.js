@@ -5,11 +5,11 @@ import {Helmet} from "react-helmet";
 import als from "async-local-storage";
 import {Provider} from "react-redux";
 // config
-import {createStore, defaultState} from "../../config/store";
+import {createStore, defaultState} from "../config/store";
 // component
-import App from "../../../src/App/App";
+import App from "../../src/App/App";
 // template
-import Index from "../../template/Index";
+import Index from "../template/Index";
 
 
 
