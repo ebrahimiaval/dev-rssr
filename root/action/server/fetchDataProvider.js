@@ -40,35 +40,35 @@ export const fetchDataProvider = async function () {
         als.set('status', selectedRoute.status, true);
 
 
-
-
-
     // fetch data from server
-    if (selectedRoute.hasOwnProperty('component'))
-        if (selectedRoute.component.hasOwnProperty('fetchData'))
-            await
-                selectedRoute
-                    .component
-                    .fetchData({})
-                    .then(function (response) {
-                        if (!response.hasOwnProperty('data') && !response.hasOwnProperty('status'))
-                            throw new Error('⛔ invalid fetchData() response. "data" and "status" is required in success responses. pleace check axios returns.\n')
+    if (selectedRoute.hasOwnProperty('component') && selectedRoute.component.hasOwnProperty('fetchData')) {
+        const
+            fetchData = selectedRoute.component.fetchData,
+            ftechParams = {
+                match: als.get('match'),
+            };
 
-                        // insert api response status to server response
-                        als.set('status', response.status, true);
+        await fetchData(ftechParams)
+            .then(function (response) {
+                if (!response.hasOwnProperty('data') && !response.hasOwnProperty('status'))
+                    throw new Error('⛔ invalid fetchData() response. "data" and "status" is required in success responses. pleace check axios returns.\n')
 
-                        /** Redux Base **/
-                        if (selectedRoute.redux) {
-                            // contain only updated state.
-                            // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client
-                            // and merge with defaultState of redux to creare store on the server
-                            const updatedState = {[selectedRoute.redux]: response.data};
-                            als.set('updatedState', updatedState, true);
-                        }
-                        /** Props Base **/
-                        else {
-                            // value of RSSR_DUCT in index template
-                            als.set('duct', response.data, true);
-                        }
-                    }); // catch() will be handel on the server.js with errorResponse()
+                // insert api response status to server response
+                als.set('status', response.status, true);
+
+                /** Redux Base **/
+                if (selectedRoute.redux) {
+                    // contain only updated state.
+                    // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client
+                    // and merge with defaultState of redux to creare store on the server
+                    const updatedState = {[selectedRoute.redux]: response.data};
+                    als.set('updatedState', updatedState, true);
+                }
+                /** Props Base **/
+                else {
+                    // value of RSSR_DUCT in index template
+                    als.set('duct', response.data, true);
+                }
+            }); // catch() will be handel on the server.js with errorResponse()
+    }
 }

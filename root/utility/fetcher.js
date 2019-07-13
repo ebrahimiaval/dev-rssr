@@ -76,7 +76,7 @@ export const fecher = (TheComponent) => {
             TheComponent.fetchData(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
-                        this.setState({duct: response.data});
+                        this.setState({fetchedData: response.data});
                     else
                         setStore(this.stateName, response.data)
                 })
@@ -101,7 +101,7 @@ export const fecher = (TheComponent) => {
                 const defaultValue = defaultState[this.stateName];
                 setStore(this.stateName, defaultValue);
             } else {
-                this.setState({duct: null});
+                this.setState({fetchedData: null});
             }
         }
 
@@ -125,7 +125,7 @@ export const fecher = (TheComponent) => {
                     this.logger('Redux', 'server');
 
             } else {
-                if (this.state.duct === null)
+                if (this.state.fetchedData === null)
                     this.fetchingData();
                 else
                     this.logger('Props', 'server');
@@ -169,9 +169,9 @@ export const fecher = (TheComponent) => {
 
 
         render() {
-            // in props base duct contain null OR any data and in redux base is undefined
+            // in props base fetchedData contain null OR any data and in redux base is undefined
 
-            return <TheComponent {...this.props} duct={this.state.duct} setFtechParams={this.setFtechParams}/>;
+            return <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>;
         }
     }
 
