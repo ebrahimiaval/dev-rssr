@@ -2,7 +2,7 @@
  * error handler
  * log errors in console
  */
-export const errorLogger = (title, proccessTimeStart, error) => {
+export const errorLogger = (title, proccessTime, error) => {
     let errorMessage, type;
     // = (typeof error.response !== 'undefined') ?  : error
     if (error.response) {
@@ -19,6 +19,6 @@ export const errorLogger = (title, proccessTimeStart, error) => {
         type = "public error";
     }
 
-    console.log(`${type} in ${title} at ${Date.now() - proccessTimeStart} ms.\n`, errorMessage);
+    console.log(`${type} in ${title} at ${Date.now() - proccessTime} ms.\n`, errorMessage);
 }
 

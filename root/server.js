@@ -14,23 +14,19 @@ export default function serverRenderer() {
         als.scope();
 
         // start proccess timer
-        const proccessTimeStart = Date.now();
-
-        console.log('-------------');
-        console.log(req.url);
-        console.log('-------------');
+        const proccessTime = Date.now();
 
         try {
             //-------------- current request params -----------------//
             als.set('res', res, true);
 
-            //exp: reqPath is '/post/1' in 'http://www.site.com/post/1?foo=bar'
+            //exp: '/post/1' in 'http://www.site.com/post/1?foo=bar'
             als.set('reqPath', req.path, true);
 
-            //exp: reqUrl is '/post/1?foo=bar' in 'http://www.site.com/post/1?foo=bar'
+            //exp: '/post/1?foo=bar' in 'http://www.site.com/post/1?foo=bar'
             als.set('reqUrl', req.url, true);
 
-            //exp: query is {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+            //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
             als.set('query', req.query, true);
 
             // response status. can chenge to routeMap item status or change in fetchData() and get fetch response status code
@@ -39,19 +35,21 @@ export default function serverRenderer() {
             // match object is equal with compoent match props posted by react-router-dom
             als.set('match', {}, true);
 
-            // for more informaion see fetchDataProvider().
+            // contain only updated state.
+            // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client
+            // and merge with defaultState of redux to creare store on the server
             als.set('updatedState', {}, true);
 
-            // value of RSSR_UPDATED_REDUX_STATES in index template
-            als.set('fetchedData', null, true);
+            // value of RSSR_DUCT in index template (channel for passing data to client from server)
+            als.set('duct', null, true);
             //-------------------------------------------------------//
 
             // selected routeMap item and call fetchData if exist
             fetchDataProvider()
                 .then(() => successfulResponse())
-                .catch((error) => errorResponse(error, res, proccessTimeStart));
+                .catch((error) => errorResponse(error, res, proccessTime));
         } catch (error) {
-            errorResponse(error, res, proccessTimeStart);
+            errorResponse(error, res, proccessTime);
         }
     };
 }

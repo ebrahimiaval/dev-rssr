@@ -17,9 +17,9 @@ export const fecher = (TheComponent) => {
 
             render() {
                 // handle props base (redux base handeled with Redux)
-                const fetchedData = require("async-local-storage").get('fetchedData');
+                const duct = require("async-local-storage").get('duct');
 
-                return <TheComponent {...this.props} fetchedData={fetchedData} setFtechParams={() => ''}/>;
+                return <TheComponent {...this.props} duct={duct} setFtechParams={() => ''}/>;
             }
         }
 
@@ -44,21 +44,21 @@ export const fecher = (TheComponent) => {
 
             // in each time fetch can stand of Redux base OR Props Base
             // in Redux base fetched data pased from redux store states
-            // and in props base pass from fetchedData prop
+            // and in props base pass from duct prop
             this.isReduxBase = isSet(this.stateName);
             this.isPropsBase = !this.isReduxBase;//to improve UX
 
 
             if (this.isPropsBase) {
-                // create state to can update fetchedData prop in route update in props base
-                // state.fetchedData { null || any}
+                // create state to can update duct prop in route update in props base
+                // state.duct { null || any}
                 // if server fetch successfully {any}
                 // and when server can not fetch data or does not SSR (SPA) is {null}
                 this.state = {
-                    fetchedData: isSet(window.RSSR_FETCHED_DATA) ? window.RSSR_FETCHED_DATA : null
+                    duct: isSet(window.RSSR_DUCT) ? window.RSSR_DUCT : null
                 }
                 // Improvement RAM usage and fix SPA load conflict
-                delete window.RSSR_FETCHED_DATA;
+                delete window.RSSR_DUCT;
             }
 
             this.firstFetch();
@@ -68,7 +68,7 @@ export const fecher = (TheComponent) => {
 
 
 
-        // fetch data and insert to redux or fetchedData
+        // fetch data and insert to redux or duct
         fetchingData() {
             const withBase = this.isPropsBase ? 'Props' : 'Redux';
             this.logger(withBase, 'client');
@@ -76,7 +76,7 @@ export const fecher = (TheComponent) => {
             TheComponent.fetchData(this.ftechParams)
                 .then((response) => {
                     if (this.isPropsBase)
-                        this.setState({fetchedData: response.data});
+                        this.setState({duct: response.data});
                     else
                         setStore(this.stateName, response.data)
                 })
@@ -101,7 +101,7 @@ export const fecher = (TheComponent) => {
                 const defaultValue = defaultState[this.stateName];
                 setStore(this.stateName, defaultValue);
             } else {
-                this.setState({fetchedData: null});
+                this.setState({duct: null});
             }
         }
 
@@ -125,7 +125,7 @@ export const fecher = (TheComponent) => {
                     this.logger('Redux', 'server');
 
             } else {
-                if (this.state.fetchedData === null)
+                if (this.state.duct === null)
                     this.fetchingData();
                 else
                     this.logger('Props', 'server');
@@ -169,9 +169,9 @@ export const fecher = (TheComponent) => {
 
 
         render() {
-            // in props base fetchedData contain null OR any data and in redux base is undefined
+            // in props base duct contain null OR any data and in redux base is undefined
 
-            return <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>;
+            return <TheComponent {...this.props} duct={this.state.duct} setFtechParams={this.setFtechParams}/>;
         }
     }
 

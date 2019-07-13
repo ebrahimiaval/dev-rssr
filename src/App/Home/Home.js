@@ -17,7 +17,7 @@ class Home extends Component {
     constructor(props, context) {
         super(props, context);
 
-        this.data = this.props.fetchedData;
+        this.data = this.props.duct;
         if (this.data === null)
             this.data = {
                 isLoading: true
@@ -59,7 +59,7 @@ class Home extends Component {
     // static fetchData = () => axios({url: api.posts});
 
     shouldComponentUpdate(nextProps) {
-        this.data = nextProps.fetchedData;
+        this.data = nextProps.duct;
         if (this.data === null) {
 
             console.log('oooh!');

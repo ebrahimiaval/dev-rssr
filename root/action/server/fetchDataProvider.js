@@ -67,8 +67,8 @@ export const fetchDataProvider = async function () {
                         }
                         /** Props Base **/
                         else {
-                            // value of RSSR_FETCHED_DATA in index template
-                            als.set('fetchedData', response.data, true);
+                            // value of RSSR_DUCT in index template
+                            als.set('duct', response.data, true);
                         }
                     }); // catch() will be handel on the server.js with errorResponse()
 }

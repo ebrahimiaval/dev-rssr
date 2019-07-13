@@ -26,8 +26,8 @@ const renderErrorTemplate = function (error) {
 
 
 
-export const errorResponse = function (error, res, proccessTimeStart) {
-    errorLogger('server.js', proccessTimeStart, error);
+export const errorResponse = function (error, res, proccessTime) {
+    errorLogger('server.js', proccessTime, error);
 
 
 

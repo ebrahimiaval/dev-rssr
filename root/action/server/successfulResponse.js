@@ -20,7 +20,7 @@ const renderIndexTemplate = function (renderedApp, updatedState) {
         props = {
             renderedApp: renderedApp,
             updatedState: updatedState,
-            fetchedData: als.get('fetchedData'),
+            duct: als.get('duct'),
             helmet: Helmet.renderStatic()
         };
     let template = <Index {...props}/>;

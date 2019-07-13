@@ -4,13 +4,13 @@ import serialize from "serialize-javascript";
 
 export default function (props) {
     const
-        {helmet, renderedApp, updatedState, fetchedData} = props,
+        {helmet, renderedApp, updatedState, duct} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent();
 
     // transfer setched data to client
     let dataHolder = `
-        RSSR_FETCHED_DATA = ${serialize(fetchedData)};
+        RSSR_DUCT = ${serialize(duct)};
         RSSR_UPDATED_REDUX_STATES = ${serialize(updatedState)};
     `;
 
