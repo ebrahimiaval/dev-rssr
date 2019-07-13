@@ -171,7 +171,7 @@ export const fecher = (TheComponent) => {
         render() {
             // in props base fetchedData contain null OR any data and in redux base is undefined
 
-            return <TheComponent {...this.props} fetchedData={this.state.fetchedData} setFtechParams={this.setFtechParams}/>;
+            return <TheComponent {...this.props} duct={this.state.duct} setFtechParams={this.setFtechParams}/>;
         }
     }
 
