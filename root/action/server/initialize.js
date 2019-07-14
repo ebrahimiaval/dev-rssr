@@ -6,10 +6,10 @@ import {DUCT_DEFAULT_VALUE} from "../../config/constant";
 
 // define public structur and varibales
 export const initialize = function (req) {
-    /** matchedRouteMapItem & match **/
-        //
-        // match object is equal with compoent match props posted by react-router-dom
-        // exp: match object of www.site.com/post/1
+    /** match **/
+        // IS CONSTATN
+        // match is match object of react-router-dom
+        // match of "site.com/post/1" is:
         //      {
         //          path: '/post/:postId',
         //          url: '/post/1',
@@ -39,7 +39,7 @@ export const initialize = function (req) {
 
 
 
-    // calculate values
+    // calculate parameters
     const
         hasFetch = matchedRouteMapItem.hasOwnProperty('component') && matchedRouteMapItem.component.hasOwnProperty('fetch'),
         fetch = hasFetch ? matchedRouteMapItem.component.fetch : undefined,
@@ -53,6 +53,7 @@ export const initialize = function (req) {
 
 
     /** status **/
+    // IS VARIABLE
     // response status code
     // status get value from sevral places
     // NOTICE: when occur <Redirect> status is 301 literal value
@@ -60,8 +61,7 @@ export const initialize = function (req) {
     //   SUCCESSFUL (render index template successfully)
     //          first --> 200 literal value ad default value
     //          second -> get status prop of matchedRouteMapItem (item of routeMap)
-    //          third --> get API fetch reponse status in fetchProvider() of server
-    //          third --> get API fetch reponse status in fetchProvider() of server
+    //          third --> if fetchType is not 'WITH_OUT_FETCH' then get API fetch reponse status in fetchProvider() of server
     //          fourth -> 500 literal value when als.get('status') is undefined ( defined in final send response place - res.status())
     //
     //   ERROR (occur an error in make response process)
@@ -73,6 +73,7 @@ export const initialize = function (req) {
 
 
     /** fetch **/
+    // IS CONSTATN
     // fetch() of component of matched route item
     // when component has not fetch() then fetch is undefined
     als.set('fetch', fetch, true);
@@ -82,6 +83,7 @@ export const initialize = function (req) {
 
 
     /** fetchType **/
+    // IS CONSTATN
     // when component of matched route map item has not fetch() then fetchType is 'withOutFetch'
     // and when it has then is 'reduxBase' if matched route map item has 'redux' prop and else is 'propBase'
     als.set('fetchType', fetchType, true);
@@ -94,10 +96,12 @@ export const initialize = function (req) {
     switch (fetchType) {
         case "PROP_BASE":
             /** stateName **/
+            // IS CONSTATN
             // stateName is name of redux state and define when fetch type is
             als.set('stateName', stateName, true);
 
             /** updatedState **/
+            // IS VARIABLE
             // contain only updated state.
             // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template to pass data to the client for syncing reduxes
             // and merge with defaultState of redux to creare store on the server
@@ -107,6 +111,7 @@ export const initialize = function (req) {
 
         case "REDUX_BASE":
             /** duct **/
+            // IS VARIABLE
             // value of RSSR_DUCT in index template (channel for passing data to client from server)
             als.set('duct', DUCT_DEFAULT_VALUE, true);
 

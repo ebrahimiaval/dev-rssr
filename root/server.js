@@ -18,7 +18,7 @@ export default function serverRenderer() {
         const proccessTime = Date.now();
 
         try {
-            // define public structur and varibales
+            // define needable structur and varibales
             initialize(req);
 
             // selected routeMap item and call fetch if exist
