@@ -29,12 +29,12 @@
   },
   "rules": {
     "array-callback-return": "warn",
-    "default-case": [
-      "warn",
-      {
-        "commentPattern": "^no default$"
-      }
-    ],
+//    "default-case": [
+//      "warn",
+//      {
+//        "commentPattern": "^no default$"
+//      }
+//    ],
     "dot-location": [
       "warn",
       "property"

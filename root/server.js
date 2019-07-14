@@ -1,7 +1,7 @@
 import als from "async-local-storage";
 // action
-import {successfulRes} from "./action/server/successfulRes";
-import {failedRes} from "./action/server/failedRes";
+import {render} from "./action/server/render";
+import {failedRequest} from "./action/server/failedRequest";
 import {fetchProvider} from "./action/server/fetchProvider";
 import {initialize} from "./action/server/initialize";
 
@@ -18,15 +18,15 @@ export default function serverRenderer() {
         const proccessTime = Date.now();
 
         try {
-            // define needable structur and varibales
+            // define basic parameters
             initialize(req);
 
-            // selected routeMap item and call fetch if exist
+            // call fetch() of component and get data
             fetchProvider(req)
-                .then(() => successfulRes(req, res))
-                .catch((error) => failedRes(error, res, proccessTime));
+                .then(() => render(req, res))
+                .catch((error) => failedRequest(error, res, proccessTime));
         } catch (error) {
-            failedRes(error, res, proccessTime);
+            failedRequest(error, res, proccessTime);
         }
     };
 }

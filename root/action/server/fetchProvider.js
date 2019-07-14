@@ -1,20 +1,33 @@
 import als from "async-local-storage";
-import {isSet} from "../../utility/checkSet";
 
 
 // fetch data from server
 export const fetchProvider = async function (req) {
-    // fetch() of component of matched route item
-    const fetch = als.get('fetch');
+    const fetchType = als.get('fetchType');
 
     // when component has not fetch() then fetch is undefined
-    if (isSet(fetch))
+    if (fetchType === 'WITH_OUT_FETCH')
         return true;
 
+
     const
+        // fetch() of component of matched route item
+        fetch = als.get('fetch'),
+
+        // pass to fetch() as params
         ftechParams = {
+            // match is match object of react-router-dom
+            // match of "site.com/post/1" is:
+            //     {
+            //         path: '/post/:postId',
+            //         url: '/post/1',
+            //         isExact: true,
+            //         params: {postId: '1'}
+            //      }
             match: als.get('match'),
-            query: req.query //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+
+            //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
+            query: req.query
         };
 
     await
@@ -35,18 +48,20 @@ export const fetchProvider = async function (req) {
                 // set server response status code
                 als.set('status', response.status, true);
 
-                const isPropBase = als.get('fetchType') === 'PROP_BASE';
-
-                if (isPropBase) {
-                    /** Props Base **/
+                /** Props Base **/
+                if (fetchType === 'PROP_BASE') {
                     // value of RSSR_DUCT in index template
                     als.set('duct', response.data, true);
-                } else {
-                    /** Redux Base **/
-                    const updatedState = {[stateName]: response.data};
-                    // contain only updated state.
-                    // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template on the client
-                    // and merge with defaultState of redux to creare store on the server
+                }
+                /** Redux Base **/
+                else {
+                    const
+                        stateName = als.get('stateName'),
+                        updatedState = {[stateName]: response.data};
+
+                    // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template
+                    // to pass data to the client for syncing reduxes and merge with defaultState
+                    // of redux to creare store on the server
                     als.set('updatedState', updatedState, true);
                 }
             });

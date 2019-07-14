@@ -2,7 +2,8 @@ import als from "async-local-storage";
 import {routeMap} from "../../config/routeMap";
 import {matchPath} from "react-router-dom";
 import {isNotSet, isSet} from "../../utility/checkSet";
-import {DUCT_DEFAULT_VALUE} from "../../config/constant";
+
+
 
 // define public structur and varibales
 export const initialize = function (req) {
@@ -10,12 +11,12 @@ export const initialize = function (req) {
         // IS CONSTATN
         // match is match object of react-router-dom
         // match of "site.com/post/1" is:
-        //      {
-        //          path: '/post/:postId',
-        //          url: '/post/1',
-        //          isExact: true,
-        //          params: {postId: '1'}
-        //       }
+        //     {
+        //         path: '/post/:postId',
+        //         url: '/post/1',
+        //         isExact: true,
+        //         params: {postId: '1'}
+        //      }
     const matchedRouteMapItem = routeMap.find(route => {
             // 'null' for not matched
             // 'match object' for matched
@@ -45,8 +46,7 @@ export const initialize = function (req) {
         fetch = hasFetch ? matchedRouteMapItem.component.fetch : undefined,
         stateName = matchedRouteMapItem.redux,
         fetchType = isSet(fetch) ? (isNotSet(stateName) ? 'PROP_BASE' : 'REDUX_BASE') : 'WITH_OUT_FETCH',
-        hasStatus = isSet(matchedRouteMapItem.status),
-        status = hasStatus ? matchedRouteMapItem.status : 200
+        status = isSet(matchedRouteMapItem.status) ? matchedRouteMapItem.status : 200
 
 
 
@@ -59,8 +59,8 @@ export const initialize = function (req) {
     // NOTICE: when occur <Redirect> status is 301 literal value
     //
     //   SUCCESSFUL (render index template successfully)
-    //          first --> 200 literal value ad default value
-    //          second -> get status prop of matchedRouteMapItem (item of routeMap)
+    //          first --> get status prop of matchedRouteMapItem if exist (item of routeMap)
+    //          second -> if matchedRouteMapItem has not status get 200 literal value (default value)
     //          third --> if fetchType is not 'WITH_OUT_FETCH' then get API fetch reponse status in fetchProvider() of server
     //          fourth -> 500 literal value when als.get('status') is undefined ( defined in final send response place - res.status())
     //
@@ -92,32 +92,9 @@ export const initialize = function (req) {
 
 
 
-    // set parameters of each fetch type
-    switch (fetchType) {
-        case "PROP_BASE":
-            /** stateName **/
-            // IS CONSTATN
-            // stateName is name of redux state and define when fetch type is
-            als.set('stateName', stateName, true);
-
-            /** updatedState **/
-            // IS VARIABLE
-            // contain only updated state.
-            // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template to pass data to the client for syncing reduxes
-            // and merge with defaultState of redux to creare store on the server
-            als.set('updatedState', {}, true);
-
-            break;
-
-        case "REDUX_BASE":
-            /** duct **/
-            // IS VARIABLE
-            // value of RSSR_DUCT in index template (channel for passing data to client from server)
-            als.set('duct', DUCT_DEFAULT_VALUE, true);
-
-            break;
-
-        default:
-        /* config of 'WITH_OUT_FETCH' fetch type*/
-    }
+    /** stateName **/
+    // IS CONSTATN
+    // stateName is name of redux state and define when fetch type is
+    if (fetchType === 'REDUX_BASE')
+        als.set('stateName', stateName, true);
 }
