@@ -18,3 +18,6 @@ export const IS_SERVER = !IS_BROWSER;
  *     API_HOST_IN_SERVER = 192.168.2.1
  */
 export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.env.API_HOST_IN_SERVER;
+
+
+export const DUCT_DEFAULT_VALUE = {isLoading: true};

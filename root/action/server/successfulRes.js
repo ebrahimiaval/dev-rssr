@@ -5,11 +5,11 @@ import {Helmet} from "react-helmet";
 import als from "async-local-storage";
 import {Provider} from "react-redux";
 // config
-import {createStore, defaultState} from "../config/store";
+import {createStore, defaultState} from "../../config/store";
 // component
-import App from "../../src/App/App";
+import App from "../../../src/App/App";
 // template
-import Index from "../template/Index";
+import Index from "../../template";
 
 
 
@@ -36,18 +36,16 @@ const renderIndexTemplate = function (renderedApp, updatedState) {
 
 
 
-export const successfulRes = function () {
+export const successfulRes = function (req, res) {
     const
-        res = als.get('res'),
-        reqUrl = als.get('reqUrl'),
-        status = als.get('status') || 500,
+        status = als.get('status'),
         updatedState = als.get('updatedState'),
         //
         context = {},
         store = createStore({...defaultState, ...updatedState}),
         app = (
             <Provider store={store}>
-                <StaticRouter location={reqUrl} context={context}>
+                <StaticRouter location={req.url} context={context}>
                     <App/>
                 </StaticRouter>
             </Provider>
@@ -55,12 +53,11 @@ export const successfulRes = function () {
         renderedApp = ReactDOMServer.renderToString(app);
 
 
-
     if (context.url) {
         // when <Redirect> rendered
         res.redirect(301, context.url);
     } else {
         // usual app render
-        res.status(status).send(renderIndexTemplate(renderedApp, updatedState));
+        res.status(status || 500).send(renderIndexTemplate(renderedApp, updatedState));
     }
 }

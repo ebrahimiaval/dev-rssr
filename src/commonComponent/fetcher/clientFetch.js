@@ -1,41 +1,24 @@
 import React, {Component} from 'react';
-import {defaultState} from "../config/store";
-import {getStore, setStore} from "trim-redux";
-import {routeMap} from "../config/routeMap";
+import {routeMap} from "../../../root/config/routeMap";
 import {matchPath} from "react-router-dom";
-import {IS_SERVER} from "../config/constant";
-import {isSet} from "./checkSet";
+import {isSet} from "../../../root/utility/checkSet";
+import {getStore, setStore} from "trim-redux";
+import {defaultState} from "../../../root/config/store";
 import serialize from "serialize-javascript";
 
 
-
-export const fecher = (TheComponent) => {
-    // --------- in Server ------------//
-    if (IS_SERVER) {
-        const Fecher = function (thisProps) {
-            // handle props base (redux base handeled with Redux)
-            const
-                als = require("async-local-storage"),
-                props = {...thisProps};
-
-            if (als.get('isPropsBase') === true)
-                props.duct = als.get('duct');
-
-            // props.setFtechParams = setFtechParams={() => ''}
-
-            return <TheComponent {...props} />;
-        }
-
-
-        // get fetch() to can access to it in  server fetchProvider()
-        Fecher.fetch = TheComponent.fetch;
-
-        return Fecher;
-    }
-
-
-    // --------- in client ------------//
-    return class Fecher extends Component {
+/**
+ *  provider Fetcher HOC of client side
+ *
+ * Fetcher is a HOC and wrap 'TheComponent'
+ * to can handel fetching data actions of 'TheComponent'.
+ * Fetcher in client contian all fetch actions.
+ *
+ * @param TheComponent : React Compoentn
+ * @returns {Fecher} : Fetcher HOC of client side
+ */
+export const clientFetcherHocProvider = function (TheComponent) {
+    class Fecher extends Component {
         constructor(props) {
             super(props);
 
@@ -56,10 +39,10 @@ export const fecher = (TheComponent) => {
             // in Redux base fetched data pased from redux store states
             // and in props base pass from duct prop
             this.isReduxBase = isSet(this.stateName);
-            this.isPropsBase = !this.isReduxBase;//to improve UX
+            this.isPropBase = !this.isReduxBase;//to improve UX
 
 
-            if (this.isPropsBase) {
+            if (this.isPropBase) {
                 // create state to can update duct prop in route update in props base
                 // state.duct { null || any}
                 // if server fetch successfully {any}
@@ -80,13 +63,13 @@ export const fecher = (TheComponent) => {
 
         // fetch data and insert to redux or duct
         fetchProvider() {
-            const withBase = this.isPropsBase ? 'Props' : 'Redux';
+            const withBase = this.isPropBase ? 'Props' : 'Redux';
             this.logger(withBase, 'client');
 
             TheComponent
                 .fetch(this.ftechParams)
                 .then((response) => {
-                    if (this.isPropsBase)
+                    if (this.isPropBase)
                         this.setState({fetchedData: response.data});
                     else
                         setStore(this.stateName, response.data)
@@ -180,12 +163,12 @@ export const fecher = (TheComponent) => {
                 // setFtechParams: this.setFtechParams
             };
 
-            if (this.isPropsBase)
+            if (this.isPropBase)
                 props.duct = this.state.duct;
 
             return <TheComponent {...props} />;
         }
     }
 
-
+    return Fecher;
 }

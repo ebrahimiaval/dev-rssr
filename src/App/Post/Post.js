@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet";
 import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 import Link from "react-router-dom/es/Link";
-import {fecher} from "../../../root/utility/fetcher";
+import {fecher} from "../../../root/action/fetch/fetcher";
 import {axios} from "../../../root/utility/axios";
 
 

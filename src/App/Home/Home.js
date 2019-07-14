@@ -6,7 +6,7 @@ import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
-import {fecher} from "../../../root/utility/fetcher";
+import {fecher} from "../../../root/action/fetch/fetcher";
 import {axios} from "../../../root/utility/axios";
 
 
