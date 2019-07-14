@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {routeMap} from "../../../root/config/routeMap";
-import {matchPath} from "react-router-dom";
 import {isSet} from "../../../root/utility/checkSet";
-import {getStore, setStore} from "trim-redux";
+import {connect, setStore} from "trim-redux";
 import {defaultState} from "../../../root/config/store";
-import serialize from "serialize-javascript";
+import {clientQueryString} from "../../../root/utility/clientQueryString";
+import {DUCT_DEFAULT_VALUE} from "../../../root/config/constant";
 
 
 /**
@@ -22,39 +21,41 @@ export const clientFetcher = function (TheComponent) {
         constructor(props) {
             super(props);
 
-            // params of fetch(params) on the client
+            // params passed to fetch() on the client
             this.ftechParams = {
-                match: this.props.match
+                match: this.props.match,
+                query: clientQueryString()
             };
-
-            // // update this.ftechParams
-            // this.setFtechParams = (params) => {
-            //     this.ftechParams = {...this.ftechParams, ...params}
-            // };
-
-            // select matched routeMap item to get redux state name
-            this.stateName = routeMap.find(route => matchPath(window.location.pathname, route)).redux;
-
-            // in each time fetch can stand of Redux base OR Props Base
-            // in Redux base fetched data pased from redux store states
-            // and in props base pass from duct prop
+            this.stateName = TheComponent.redux;
             this.isReduxBase = isSet(this.stateName);
-            this.isPropBase = !this.isReduxBase;//to improve UX
+            this.isPropBase = !this.isReduxBase;
 
+            let dataExist;
 
+            /** Prop Base **/
             if (this.isPropBase) {
-                // create state to can update duct prop in route update in props base
-                // state.duct { null || any}
-                // if server fetch successfully {any}
-                // and when server can not fetch data or does not SSR (SPA) is {null}
+                dataExist = isSet(window.RSSR_DUCT);
+
                 this.state = {
-                    duct: isSet(window.RSSR_DUCT) ? window.RSSR_DUCT : null
+                    duct: dataExist ? window.RSSR_DUCT : DUCT_DEFAULT_VALUE
                 }
-                // Improvement RAM usage and fix SPA load conflict
-                delete window.RSSR_DUCT;
+
+                if (dataExist)
+                    delete window.RSSR_DUCT;
             }
 
-            this.firstFetch();
+            /** Redux Base **/
+            else {
+                dataExist = isSet(window.RSSR_UPDATED_REDUX_STATES);
+
+                if (dataExist)
+                    delete window.RSSR_UPDATED_REDUX_STATES;
+            }
+
+            if (!dataExist)
+                this.fetchProvider();
+            else
+                this.logger('server');
         }
 
 
@@ -63,8 +64,8 @@ export const clientFetcher = function (TheComponent) {
 
         // fetch data and insert to redux or duct
         fetchProvider() {
-            const withBase = this.isPropBase ? 'Props' : 'Redux';
-            this.logger(withBase, 'client');
+
+            this.logger('client');
 
             TheComponent
                 .fetch(this.ftechParams)
@@ -96,35 +97,13 @@ export const clientFetcher = function (TheComponent) {
 
 
 
-        // handel fetch data in first load (component mounting)
-        // just when value of state is not default value
-        firstFetch() {
-            if (this.isReduxBase) {
-                const
-                    defaultValue = defaultState[this.stateName],
-                    nowValue = getStore(this.stateName);
-
-                // fetch data when state has default value and mean
-                // does not exist fetched data on server and need to fetch on client
-                if (serialize(defaultValue) === serialize(nowValue))
-                    this.fetchProvider();
-                else
-                    this.logger('Redux', 'server');
-
-            } else {
-                if (this.state.fetchedData === null)
-                    this.fetchProvider();
-                else
-                    this.logger('Props', 'server');
-
-            }
-        }
-
-
-
-        logger(withBase, onThe) {
+        logger(onThe) {
+            const withBase = this.isPropBase ? 'Props' : 'Redux';
             console.log('fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + onThe + '.');
         }
+
+
+
 
 
         componentDidUpdate(prevProps) {
@@ -163,10 +142,17 @@ export const clientFetcher = function (TheComponent) {
                 // setFtechParams: this.setFtechParams
             };
 
-            if (this.isPropBase)
+            if (this.isPropBase){
                 props.duct = this.state.duct;
+            }
+            else {
+                const mstp = state => ({
+                    [this.stateName]: state[this.stateName]
+                });
+                TheComponent = connect(mstp)(TheComponent);
+            }
 
-            return <TheComponent {...props} />;
+            return <TheComponent {...props}/>;
         }
     }
 

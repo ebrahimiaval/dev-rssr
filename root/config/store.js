@@ -79,8 +79,5 @@ export const clientCreateStore = function () {
         ...window.RSSR_UPDATED_REDUX_STATES
     };
 
-    // Improvement RAM usage
-    delete window.RSSR_UPDATED_REDUX_STATES;
-
     return createStore(states);
 }

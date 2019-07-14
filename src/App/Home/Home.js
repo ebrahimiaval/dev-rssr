@@ -50,9 +50,8 @@ class Home extends Component {
 
 
     render() {
-        const {duct, home} = this.props;
-
-        const data = home;
+        // const data = this.props.duct;
+        const data = this.props.home;
 
         return (
             <div id="hme" className="container">

@@ -45,7 +45,9 @@ export const serverFetcher = function (TheComponent) {
                 return <DefaultErrors data={data}/>
 
             // connect TheComponent to redux
-            const mstp = s => ({[stateName]: s[stateName]});
+            const mstp = state => ({
+                [stateName]: state[stateName]
+            });
             TheComponent = connect(mstp)(TheComponent);
         }
 
