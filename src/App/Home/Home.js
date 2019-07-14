@@ -6,44 +6,37 @@ import {api} from "../../../root/config/api";
 import {route} from "../../../root/config/route";
 // style
 import "./home.scss";
-import {fecher} from "../../../root/action/fetch/fetcher";
 import {axios} from "../../../root/utility/axios";
+import {fecher} from "../../commonComponent/fetcher/fetcher";
 
 
 
 
 
 class Home extends Component {
-    // constructor(props, context) {
-    //     super(props, context);
-    //
-    //     this.data = this.props.duct;
-    //     if (this.data === null)
-    //         this.data = {
-    //             isLoading: true
-    //         }
-    // }
 
+    static redux = 'home';
     static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
-            // url: api.s200_posts + '?mocky-delay=50ms'
-            url: api.posts,
+            // url: api.s404 + '?mocky-delay=50ms',
+            url: api.s200_posts + '?mocky-delay=50ms',
+            // url: api.posts,
             // token: true,
             // token: '',
             token: [''],
             // headers: {sample: '---sample---'},
             // baseURL: false,
         })
-            // .then((response) => {
-            //     // var x = '';
-            //     // x = x.map(() => '');
-            //     // console.log(x);
-            //
-            //     return response;
-            //
-            //     // storeState.home = response.data;
-            // })
+        // .then((response) => {
+        //     // var x = '';
+        //     // x = x.map(() => '');
+        //     // console.log(x);
+        //
+        //     return response;
+        //
+        //     // storeState.home = response.data;
+        // })
         // .catch(function (error) {
         //     if (error.response)
         //         if (error.response.status === 504) {
@@ -56,30 +49,10 @@ class Home extends Component {
     }
 
 
-    // static fetch = () => axios({url: api.posts});
-
-    // shouldComponentUpdate(nextProps) {
-    //     this.data = nextProps.duct;
-    //     if (this.data === null) {
-    //
-    //         console.log('oooh!');
-    //
-    //         this.data = {
-    //             isLoading: true
-    //         }
-    //     }
-    //
-    //     return true;
-    // }
-
     render() {
-        // if (!this.data)
-        //     return ' ';
+        const {duct, home} = this.props;
 
-        const {duct} = this.props;
-
-        if (duct.error)
-            return this.data.message;
+        const data = home;
 
         return (
             <div id="hme" className="container">
@@ -93,8 +66,16 @@ class Home extends Component {
 
                 <div className="row">
                     {
-                        (duct !== null) ? (
-                                duct.map((item) => (
+                        (data.isLoading) ?
+                            (
+                                <div className="col-12 text-center">
+                                    <img src="/asset/img/loading.gif" alt="loading"/>
+                                    <div> در حال بار گذاری مطالب</div>
+                                </div>
+                            )
+                            :
+                            (
+                                data.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">
@@ -105,13 +86,6 @@ class Home extends Component {
                                         </Link>
                                     </div>
                                 ))
-                            )
-                            :
-                            (
-                                <div className="col-12 text-center">
-                                    <img src="/asset/img/loading.gif" alt="loading"/>
-                                    <div> در حال بار گذاری مطالب</div>
-                                </div>
                             )
                     }
                 </div>

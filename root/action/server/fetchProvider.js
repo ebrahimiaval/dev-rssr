@@ -30,6 +30,7 @@ export const fetchProvider = async function (req) {
             query: req.query
         };
 
+
     await
         fetch(ftechParams)
             .then(function (response) {

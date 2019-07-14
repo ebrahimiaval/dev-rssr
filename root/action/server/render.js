@@ -13,28 +13,6 @@ import Index from "../../template";
 
 
 
-
-/**
- * make final response
- *
- * @param renderedApp {string}: string of DOM structure
- * @param helmet {object}: helmet property of renderedApp
- * @returns {string}: final response (mixed index template and rendered App)
- */
-const renderIndexTemplate = function (renderedApp, helmet) {
-    let template = <Index renderedApp={renderedApp} helmet={helmet}/>;
-
-    template = ReactDOMServer.renderToString(template);
-
-    template = '<!DOCTYPE html>' + template;
-
-    return template;
-}
-
-
-
-
-
 /**
  * render app on the server
  *
@@ -79,4 +57,25 @@ export const render = function (req, res) {
     else {
         res.redirect(301, context.url);
     }
+}
+
+
+
+
+
+/**
+ * make final response
+ *
+ * @param renderedApp {string}: string of DOM structure
+ * @param helmet {object}: helmet property of renderedApp
+ * @returns {string}: final response (mixed index template and rendered App)
+ */
+const renderIndexTemplate = function (renderedApp, helmet) {
+    let template = <Index renderedApp={renderedApp} helmet={helmet}/>;
+
+    template = ReactDOMServer.renderToString(template);
+
+    template = '<!DOCTYPE html>' + template;
+
+    return template;
 }

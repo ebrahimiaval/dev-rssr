@@ -10,13 +10,11 @@ export const routeMap = [
     {
         path: route.home,
         component: Home,
-        exact: true,
-        // redux: 'home'
+        exact: true
     },
     {
         path: route.post(),
-        component: Post,
-        redux: 'post'
+        component: Post
     },
 
     // ------- E404 -------

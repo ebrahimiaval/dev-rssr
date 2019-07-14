@@ -17,7 +17,7 @@ import serialize from "serialize-javascript";
  * @param TheComponent : React Compoentn
  * @returns {Fecher} : Fetcher HOC of client side
  */
-export const clientFetcherHocProvider = function (TheComponent) {
+export const clientFetcher = function (TheComponent) {
     class Fecher extends Component {
         constructor(props) {
             super(props);

@@ -15,7 +15,8 @@ import {IS_BROWSER} from "./constant";
  */
 export const defaultState = {
     localUser: {updated: false, token: null},
-    post: null
+    post: null,
+    home: {isLoading: true}
 }
 
 

@@ -42,11 +42,22 @@ export const initialize = function (req) {
 
     // calculate parameters
     const
-        hasFetch = matchedRouteMapItem.hasOwnProperty('component') && matchedRouteMapItem.component.hasOwnProperty('fetch'),
-        fetch = hasFetch ? matchedRouteMapItem.component.fetch : undefined,
-        stateName = matchedRouteMapItem.redux,
-        fetchType = isSet(fetch) ? (isNotSet(stateName) ? 'PROP_BASE' : 'REDUX_BASE') : 'WITH_OUT_FETCH',
+        hasComponent = matchedRouteMapItem.hasOwnProperty('component'),
+        hasFetch = hasComponent && matchedRouteMapItem.component.hasOwnProperty('fetch'),
+        hasStateName = hasComponent && matchedRouteMapItem.component.hasOwnProperty('redux'),
+        //
+        fetchType = hasFetch ? (hasStateName ? 'REDUX_BASE' : 'PROP_BASE') : 'WITH_OUT_FETCH',
         status = isSet(matchedRouteMapItem.status) ? matchedRouteMapItem.status : 200
+
+
+
+
+
+    /** fetchType **/
+    // IS CONSTATN
+    // when component of matched route map item has not fetch() then fetchType is 'withOutFetch'
+    // and when it has then is 'reduxBase' if matched route map item has 'redux' prop and else is 'propBase'
+    als.set('fetchType', fetchType, true);
 
 
 
@@ -76,17 +87,8 @@ export const initialize = function (req) {
     // IS CONSTATN
     // fetch() of component of matched route item
     // when component has not fetch() then fetch is undefined
-    als.set('fetch', fetch, true);
-
-
-
-
-
-    /** fetchType **/
-    // IS CONSTATN
-    // when component of matched route map item has not fetch() then fetchType is 'withOutFetch'
-    // and when it has then is 'reduxBase' if matched route map item has 'redux' prop and else is 'propBase'
-    als.set('fetchType', fetchType, true);
+    if (hasFetch)
+        als.set('fetch', matchedRouteMapItem.component.fetch, true);
 
 
 
@@ -95,6 +97,6 @@ export const initialize = function (req) {
     /** stateName **/
     // IS CONSTATN
     // stateName is name of redux state and define when fetch type is
-    if (fetchType === 'REDUX_BASE')
-        als.set('stateName', stateName, true);
+    if (hasStateName)
+        als.set('stateName', matchedRouteMapItem.component.redux, true);
 }

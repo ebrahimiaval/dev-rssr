@@ -1,6 +1,6 @@
 import {IS_SERVER} from "../../../root/config/constant";
-import {serverFetcherHocProvider} from "./serverFetch";
-import {clientFetcherHocProvider} from "./clientFetch";
+import {serverFetcher} from "./serverFetcher";
+import {clientFetcher} from "./clientFetcher";
 
 
 /**
@@ -20,7 +20,7 @@ import {clientFetcherHocProvider} from "./clientFetch";
  */
 export const fecher = (TheComponent) => {
     if (IS_SERVER)
-        return serverFetcherHocProvider(TheComponent);
+        return serverFetcher(TheComponent);
     else
-        return clientFetcherHocProvider(TheComponent);
+        return clientFetcher(TheComponent);
 }
