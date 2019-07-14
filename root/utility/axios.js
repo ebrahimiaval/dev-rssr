@@ -21,7 +21,7 @@ const tokenProvider = function (config) {
     // ignore default value and handel invalid value
     if (!tokenIsString && !tokenIsTrue) {
         if (config.token !== false)
-            console.error('⛔ invalid axios token property.type of token value must be string or boolean!');
+            console.error('⛔ axios error: invalid token property.type of token value must be string or boolean!');
 
         return config;
     }
@@ -30,12 +30,12 @@ const tokenProvider = function (config) {
     if (tokenIsTrue) {
         token = getStore('localUser').token;
         if (token === null)
-            console.warn('⛔ user is invalid. axios token property is "true" but user is invalid. you should check user Authentication before call axios!');
+            console.warn('⛔ axios error: user is invalid. axios token property is "true" but user is invalid. you should check user Authentication before call axios!');
     } else if (tokenIsString) {
         if (config.token.length > 0)
             token = config.token;
         else
-            console.error('⛔ invalid axios token property. token is empty!');
+            console.error('⛔ axios error: invalid axios token property. token is empty!');
     }
 
     // define Authorization header when valid token exist

@@ -18,11 +18,11 @@ class Post extends Component {
     //
     //     this.props.setFtechParams({postId: this.props.match.params.postId});
     // }
-
+    static redux = 'post';
     static fetch({match}) {
         return axios({
-            // url: api.post(match.params.postId)
-            url: api.s200_post
+            url: api.post(match.params.postId)
+            // url: api.s200_post
         });
     }
 

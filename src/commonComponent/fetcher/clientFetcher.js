@@ -5,7 +5,7 @@ import {defaultState} from "../../../root/config/store";
 import {clientQueryString} from "../../../root/utility/clientQueryString";
 import {DUCT_DEFAULT_VALUE} from "../../../root/config/constant";
 import DefaultErrors from "../DefaultErrors/DefaultErrors";
-import {dataType} from "../../../root/utility/dataType";
+import {isErrorData} from "../../../root/utility/isErrorData";
 
 
 /**
@@ -19,11 +19,14 @@ import {dataType} from "../../../root/utility/dataType";
  * @returns {Fecher} : Fetcher HOC of client side
  */
 export const clientFetcher = function (TheComponent) {
+
+    const stateName = TheComponent.redux;
+
     class Fecher extends Component {
         constructor(props) {
             super(props);
 
-            this.isErroredData = false;
+            this.erroredData = false;
 
             // params passed to fetch() on the client
             this.ftechParams = {
@@ -45,7 +48,9 @@ export const clientFetcher = function (TheComponent) {
                 }
 
                 if (dataExist) {
-                    this.erroredData = dataType(this.state.duct) === 'object' && this.state.duct.error ? this.state.duct : false;
+                    if (isErrorData(this.state.duct))
+                        this.erroredData = this.state.duct;
+
                     delete window.RSSR_DUCT;
                 }
             }
@@ -56,7 +61,10 @@ export const clientFetcher = function (TheComponent) {
 
                 if (dataExist) {
                     const data = window.RSSR_UPDATED_REDUX_STATES[this.stateName];
-                    this.erroredData = dataType(data) === 'object' && data.error ? data : false;
+
+                    if (isErrorData(data))
+                        this.erroredData = data;
+
                     delete window.RSSR_UPDATED_REDUX_STATES;
                 }
             }
@@ -81,6 +89,9 @@ export const clientFetcher = function (TheComponent) {
                     if (!response.hasOwnProperty('data'))
                         throw new Error('⛔ invalid fetch() response. "data" is required. pleace check axios returns.\n');
 
+                    if (isErrorData(response.data))
+                        this.erroredData = response.data;
+
                     if (this.isPropBase)
                         this.setState({fetchedData: response.data});
                     else
@@ -94,7 +105,7 @@ export const clientFetcher = function (TheComponent) {
 
         logger(side) {
             const withBase = this.isPropBase ? 'Props' : 'Redux';
-            console.log('fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + side + '.');
+            console.info('💬 fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + side + '.');
         }
 
 
@@ -146,21 +157,22 @@ export const clientFetcher = function (TheComponent) {
             if (this.erroredData)
                 return <DefaultErrors data={this.erroredData}/>
 
-
             const props = {...this.props};
 
             if (this.isPropBase) {
                 props.duct = this.state.duct;
             } else {
-                const mstp = state => ({
-                    [this.stateName]: state[this.stateName]
-                });
-                TheComponent = connect(mstp)(TheComponent);
+
             }
 
             return <TheComponent {...props}/>;
         }
     }
 
-    return Fecher;
+
+    const mstp = state => ({
+        [stateName]: state[stateName]
+    });
+
+    return connect(mstp)(Fecher);
 }

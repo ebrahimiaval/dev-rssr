@@ -19,12 +19,12 @@ class Home extends Component {
     static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
-            url: api.s404 + '?mocky-delay=50ms',
+            // url: api.s404 + '?mocky-delay=50ms',
             // url: api.s200_posts + '?mocky-delay=50ms',
-            // url: api.posts,
+            url: api.posts,
             // token: true,
             // token: '',
-            token: [''],
+            // token: [''],
             // headers: {sample: '---sample---'},
             // baseURL: false,
         })

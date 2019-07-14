@@ -1,7 +1,7 @@
 import React from "react";
-import {dataType} from "../../../root/utility/dataType";
 import DefaultErrors from "../DefaultErrors/DefaultErrors";
 import {connect} from "trim-redux";
+import {isErrorData} from "../../../root/utility/isErrorData";
 
 /**
  *  provider Fetcher HOC of server side
@@ -27,12 +27,12 @@ export const serverFetcher = function (TheComponent) {
 
         /** Prop Base **/
         if (fetchType === 'PROP_BASE') {
-            const duct = als.get('duct');
+            const data = als.get('duct');
 
-            if (dataType(duct) === 'object' && duct.error)
-                return <DefaultErrors data={duct}/>
+            if (isErrorData(data))
+                return <DefaultErrors data={data}/>
 
-            props.duct = duct;
+            props.duct = data;
         }
 
         /** Redux Base **/
@@ -41,7 +41,7 @@ export const serverFetcher = function (TheComponent) {
                 stateName = als.get('stateName'),
                 data = als.get('updatedState')[stateName];
 
-            if (dataType(data) === 'object' && data.error)
+            if (isErrorData(data))
                 return <DefaultErrors data={data}/>
 
             // connect TheComponent to redux
