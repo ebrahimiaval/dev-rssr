@@ -36,7 +36,7 @@ export const fetchProvider = async function (req) {
             .then(function (response) {
                 // check data and status exist
                 if (!response.hasOwnProperty('data') || !response.hasOwnProperty('status'))
-                    throw new Error('⛔ invalid fetch() response. "data" and "status" is required in success responses. pleace check axios returns.\n');
+                    throw new Error('⛔ invalid fetch() response. "data" and "status" is required. pleace check axios returns.\n');
 
                 // check status type
                 if (typeof response.status !== "number")

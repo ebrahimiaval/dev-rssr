@@ -15,12 +15,12 @@ import {fecher} from "../../commonComponent/fetcher/fetcher";
 
 class Home extends Component {
 
-    static redux = 'home';
+    // static redux = 'home';
     static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
-            // url: api.s404 + '?mocky-delay=50ms',
-            url: api.s200_posts + '?mocky-delay=50ms',
+            url: api.s404 + '?mocky-delay=50ms',
+            // url: api.s200_posts + '?mocky-delay=50ms',
             // url: api.posts,
             // token: true,
             // token: '',
@@ -50,8 +50,8 @@ class Home extends Component {
 
 
     render() {
-        // const data = this.props.duct;
-        const data = this.props.home;
+        const data = this.props.duct;
+        // const data = this.props.home;
 
         return (
             <div id="hme" className="container">

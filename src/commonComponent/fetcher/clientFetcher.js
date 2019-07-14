@@ -4,6 +4,8 @@ import {connect, setStore} from "trim-redux";
 import {defaultState} from "../../../root/config/store";
 import {clientQueryString} from "../../../root/utility/clientQueryString";
 import {DUCT_DEFAULT_VALUE} from "../../../root/config/constant";
+import DefaultErrors from "../DefaultErrors/DefaultErrors";
+import {dataType} from "../../../root/utility/dataType";
 
 
 /**
@@ -20,6 +22,8 @@ export const clientFetcher = function (TheComponent) {
     class Fecher extends Component {
         constructor(props) {
             super(props);
+
+            this.isErroredData = false;
 
             // params passed to fetch() on the client
             this.ftechParams = {
@@ -40,16 +44,21 @@ export const clientFetcher = function (TheComponent) {
                     duct: dataExist ? window.RSSR_DUCT : DUCT_DEFAULT_VALUE
                 }
 
-                if (dataExist)
+                if (dataExist) {
+                    this.erroredData = dataType(this.state.duct) === 'object' && this.state.duct.error ? this.state.duct : false;
                     delete window.RSSR_DUCT;
+                }
             }
 
             /** Redux Base **/
             else {
                 dataExist = isSet(window.RSSR_UPDATED_REDUX_STATES);
 
-                if (dataExist)
+                if (dataExist) {
+                    const data = window.RSSR_UPDATED_REDUX_STATES[this.stateName];
+                    this.erroredData = dataType(data) === 'object' && data.error ? data : false;
                     delete window.RSSR_UPDATED_REDUX_STATES;
+                }
             }
 
             if (!dataExist)
@@ -64,12 +73,14 @@ export const clientFetcher = function (TheComponent) {
 
         // fetch data and insert to redux or duct
         fetchProvider() {
-
             this.logger('client');
 
             TheComponent
                 .fetch(this.ftechParams)
                 .then((response) => {
+                    if (!response.hasOwnProperty('data'))
+                        throw new Error('⛔ invalid fetch() response. "data" is required. pleace check axios returns.\n');
+
                     if (this.isPropBase)
                         this.setState({fetchedData: response.data});
                     else
@@ -81,25 +92,22 @@ export const clientFetcher = function (TheComponent) {
 
 
 
-        // in redux base reset state to default value
-        // and in prop base
-        resetDataHolder() {
-            // if fetch mode is redux base (is prop base)
-            if (this.isReduxBase) {
-                const defaultValue = defaultState[this.stateName];
-                setStore(this.stateName, defaultValue);
-            } else {
-                this.setState({fetchedData: null});
-            }
+        logger(side) {
+            const withBase = this.isPropBase ? 'Props' : 'Redux';
+            console.log('fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + side + '.');
         }
 
 
 
 
 
-        logger(onThe) {
-            const withBase = this.isPropBase ? 'Props' : 'Redux';
-            console.log('fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + onThe + '.');
+        resetDataHolder() {
+            if (this.isPropBase) {
+                this.setState({fetchedData: DUCT_DEFAULT_VALUE});
+            } else {
+                const defaultValue = defaultState[this.stateName];
+                setStore(this.stateName, defaultValue);
+            }
         }
 
 
@@ -135,17 +143,15 @@ export const clientFetcher = function (TheComponent) {
 
 
         render() {
-            // in props base fetchedData contain null OR any data and in redux base is undefined
+            if (this.erroredData)
+                return <DefaultErrors data={this.erroredData}/>
 
-            const props = {
-                ...this.props,
-                // setFtechParams: this.setFtechParams
-            };
 
-            if (this.isPropBase){
+            const props = {...this.props};
+
+            if (this.isPropBase) {
                 props.duct = this.state.duct;
-            }
-            else {
+            } else {
                 const mstp = state => ({
                     [this.stateName]: state[this.stateName]
                 });

@@ -55,8 +55,11 @@ export const serverFetcher = function (TheComponent) {
     }
 
     // to can access in server fetchProvider()
-    Fecher.fetch = TheComponent.fetch;
-    Fecher.redux = TheComponent.redux;
+    if (TheComponent.hasOwnProperty('fetch'))
+        Fecher.fetch = TheComponent.fetch;
+
+    if (TheComponent.hasOwnProperty('redux'))
+        Fecher.redux = TheComponent.redux;
 
     return Fecher;
 }
