@@ -10,7 +10,12 @@ export const routeMap = [
     {
         path: route.home,
         component: Home,
-        exact: true
+        exact: true,
+        subRoute: [
+            {
+                path: '/test'
+            }
+        ]
     },
     {
         path: route.post(),

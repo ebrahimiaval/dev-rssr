@@ -8,6 +8,7 @@ import {route} from "../../../root/config/route";
 import "./home.scss";
 import {axios} from "../../../root/utility/axios";
 import {fecher} from "../../commonComponent/fetcher/fetcher";
+import Router from "../../commonComponent/Router/Router";
 
 
 
@@ -63,6 +64,8 @@ class Home extends Component {
                     </p>
                 </div>
 
+                <Router subRoute={this.props.subRoute}/>
+
                 <div className="row">
                     {
                         (data.isLoading) ?
@@ -92,6 +95,7 @@ class Home extends Component {
         );
     }
 }
+
 
 
 // HOC
