@@ -93,7 +93,7 @@ export const clientFetcher = function (TheComponent) {
                         this.erroredData = response.data;
 
                     if (this.isPropBase)
-                        this.setState({fetchedData: response.data});
+                        this.setState({duct: response.data});
                     else
                         setStore(this.stateName, response.data)
                 })
@@ -114,7 +114,7 @@ export const clientFetcher = function (TheComponent) {
 
         resetDataHolder() {
             if (this.isPropBase) {
-                this.setState({fetchedData: DUCT_DEFAULT_VALUE});
+                this.setState({duct: DUCT_DEFAULT_VALUE});
             } else {
                 const defaultValue = defaultState[this.stateName];
                 setStore(this.stateName, defaultValue);
@@ -169,11 +169,12 @@ export const clientFetcher = function (TheComponent) {
         }
     }
 
-
-    // const mstp = state => ({
-    //     [stateName]: state[stateName]
-    // });
-    // Fecher = connect(mstp)(Fecher)
+    if (isSet(stateName)) {
+        const mstp = state => ({
+            [stateName]: state[stateName]
+        });
+        Fecher = connect(mstp)(Fecher);
+    }
 
     return Fecher;
 }

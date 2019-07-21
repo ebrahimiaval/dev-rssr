@@ -1,5 +1,4 @@
 import React, {Component, Fragment} from 'react';
-import {connect} from "trim-redux";
 import {Helmet} from "react-helmet";
 // config
 import {api} from "../../../root/config/api";
@@ -67,7 +66,6 @@ class Post extends Component {
 }
 
 // HOC
-Post = connect(s => ({post: s.post}))(Post)
-Post = fecher(Post, 'post');
+Post = fecher(Post);
 
 export default Post;
