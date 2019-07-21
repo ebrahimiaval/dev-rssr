@@ -1,5 +1,5 @@
 // config
-import {IS_BROWSER} from "../config/constant";
+import {IS_BROWSER, IS_SERVER} from "../config/constant";
 
 
 
@@ -10,7 +10,7 @@ if (IS_BROWSER)
     window.jumpScrollToTop_offset = 0;
 //
 export const jumpScrollToTop = () => {
-    if (typeof window === "undefined")
+    if (IS_SERVER)
         return;
 
     // time out is for ensure new component script loaded

@@ -54,12 +54,18 @@ export const serverFetcher = function (TheComponent) {
         return <TheComponent {...props} />;
     }
 
-    // to can access in server fetchProvider()
-    if (TheComponent.hasOwnProperty('fetch'))
-        Fecher.fetch = TheComponent.fetch;
+    // clone static props
+    // Object.getOwnPropertyNames(TheComponent).forEach(function (key) {
+    //     if (!Fecher.hasOwnProperty(key))
+    //         Fecher[key] = TheComponent[key];
+    // });
 
-    if (TheComponent.hasOwnProperty('redux'))
-        Fecher.redux = TheComponent.redux;
+    // // to can access in server fetchProvider()
+    // if (TheComponent.hasOwnProperty('fetch'))
+    //     Fecher.fetch = TheComponent.fetch;
+    //
+    // if (TheComponent.hasOwnProperty('redux'))
+    //     Fecher.redux = TheComponent.redux;
 
     return Fecher;
 }

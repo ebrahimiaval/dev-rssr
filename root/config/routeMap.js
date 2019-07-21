@@ -4,6 +4,7 @@ import {route} from "./route";
 import Error404 from "../../src/App/Error404/Error404";
 import Home from "../../src/App/Home/Home";
 import Post from "../../src/App/Post/Post";
+import Test from "../../src/App/Home/Test";
 
 
 export const routeMap = [
@@ -13,7 +14,8 @@ export const routeMap = [
         exact: true,
         subRoute: [
             {
-                path: '/test'
+                path: '/test',
+                component: Test,
             }
         ]
     },

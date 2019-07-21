@@ -19,8 +19,18 @@ import {clientFetcher} from "./clientFetcher";
  * @returns {Fecher} :  Fetcher HOC
  */
 export const fecher = (TheComponent) => {
+    let Fecher;
     if (IS_SERVER)
-        return serverFetcher(TheComponent);
+        Fecher = serverFetcher(TheComponent);
     else
-        return clientFetcher(TheComponent);
+        Fecher = clientFetcher(TheComponent);
+
+
+    // clone static props
+    Object.getOwnPropertyNames(TheComponent).forEach(function (key) {
+        if (!Fecher.hasOwnProperty(key))
+            Fecher[key] = TheComponent[key];
+    });
+
+    return Fecher;
 }

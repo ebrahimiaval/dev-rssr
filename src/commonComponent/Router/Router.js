@@ -4,24 +4,28 @@ import {Route, Switch} from "react-router-dom";
 import {isNotSet} from "../../../root/utility/checkSet";
 
 const Router = (props) => {
-    let routeList = isNotSet(props.subRoute) ? [...routeMap] : [...props.subRoute];
+    // let routeList = routeMap;
+    let routeList = isNotSet(props.subRoute) ? routeMap : props.subRoute;
 
     return (
         <Switch>
             {
                 routeList.map((route, index) => {
-                    // in React-Router Document
-                    // Warning: <Route component> takes precedence over <Route render> so don’t use both in the same <Route>.
                     if (route.hasOwnProperty('component') && route.hasOwnProperty('subRoute')) {
-                        const Component = route.component;
-
-                        // push subRoute to Component as props
-                        route.render = function (props) {
+                        const TheComponent = route.component;
+                        const WrapperComponent = function (prop) {
+                            const props = {...prop};
                             props.subRoute = route.subRoute;
-                            return <Component {...props} />;
-                        }
+                            return <TheComponent {...props}/>
+                        };
 
-                        delete route.component;
+                        // clone static props
+                        Object.getOwnPropertyNames(TheComponent).forEach(function (key) {
+                            if (!WrapperComponent.hasOwnProperty(key))
+                                WrapperComponent[key] = TheComponent[key];
+                        });
+
+                        route.component = WrapperComponent;
                     }
 
                     return <Route key={index} {...route} />

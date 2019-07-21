@@ -51,12 +51,14 @@ class Home extends Component {
 
 
     render() {
-        const data = this.props.duct;
-        // const data = this.props.home;
+        const {duct} = this.props;
 
         return (
             <div id="hme" className="container">
                 <Helmet title="صفحه ‌اصلی"/>
+
+                <Router subRoute={this.props.subRoute}/>
+
                 <div className="jumbotron mt-3" id="abc">
                     <h5>موفقیت اتفاقی نیست!</h5>
                     <p className="lead">
@@ -64,11 +66,9 @@ class Home extends Component {
                     </p>
                 </div>
 
-                <Router subRoute={this.props.subRoute}/>
-
                 <div className="row">
                     {
-                        (data.isLoading) ?
+                        (duct.isLoading) ?
                             (
                                 <div className="col-12 text-center">
                                     <img src="/asset/img/loading.gif" alt="loading"/>
@@ -77,7 +77,7 @@ class Home extends Component {
                             )
                             :
                             (
-                                data.map((item) => (
+                                duct.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">
