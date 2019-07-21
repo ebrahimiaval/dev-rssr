@@ -1,8 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {routeMap} from "../../../root/config/routeMap";
 import {Route, Switch} from "react-router-dom";
 import {isNotSet} from "../../../root/utility/checkSet";
 import {jumpScrollToTop} from "../../../root/utility/jumpScrollToTop";
+
+
 
 
 /**
@@ -39,13 +42,16 @@ const insertSubRoute = function (route) {
 
 /**
  *
- * @param props <object : subRoute and stopJump. subRoute is part of routeMap and stopJump is boolean
- * @returns {*} : view componnet
- * @constructor
+ * @param props {object} : subRoute and jump. subRoute is part of routeMap and jump is boolean
+ * @returns: a Switch of Routes (show view componnet of matched route)
  */
 
 const Router = (props) => {
-    let routeList = isNotSet(props.subRoute) ? routeMap : props.subRoute;
+    const
+        // route list of this Router call
+        routeList = isNotSet(props.subRoute) ? routeMap : props.subRoute,
+        // jumping by default
+        hasJump = isNotSet(props.jump) || props.jump === true;
 
     return (
         <Switch>
@@ -59,10 +65,17 @@ const Router = (props) => {
             {
                 // move scroll bar to top of page when route changed
                 // ONLY for root
-                !props.stopJump ? jumpScrollToTop() : null
+                hasJump ? jumpScrollToTop() : null
             }
         </Switch>
     );
 };
+
+
+Router.propTypes = {
+    jump: PropTypes.bool,
+    subRoute : PropTypes.arrayOf(PropTypes.object)
+};
+
 
 export default Router;
