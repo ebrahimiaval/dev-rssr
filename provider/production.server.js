@@ -1,10 +1,10 @@
 // load .env files and define environment varibale before all actions
-require('./utility/evnLoader');
+require('./assistant/evnLoader');
 
 const
     path = require('path'),
-    seoOptimization = require('./utility/seoOptimization'),
-    rateLimit = require('./utility/rateLimit'),
+    seoOptimization = require('./assistant/seoOptimization'),
+    rateLimit = require('./assistant/rateLimit'),
 
     // express app
     express = require('express'),

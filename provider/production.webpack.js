@@ -1,5 +1,5 @@
 // load .env files and define environment varibale before all actions
-require('./utility/evnLoader');
+require('./assistant/evnLoader');
 
 const path = require('path'),
     webpack = require('webpack'),

@@ -1,5 +1,5 @@
 // load .env files and define environment varibale before all actions
-require('./utility/evnLoader');
+require('./assistant/evnLoader');
 
 const
     opn = require('opn'),
@@ -30,7 +30,7 @@ app.use(webpackDevMiddleware(compiler, {
     publicPath: "/dist/"
 }));
 
-// load static files
+// static files
 app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));
 
 // recompile webpack when file changes
