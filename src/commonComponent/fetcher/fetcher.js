@@ -20,6 +20,7 @@ import {clientFetcher} from "./clientFetcher";
  */
 export const fecher = (TheComponent) => {
     let Fecher;
+    
     if (IS_SERVER)
         Fecher = serverFetcher(TheComponent);
     else
