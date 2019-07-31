@@ -11,7 +11,8 @@ const
     config = require('./webpack.development'),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
-    webpackHotServerMiddleware = require('webpack-hot-server-middleware');
+    webpackHotServerMiddleware = require('webpack-hot-server-middleware'),
+    c = require('./setup/constant');
 
 
 
@@ -26,7 +27,7 @@ const compiler = webpack(config);
 // make bundled project source files accessable from memory
 app.use(webpackDevMiddleware(compiler, {
     serverSideRender: true,
-    publicPath: "/dist/"
+    publicPath: c.route.dist
 }));
 
 // static files

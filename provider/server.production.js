@@ -5,25 +5,21 @@ const
     path = require('path'),
     seoOptimization = require('./setup/seoOptimization'),
     rateLimit = require('./setup/rateLimit'),
-
-    // express app
     express = require('express'),
-    app = express(),
-
-    // dist/server.js
     serverRendererPath = path.resolve(process.cwd(), './dist/server.js'),
     serverRenderer = require(serverRendererPath).default,
-
-    // stats.json
     clientStatsPath = path.resolve(process.cwd(), './dist/stats.json'),
-    stats = require(clientStatsPath);
+    stats = require(clientStatsPath),
+    c = require('./setup/constant');
 
 
+// express app
+const app = express();
 
 
 
 // make bundled final project source files accessable
-app.use('/dist', express.static(path.resolve(process.cwd(), './dist')));
+app.use(c.route.dist, express.static(c.path.dist));
 
 // load static files
 app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));

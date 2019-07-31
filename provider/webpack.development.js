@@ -92,7 +92,7 @@ module.exports = [
         output: {
             filename: c.name.server,
             libraryTarget: 'commonjs2',
-            publicPath: c.path.server,
+            publicPath: c.path.dist,
         },
         module: {
             rules: [

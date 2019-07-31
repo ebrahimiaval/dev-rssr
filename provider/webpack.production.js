@@ -21,9 +21,9 @@ module.exports = [
         performance: {hints: false},
         entry: c.path.client,
         output: {
-            path: c.path.dist_full,
+            path: c.path.dist,
             filename: c.name.client,
-            publicPath: c.path.dist_full
+            publicPath: c.path.dist
         },
         module: {
             rules: [
@@ -120,10 +120,10 @@ module.exports = [
         performance: {hints: false},
         entry: c.path.server,
         output: {
-            path: c.path.dist_full,
+            path: c.path.dist,
             filename: c.name.server,
             libraryTarget: 'commonjs2',
-            publicPath: c.path.dist_full,
+            publicPath: c.path.dist,
         },
         module: {
             rules: [
