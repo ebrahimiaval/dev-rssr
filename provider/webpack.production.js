@@ -19,11 +19,11 @@ module.exports = [
         mode: 'production',
         target: 'web',
         performance: {hints: false},
-        entry: c.path.client,
+        entry: c.PATH_CLIENT,
         output: {
-            path: c.path.dist,
-            filename: c.name.client,
-            publicPath: c.path.dist
+            path: c.PATH_CLIENT,
+            filename: c.NAME_CLIENT,
+            publicPath: c.PATH_CLIENT,
         },
         module: {
             rules: [
@@ -56,7 +56,7 @@ module.exports = [
                             options: {
                                 // sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [c.path.scss]
+                                includePaths: [c.PATH_SCSS]
                             }
                         }
                     ]
@@ -118,12 +118,12 @@ module.exports = [
         mode: 'production',
         target: 'node',
         performance: {hints: false},
-        entry: c.path.server,
+        entry: c.PATH_SERVER,
         output: {
-            path: c.path.dist,
-            filename: c.name.server,
+            path: c.PATH_DIST,
+            filename: c.NAME_SERVER,
             libraryTarget: 'commonjs2',
-            publicPath: c.path.dist,
+            publicPath: c.PATH_DIST,
         },
         module: {
             rules: [
@@ -156,7 +156,7 @@ module.exports = [
                             options: {
                                 // sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [c.path.scss]
+                                includePaths: [c.PATH_SCSS]
                             }
                         }
                     ]

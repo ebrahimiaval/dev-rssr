@@ -13,10 +13,10 @@ module.exports = [
         mode: 'development',
         target: 'web',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=client&reload=true', c.path.client],
+        entry: ['webpack-hot-middleware/client?name=client&reload=true', c.PATH_CLIENT],
         output: {
-            filename: c.name.client,
-            publicPath: c.path.dist,
+            filename: c.NAME_CLIENT,
+            publicPath: c.PATH_DIST,
         },
         module: {
             rules: [
@@ -51,7 +51,7 @@ module.exports = [
                             options: {
                                 sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [c.path.scss]
+                                includePaths: [c.PATH_SCSS]
                             }
                         }
                     ]
@@ -88,11 +88,11 @@ module.exports = [
         mode: 'development',
         target: 'node',
         devtool: 'source-map',
-        entry: ['webpack-hot-middleware/client?name=server&reload=true', c.path.server],
+        entry: ['webpack-hot-middleware/client?name=server&reload=true', c.PATH_SERVER],
         output: {
-            filename: c.name.server,
+            filename: c.NAME_SERVER,
             libraryTarget: 'commonjs2',
-            publicPath: c.path.dist,
+            publicPath: c.PATH_DIST,
         },
         module: {
             rules: [
@@ -124,7 +124,7 @@ module.exports = [
                             options: {
                                 sourceMap: true,
                                 outputStyle: 'compressed',
-                                includePaths: [c.path.scss]
+                                includePaths: [c.PATH_SCSS]
                             }
                         }
                     ]

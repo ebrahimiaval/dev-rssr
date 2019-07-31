@@ -27,7 +27,7 @@ const compiler = webpack(config);
 // make bundled project source files accessable from memory
 app.use(webpackDevMiddleware(compiler, {
     serverSideRender: true,
-    publicPath: c.route.dist
+    publicPath: c.ROUTE_DIST
 }));
 
 // static files
