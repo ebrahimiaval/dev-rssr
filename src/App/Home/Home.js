@@ -2,13 +2,13 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
 // config
-import {api} from "../../../root/config/api";
-import {route} from "../../../root/config/route";
+import {api} from "../../setup/api";
+import {route} from "../../setup/route";
 // style
 import "./home.scss";
-import {axios} from "../../../root/utility/axios";
-import {fecher} from "../../commonComponent/fetcher/fetcher";
-import Router from "../../commonComponent/Router/Router";
+import {axios} from "../../setup/utility/axios";
+import {fecher} from "../commonComponent/fetcher/fetcher";
+import Router from "../commonComponent/Router/Router";
 
 
 

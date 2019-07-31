@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
-// config
-import {api} from "../../../root/config/api";
-import {route} from "../../../root/config/route";
 import Link from "react-router-dom/es/Link";
-import {axios} from "../../../root/utility/axios";
-import {fecher} from "../../commonComponent/fetcher/fetcher";
+// config
+import {api} from "../../setup/api";
+import {route} from "../../setup/route";
+import {axios} from "../../setup/utility/axios";
+import {fecher} from "../commonComponent/fetcher/fetcher";
 
 
 

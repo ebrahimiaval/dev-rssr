@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 // config
-import {route} from "../../../root/config/route";
+import {route} from "../../setup/route";
 
 class Menu extends Component {
     render() {

@@ -2,9 +2,9 @@ import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
 // action
-import {firstSetup} from "../action/authentication";
+import {firstSetup} from "./commonAction/authentication";
 // config
-import Router from "../commonComponent/Router/Router";
+import Router from "./commonComponent/Router/Router";
 // component
 // import SignInModal from "./_component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
