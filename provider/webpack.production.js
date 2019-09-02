@@ -21,9 +21,9 @@ module.exports = [
         performance: {hints: false},
         entry: c.PATH_CLIENT,
         output: {
-            path: c.PATH_CLIENT,
+            path: c.PATH_DIST,
             filename: c.NAME_CLIENT,
-            publicPath: c.PATH_CLIENT,
+            publicPath: c.PATH_DIST,
         },
         module: {
             rules: [

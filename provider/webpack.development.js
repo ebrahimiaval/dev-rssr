@@ -16,7 +16,7 @@ module.exports = [
         entry: ['webpack-hot-middleware/client?name=client&reload=true', c.PATH_CLIENT],
         output: {
             filename: c.NAME_CLIENT,
-            publicPath: c.PATH_DIST,
+            publicPath: c.ROUTE_DIST,
         },
         module: {
             rules: [
@@ -92,7 +92,7 @@ module.exports = [
         output: {
             filename: c.NAME_SERVER,
             libraryTarget: 'commonjs2',
-            publicPath: c.PATH_DIST,
+            publicPath: c.ROUTE_DIST,
         },
         module: {
             rules: [
