@@ -25,9 +25,9 @@ class App extends Component {
 
     render() {
         // var x = '';
-        // x.map(function () {
-        //
-        // });
+        // x.map(function () {});
+
+
         return (
             <Fragment>
                 <div id="app-loading"></div>

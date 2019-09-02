@@ -6,29 +6,24 @@ import {errorLogger} from "../../setup/utility/errorLogger";
 import Error from "../template/Error";
 
 
-
-
 /**
- * @param error {object}: error obejct
- * @returns {string}: rendered Error template to string
+ * handel server errors
+ * :: like semantic errors in try-catch
+ *
+ * @param error {object}: error object like axios error object
+ * @param timerStart {number}: time stamp of start reqest proccesses
+ * @param res {object}: server response object. used for send response
+ * @param req {object}: server request object. used for get user IP to log on console
  */
-const renderErrorTemplate = function (error) {
-    let template = <Error error={error}/>;
+export const failedRequest = function (error, timerStart, res, req) {
+    // log to console
+    errorLogger('server.js', timerStart, error, false, req);
 
-    template = ReactDOMServer.renderToString(template);
-
-    template = '<!DOCTYPE html>' + template;
-
-    return template;
-}
-
-
-
-
-
-export const failedRequest = function (error, res, proccessTime) {
-    errorLogger('server.js', proccessTime, error);
+    //rendered Error template to string
+    let response = <Error error={error}/>;
+    response = ReactDOMServer.renderToString(response);
+    response = '<!DOCTYPE html>' + response;
 
     // ERROR 500 - when occurs an error during process
-    res.status(500).send(renderErrorTemplate(error));
+    res.status(500).send(response);
 }

@@ -10,12 +10,13 @@ export default function serverRenderer() {
     // start async-local-storage
     als.enable();
 
-    return (req, res, next) => {
+    return (req, res) => {
         // each request need unique scope
         als.scope();
 
-        // start proccess timer
-        const proccessTime = Date.now();
+        const
+            timerStart = Date.now(),// use in errorLogger for calculate proccess time
+            err = (error) => failedRequest(error, timerStart, res, req); // handle server error during process
 
         try {
             // define basic parameters
@@ -24,9 +25,9 @@ export default function serverRenderer() {
             // call fetch() of component and get data
             fetchProvider(req)
                 .then(() => render(req, res))
-                .catch((error) => failedRequest(error, res, proccessTime));
-        } catch (error) {
-            failedRequest(error, res, proccessTime);
+                .catch((e) => err(e));
+        } catch (e) {
+            err(e)
         }
     };
 }
