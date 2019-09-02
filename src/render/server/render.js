@@ -20,15 +20,10 @@ import Index from "../template";
  * @param res {object}: express res object
  */
 export const render = function (req, res) {
-    const fetchType = als.get('fetchType');
-
-    // when fetchType IS NOT 'REDUX_BASE' then state is undefined and createStore() use defaultState
-    // when fetchType IS 'REDUX_BASE'  then state is mixed of defaultState and updatedState
-    let states;
-    if (fetchType === 'REDUX_BASE') {
-        const updatedState = als.get('updatedState');
-        states = {...defaultState, ...updatedState};
-    }
+    const
+        fetch = als.get('fetch'),
+        updatedState = als.get('updatedState'),
+        states = !!fetch && !!updatedState ? {...defaultState, ...updatedState} : undefined; // when passed states is undefined then createStore use defaultState
 
     // render app to string and get renderedApp and helmet properies
     // renderedApp is string of DOM structure
@@ -47,9 +42,12 @@ export const render = function (req, res) {
 
     /** response of most requests **/
     if (!context.url) {
-        const
-            status = als.get('status') || 500,
-            response = renderIndexTemplate(renderedApp, helmet);
+        const status = als.get('status') || 500;
+
+        // make HTML response
+        let response = <Index renderedApp={renderedApp} helmet={helmet}/>;
+        response = ReactDOMServer.renderToString(response);
+        response = '<!DOCTYPE html>' + response;
 
         res.status(status).send(response);
     }
@@ -57,25 +55,4 @@ export const render = function (req, res) {
     else {
         res.redirect(301, context.url);
     }
-}
-
-
-
-
-
-/**
- * make final response
- *
- * @param renderedApp {string}: string of DOM structure
- * @param helmet {object}: helmet property of renderedApp
- * @returns {string}: final response (mixed index template and rendered App)
- */
-const renderIndexTemplate = function (renderedApp, helmet) {
-    let template = <Index renderedApp={renderedApp} helmet={helmet}/>;
-
-    template = ReactDOMServer.renderToString(template);
-
-    template = '<!DOCTYPE html>' + template;
-
-    return template;
 }

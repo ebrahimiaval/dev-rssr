@@ -24,9 +24,7 @@ class App extends Component {
     }
 
     render() {
-        // var x = '';
-        // x.map(function () {});
-
+        // ''.map(function () {});
 
         return (
             <Fragment>

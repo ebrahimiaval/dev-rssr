@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
 import "./home.scss";
 import Router from "../CC/Router/Router";
-// import {Link} from "react-router-dom";
-// import {api} from "../../setup/api";
-// import {route} from "../../setup/route";
-// import {axios} from "../../setup/utility/axios";
-// import {fecher} from "../CC/fetcher/fetcher";
+import {Link} from "react-router-dom";
+import {api} from "../../setup/api";
+import {route} from "../../setup/route";
+import {axios} from "../../setup/utility/axios";
+import {fecher} from "../CC/fetcher/fetcher";
 
 
 
@@ -14,8 +14,9 @@ import Router from "../CC/Router/Router";
 
 class Home extends Component {
 
-    // static redux = 'home';
-    /*static fetch() {
+    static redux = 'home';
+
+    static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
             // url: api.s404 + '?mocky-delay=50ms',
@@ -45,11 +46,11 @@ class Home extends Component {
         //
         //     throw error;
         // });
-    }*/
+    }
 
 
     render() {
-        // const {duct} = this.props;
+        const {home} = this.props;
 
         return (
             <div id="hme" className="container">
@@ -65,8 +66,8 @@ class Home extends Component {
                 </div>
 
                 <div className="row">
-                   {/* {
-                        (duct.isLoading) ?
+                    {
+                        (home.isLoading) ?
                             (
                                 <div className="col-12 text-center">
                                     <img src="/asset/img/loading.gif" alt="loading"/>
@@ -75,7 +76,7 @@ class Home extends Component {
                             )
                             :
                             (
-                                duct.map((item) => (
+                                home.map((item) => (
                                     <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">
@@ -87,7 +88,7 @@ class Home extends Component {
                                     </div>
                                 ))
                             )
-                    }*/}
+                    }
                 </div>
             </div>
         );
@@ -97,6 +98,6 @@ class Home extends Component {
 
 
 // HOC
-// Home = fecher(Home);
+Home = fecher(Home);
 
 export default Home;

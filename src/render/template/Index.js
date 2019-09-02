@@ -8,29 +8,15 @@ export default function (props) {
         {renderedApp, helmet} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent(),
-        fetchType = als.get('fetchType');
-
-
-
-
+        fetch = als.get('fetch');
 
     // transfer data from server to client
     let transfer = '';
-    switch (fetchType) {
-        case "PROP_BASE":
-            const duct = als.get('duct');
-            transfer = 'RSSR_DUCT =' + serialize(duct)
-            break;
-
-        case "REDUX_BASE":
-            const updatedState = als.get('updatedState');
-            transfer = 'RSSR_UPDATED_REDUX_STATES =' + serialize(updatedState)
-            break;
+    if (fetch) {
+        const updatedState = als.get('updatedState');
+        transfer = 'RSSR_UPDATED_REDUX_STATES =' + serialize(updatedState);
+        transfer = <script dangerouslySetInnerHTML={{__html: transfer}}/>;
     }
-
-
-
-
 
     return (
         <html lang="fa" {...htmlAttrs}>
@@ -47,10 +33,7 @@ export default function (props) {
         </head>
         <body className="rtl" {...bodyAttrs}>
         <div id="app-root" dangerouslySetInnerHTML={{__html: renderedApp}}></div>
-
-        {
-            (fetchType !== 'WITH_OUT_FETCH') ? <script dangerouslySetInnerHTML={{__html: transfer}}/> : ''
-        }
+        {transfer}
         <script src={`/dist/client.js?v=${process.env.VERSION}`}></script>
         </body>
         </html>

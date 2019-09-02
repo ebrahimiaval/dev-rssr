@@ -11,7 +11,7 @@ export default function serverRenderer() {
     als.enable();
 
     return (req, res) => {
-        // each request need unique scope
+        // each request need unique scope to can define and work with variables over the request
         als.scope();
 
         const
@@ -24,10 +24,10 @@ export default function serverRenderer() {
 
             // call fetch() of component and get data
             fetchProvider(req)
-                .then(() => render(req, res))
-                .catch((e) => err(e));
+                .then(() => render(req, res)) // get data successfully
+                .catch((e) => err(e)); // occur error in fetchProvider() or render()
         } catch (e) {
-            err(e)
+            err(e) // occur error in try
         }
     };
 }
