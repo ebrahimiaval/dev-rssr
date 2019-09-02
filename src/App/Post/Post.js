@@ -30,8 +30,6 @@ class Post extends Component {
     // }
 
     render() {
-
-
         const
             postId = Number(this.props.match.params.postId),
             {post} = this.props;
