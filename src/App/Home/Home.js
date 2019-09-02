@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
 import {Helmet} from "react-helmet";
-// config
-import {api} from "../../setup/api";
-import {route} from "../../setup/route";
-// style
 import "./home.scss";
-import {axios} from "../../setup/utility/axios";
-import {fecher} from "../CC/fetcher/fetcher";
 import Router from "../CC/Router/Router";
+// import {Link} from "react-router-dom";
+// import {api} from "../../setup/api";
+// import {route} from "../../setup/route";
+// import {axios} from "../../setup/utility/axios";
+// import {fecher} from "../CC/fetcher/fetcher";
 
 
 
@@ -17,7 +15,7 @@ import Router from "../CC/Router/Router";
 class Home extends Component {
 
     // static redux = 'home';
-    static fetch() {
+    /*static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,
             // url: api.s404 + '?mocky-delay=50ms',
@@ -47,11 +45,11 @@ class Home extends Component {
         //
         //     throw error;
         // });
-    }
+    }*/
 
 
     render() {
-        const {duct} = this.props;
+        // const {duct} = this.props;
 
         return (
             <div id="hme" className="container">
@@ -67,7 +65,7 @@ class Home extends Component {
                 </div>
 
                 <div className="row">
-                    {
+                   {/* {
                         (duct.isLoading) ?
                             (
                                 <div className="col-12 text-center">
@@ -89,7 +87,7 @@ class Home extends Component {
                                     </div>
                                 ))
                             )
-                    }
+                    }*/}
                 </div>
             </div>
         );
@@ -99,6 +97,6 @@ class Home extends Component {
 
 
 // HOC
-Home = fecher(Home);
+// Home = fecher(Home);
 
 export default Home;
