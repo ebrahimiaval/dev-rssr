@@ -91,6 +91,8 @@ export const clientFetcher = function (TheComponent) {
 
                     if (isErrorData(response.data))
                         this.erroredData = response.data;
+                    else
+                        this.erroredData = false; // reset
 
                     if (this.isPropBase)
                         this.setState({duct: response.data});
@@ -159,11 +161,8 @@ export const clientFetcher = function (TheComponent) {
 
             const props = {...this.props};
 
-            if (this.isPropBase) {
+            if (this.isPropBase)
                 props.duct = this.state.duct;
-            } else {
-
-            }
 
             return <TheComponent {...props}/>;
         }
