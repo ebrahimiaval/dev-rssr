@@ -8,37 +8,30 @@ import {isNotSet, isSet} from "../../setup/utility/checkSet";
 // define public structur and varibales
 export const initialize = function (req) {
     /** match **/
-        // IS CONSTATN
-        // match is match object of react-router-dom
-        // match of "site.com/post/1" is:
-        //     {
-        //         path: '/post/:postId',
-        //         url: '/post/1',
-        //         isExact: true,
-        //         params: {postId: '1'}
-        //      }
+    /*
+    * IS CONSTATN
+    * {undefined || object}
+    *
+    * match is match object of react-router-dom
+    * match of "site.com/post/1" is { path: '/post/:postId', url: '/post/1', isExact: true, params: {postId: '1'} }
+    */
     const matchedRouteMapItem = routeMap.find(route => {
-            // 'null' for not matched
-            // 'match object' for matched
-            const match = matchPath(req.path, route);
+        // is object for matched or null for not matched
+        const match = matchPath(req.path, route);
 
-            if (match)
-                als.set('match', match, true);
+        if (match)
+            als.set('match', match, true);
 
-            return match;
-        });
-
-
-
-
+        return match;
+    });
 
     // can not match to any route map item
     if (isNotSet(matchedRouteMapItem))
-        throw new Error('⛔ can not match to any route map item! define "*" path for not matched routes. (page not found - Error 404)');
+        throw new Error('⛔ can not match to any route map item! define "*" path for not matched routes to can handle e-404, page not found errors.');
 
 
 
-
+    
 
     // calculate parameters
     const

@@ -4,8 +4,10 @@
  */
 export const errorLogger = (title, timerStart, error, ignoreMessage, req) => {
     // get uesr IP if exist
-    let ip = '';
+    let ip = '', url = '';
     if (req !== undefined) {
+        url = req.url;
+
         ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
         if (typeof ip === 'string')
             ip = ip.split(',')[0];
@@ -27,7 +29,7 @@ export const errorLogger = (title, timerStart, error, ignoreMessage, req) => {
         type = "PUB"; // public error - other errors
     }
 
-    console.error(`${type} ${title} ${Date.now() - timerStart}ms ${ip}`);
+    console.error(`${type} ${title} ${Date.now() - timerStart}ms ${ip} ${url}`);
 
     if (errorMessage && !ignoreMessage)
         console.error(errorMessage);

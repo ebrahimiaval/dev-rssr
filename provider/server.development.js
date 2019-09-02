@@ -2,9 +2,8 @@
 require('./setup/evnLoader');
 
 const
-    opn = require('opn'),
+    open = require('open'),
     path = require('path'),
-    waitForLocalhost = require('wait-for-localhost'),
     express = require('express'),
     // webpack
     webpack = require('webpack'),
@@ -12,7 +11,9 @@ const
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
     webpackHotServerMiddleware = require('webpack-hot-server-middleware'),
-    c = require('./setup/constant');
+    //
+    c = require('./setup/constant'),
+    devServerIsReady = require('./setup/devServerIsReady');
 
 
 
@@ -31,7 +32,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 // static files
-app.use(express.static(path.resolve(process.cwd(), 'public'), {maxage: '7d'}));
+app.use(express.static(path.resolve(process.cwd(), './public'), {maxage: '7d'}));
 
 // recompile webpack when file changes
 app.use(webpackHotMiddleware(compiler.compilers.find(compiler => compiler.name === 'client')));
@@ -51,12 +52,12 @@ app.listen(PORT, error => {
         return console.error('Error in server.development.js: ', error);
     } else {
         // wait to project built and app ready
-        waitForLocalhost({port: PORT})
+        devServerIsReady(PORT)
             .then(function () {
                 // open project in browser
-                opn(`http://localhost:${PORT}`);
+                open(`http://localhost:${PORT}`);
 
                 console.log(`development server running at http://localhost:${process.env.PORT}`);
-            });
+            })
     }
 });
