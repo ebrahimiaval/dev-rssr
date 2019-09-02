@@ -1,7 +1,7 @@
 import React from 'react';
-import Error404 from "../../Error404/Error404";
+import Error404 from "../../../Error404/Error404";
 import {Helmet} from "react-helmet";
-import {browserHistory} from "../../../setup/browserHistory";
+import {browserHistory} from "../../../../setup/browserHistory";
 
 const DefaultErrors = (props) => {
     const {status, code} = props.data;

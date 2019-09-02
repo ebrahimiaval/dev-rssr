@@ -39,7 +39,7 @@ export default function () {
         storage.set('version', version);
 
         // sample of remove value
-        // if (nowVersion < 3) {
+        // if (nowVersion < 5 && nowVersion > 2) {
         //     localStorage.removeItem('sampleValue');
     }
 

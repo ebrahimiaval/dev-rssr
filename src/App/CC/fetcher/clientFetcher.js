@@ -5,7 +5,7 @@ import {isSet} from "../../../setup/utility/checkSet";
 import {clientQueryString} from "../../../setup/utility/clientQueryString";
 import {DUCT_DEFAULT_VALUE} from "../../../setup/constant";
 import {isErrorData} from "../../../setup/utility/isErrorData";
-import DefaultErrors from "../DefaultErrors/DefaultErrors";
+import DefaultErrors from "./CC/DefaultErrors";
 
 
 /**

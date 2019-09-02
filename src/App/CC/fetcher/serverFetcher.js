@@ -1,5 +1,5 @@
 import React from "react";
-import DefaultErrors from "../DefaultErrors/DefaultErrors";
+import DefaultErrors from "./CC/DefaultErrors";
 import {connect} from "trim-redux";
 import {isErrorData} from "../../../setup/utility/isErrorData";
 

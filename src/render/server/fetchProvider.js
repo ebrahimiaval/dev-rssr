@@ -1,11 +1,11 @@
 import als from "async-local-storage";
 
 
-// fetch data from server
+// fetch data of component from server
 export const fetchProvider = async function (req) {
     const fetchType = als.get('fetchType');
 
-    // when component has not fetch() then fetch is undefined
+    // when component has not fetch() then fetch is undefined and fetchType is 'WITH_OUT_FETCH'
     if (fetchType === 'WITH_OUT_FETCH')
         return true;
 

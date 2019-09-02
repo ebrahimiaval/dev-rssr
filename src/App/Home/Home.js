@@ -7,8 +7,8 @@ import {route} from "../../setup/route";
 // style
 import "./home.scss";
 import {axios} from "../../setup/utility/axios";
-import {fecher} from "../commonComponent/fetcher/fetcher";
-import Router from "../commonComponent/Router/Router";
+import {fecher} from "../CC/fetcher/fetcher";
+import Router from "../CC/Router/Router";
 
 
 
