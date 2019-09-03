@@ -1,18 +1,14 @@
 import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
-// action
-import {firstSetup} from "./CA/auth";
-// config
 import Router from "./CC/Router";
-// component
-// import SignInModal from "./_component/Auth/SignInModal";
-// import SignUpModal from "./_component/Auth/SignUpModal";
-import Menu from "./Menu/Menu";
-// app style
+import Menu from "./component/Menu/Menu";
 import "./app.scss";
 import FirstLoading from "./CC/FirstLoading";
+import {firstSetup} from "./CC/Auth/action/firstSetup";
 
+// import SignInModal from "./_component/Auth/SignInModal";
+// import SignUpModal from "./_component/Auth/SignUpModal";
 
 
 class App extends Component {
