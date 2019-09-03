@@ -1,7 +1,6 @@
 import als from "async-local-storage";
 // action
 import {render} from "./render";
-import {failedRequest} from "./failedRequest";
 import {fetchProvider} from "./fetchProvider";
 import {initialize} from "./initialize";
 
@@ -16,7 +15,8 @@ export default function serverRenderer() {
 
         const
             timerStart = Date.now(),// use in errorLogger for calculate proccess time
-            err = (error) => failedRequest(error, timerStart, res, req); // handle server error during process
+            // err = (error) => failedRequest(error, timerStart, res, req); // handle server error during process
+            err = (error) => render(req, res, error, timerStart); // handle server error during process
 
         try {
             // define basic parameters

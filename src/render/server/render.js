@@ -10,6 +10,8 @@ import {createStore, defaultState} from "../../setup/store";
 import App from "../../App/App";
 // template
 import Index from "../template/Index";
+import {errorLogger} from "../../setup/utility/errorLogger";
+import Error from "../template/Error";
 
 
 
@@ -19,40 +21,46 @@ import Index from "../template/Index";
  * @param req {object}: express req object
  * @param res {object}: express res object
  */
-export const render = function (req, res) {
-    const
-        fetch = als.get('fetch'),
-        updatedState = als.get('updatedState'),
-        states = !!fetch && !!updatedState ? {...defaultState, ...updatedState} : undefined; // when passed states is undefined then createStore use defaultState
+export const render = function (req, res, error = false, timerStart = 0) {
 
-    // render app to string and get renderedApp and helmet properies
-    // renderedApp is string of DOM structure
-    const
-        context = {},
-        store = createStore(states),
+    let app ;
+    const context = {};
+
+    if (!error) {
+        const
+            fetch = als.get('fetch'),
+            updatedState = als.get('updatedState'),
+            states = !!fetch && !!updatedState ? {...defaultState, ...updatedState} : undefined; // when passed states is undefined then createStore use defaultState
+
+        const store = createStore(states);
         app = (
             <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
                     <App/>
                 </StaticRouter>
             </Provider>
-        ),
-        renderedApp = ReactDOMServer.renderToString(app),
-        helmet = Helmet.renderStatic();
+        );
+    }else {
+        // log to console
+        errorLogger('server.js', timerStart, error, false, req);
+        app = <Error error={error}/>;
+    }
 
-    /** response of most requests **/
+
+    const renderedApp = ReactDOMServer.renderToString(app);
+    const helmet = Helmet.renderStatic();
+
     if (!context.url) {
-        const status = als.get('status') || 500;
+        const status = !error ? (als.get('status') || 500) : 500;
 
         // make HTML response
-        let response = <Index renderedApp={renderedApp} helmet={helmet}/>;
+        let response = <Index renderedApp={renderedApp} helmet={helmet} isError={!!error}/>;
         response = ReactDOMServer.renderToString(response);
         response = '<!DOCTYPE html>' + response;
 
         res.status(status).send(response);
-    }
-    /** when <Redirect> rendered **/
-    else {
+    } else {
+        // when <Redirect> rendered
         res.redirect(301, context.url);
     }
 }

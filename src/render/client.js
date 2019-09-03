@@ -14,7 +14,8 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import "../setup/style/bootstrap/bootstrap-rtl.scss";
 import "../setup/style/animate.scss";
 
-
+if (window.RSSR_PROCCESS_ERROR)
+    throw new Error('occur error');
 
 // define public structur and varibales
 localStorageSetup();
