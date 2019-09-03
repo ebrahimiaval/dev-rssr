@@ -5,21 +5,21 @@ import als from "async-local-storage";
 
 export default function (props) {
     const
-        {renderedApp, helmet, isError} = props,
+        {renderedApp, helmet, error} = props,
         htmlAttrs = helmet.htmlAttributes.toComponent(),
         bodyAttrs = helmet.bodyAttributes.toComponent(),
         fetch = als.get('fetch');
 
     // transfer data from server to client
     let transfer = '';
-    if (!isError) {
+    if (!error) {
         if (fetch) {
             const updatedState = als.get('updatedState');
             transfer = 'RSSR_UPDATED_REDUX_STATES =' + serialize(updatedState);
             transfer = <script dangerouslySetInnerHTML={{__html: transfer}}/>;
         }
     } else {
-        transfer = <script dangerouslySetInnerHTML={{__html: 'RSSR_PROCCESS_ERROR=true'}}/>;
+        transfer = <script dangerouslySetInnerHTML={{__html: 'RSSR_PROCCESS_ERROR = true'}}/>;
     }
 
     return (

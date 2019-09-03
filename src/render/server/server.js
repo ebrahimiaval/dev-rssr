@@ -15,8 +15,7 @@ export default function serverRenderer() {
 
         const
             timerStart = Date.now(),// use in errorLogger for calculate proccess time
-            // err = (error) => failedRequest(error, timerStart, res, req); // handle server error during process
-            err = (error) => render(req, res, error, timerStart); // handle server error during process
+            response = (error) => render(error, req, res, timerStart); // make response
 
         try {
             // define basic parameters
@@ -24,10 +23,10 @@ export default function serverRenderer() {
 
             // call fetch() of component and get data
             fetchProvider(req)
-                .then(() => render(req, res)) // get data successfully
-                .catch((e) => err(e)); // occur error in fetchProvider() or render()
+                .then(() => response()) // get data successfully
+                .catch((e) => response(e)); // occur error in fetchProvider() or render()
         } catch (e) {
-            err(e) // occur error in try
+            response(e) // occur error in try
         }
     };
 }
