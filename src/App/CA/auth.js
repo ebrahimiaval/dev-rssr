@@ -1,38 +1,15 @@
-import {getStore, setStore} from "trim-redux";
-import {isSet} from "../../setup/utility/checkSet";
+import {setStore} from "trim-redux";
 import {storage} from "../../setup/utility/storage";
+import {axios} from "../../setup/utility/axios";
+import {api} from "../../setup/api";
+import {toast} from "react-toastify";
 
 
 
 
 
 /**
- * Authorize user
- *
- * if(user is valid)
- *      return user details object
- * else
- *     return false
- *
- *
- *     when user is not login OR logout 'user === null'
- *     else 'user === user details'
- */
-export const isValidUser = () => {
-    const localUser = getStore('localUser');
-
-    if (!isSet(localUser))
-        return false;
-
-    return localUser.token !== null;
-}
-
-
-
-
-
-/**
- * set "updated: true" to stop loading of need Authentication Component and
+ * set "updated: true" to stop loading of need Authentication Components and
  * set "token: null" becuse user is invalid (is guest)
  * NOTICE: localUser of guest user does not "detail" property.
  */
@@ -57,7 +34,7 @@ export const firstSetup = () => {
     } else {
         // Real user
         // when token exist mean in the past one user loged in
-        // but does not mean Real user is a valid user, so token need authentication.
+        // but does not mean user is a valid user, so token need authentication.
         //
         // when server say token is valid then it's a Real and Valid user, and
         // when server say is NOT valid then runing signingOut() method and
@@ -134,36 +111,26 @@ export const signingout = () => {
  * @returns {Promise<any>}: when user is valid do then and when invalid do catch
  */
 export const authentication = (token) => {
-    // return new Promise(function (resolve, reject) {
-    //     ajax({
-    //         name: 'authentication',
-    //         url: api.userDetails,
-    //         token: token
-    //     })
-    //     //--------------------------------------------------
-    //         .done(async (userDetails) => {
-    //             // set user as Real and valid user
-    //             // and insert user detail with detail property
-    //             setStore({
-    //                 localUser: {
-    //                     updated: true,
-    //                     token: token,
-    //                     detail: userDetails
-    //                 }
-    //             });
-    //
-    //             resolve('token is valid and user details ready to use');
-    //         })
-    //         //--------------------------------------------------
-    //         .fail((xhr, textStatus, text) => {
-    //             // when token is invalid
-    //             if (text !== 'abort') {
-    //                 signingout();
-    //
-    //                 toast.error('authentication error. please log in again.');
-    //
-    //                 reject(xhr);
-    //             }
-    //         });
-    // })
+    return axios({
+        url: api.userDetails,
+        token: token
+    })
+        .then((userDetails) => {
+            // token is valid and user details ready to use
+            setStore({
+                localUser: {
+                    updated: true,
+                    token: token,
+                    detail: userDetails
+                }
+            });
+        })
+        .catch((e) => {
+            console.log(e);
+
+            // when token is invalid
+            signingout();
+
+            toast.error('authentication error. please log in again.');
+        });
 }

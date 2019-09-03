@@ -18,24 +18,30 @@ export const fetchProvider = async function (req) {
         query: req.query //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
     };
 
+
+    const handleResponse = (response) => {
+        // excute 'throw new Error' if response is not valid
+        responseValidation(response);
+
+        // set response status code
+        als.set('status', response.status, true);
+
+        const
+            stateName = als.get('stateName'),
+            updatedState = {[stateName]: response.data};
+
+        // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template
+        // to pass data to the client for syncing reduxes and merge with defaultState
+        // of redux to creare store on the server
+        als.set('updatedState', updatedState, true);
+    }
+
     // ::2::
     // NOTICE: catch() will be handel on the server.js with failedRes()
     await
         fetch(ftechParams)
-            .then(function (response) {
-                // excute 'throw new Error' if response is not valid
-                responseValidation(response);
-
-                // set response status code
-                als.set('status', response.status, true);
-
-                const
-                    stateName = als.get('stateName'),
-                    updatedState = {[stateName]: response.data};
-
-                // we use updatedState to set value of RSSR_UPDATED_REDUX_STATES in index template
-                // to pass data to the client for syncing reduxes and merge with defaultState
-                // of redux to creare store on the server
-                als.set('updatedState', updatedState, true);
-            });
+            .then(handleResponse)
+            .catch(function (error) {
+                handleResponse(error);
+            })
 }

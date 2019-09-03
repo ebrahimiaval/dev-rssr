@@ -6,7 +6,7 @@ import {regexpPattern} from "../../../../render/config/regexpPattern";
 import {api} from "../../../../render/config/api";
 import {route} from "../../../../render/config/route";
 // action
-import {signingIn} from "../../action/authentication";
+import {signingIn} from "../../action/auth";
 // utility
 // import {ajax} from "../../../../render/utility/fetchData";
 import {isSet} from "../../../../render/utility/checkSet";

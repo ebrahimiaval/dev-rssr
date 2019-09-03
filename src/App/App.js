@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
 // action
-import {firstSetup} from "./CA/authentication";
+import {firstSetup} from "./CA/auth";
 // config
 import Router from "./CC/Router";
 // component
@@ -18,7 +18,6 @@ import FirstLoading from "./CC/FirstLoading";
 class App extends Component {
 
     componentDidMount() {
-
         // user Authentication, get cart, set theme and more.
         firstSetup();
     }

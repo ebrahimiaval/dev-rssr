@@ -6,6 +6,9 @@ import {getStore} from "trim-redux";
 /**
  * customize axios
  *
+ * NOTICE: token local custom configs and by default is 'false'. see tokenProvider() for more information.
+ *
+ *
  * @param userConfig {object}: custom user config
  * @returns {Promise<AxiosResponse<any> | never>}
  */
@@ -33,10 +36,9 @@ export const axios = function (userConfig) {
         .catch(function (error) {
             // handel error as response
             //
-            // !! NOTICE
-            // this data catch by <DefaultErrors/> becuse data.error is true ::3::
-            // if you want to catch in your component
-            // you must write your catch data structure in fetch() with out data.error or false data.error
+            // // NOTICE: in fetch() bellow 'response' data catch by <DefaultErrors/> ::3::
+            // if you want to catch in your component or change data structure
+            // you must return your data structure in then() of used axios()
             let response = {
                 status: null,
                 data: {
@@ -63,7 +65,7 @@ export const axios = function (userConfig) {
             if (response.status !== null) {
                 // none-200 status (3**, 4**, 5**), request timeout and internet not found
                 response.data.status = response.status;
-                return response;
+                throw response;
             } else {
                 // internal errors (like semantic errors) and other request errors (with out timeout)
                 throw error;

@@ -10,7 +10,7 @@ import {formValidation} from "../../../../render/utility/formValidation";
 import {isSet} from "../../../../render/utility/checkSet";
 import {errorHandeler} from "../../../../render/utility/errorHandeler";
 // action
-import {signingIn} from "../../action/authentication";
+import {signingIn} from "../../action/auth";
 //style
 import "./signUp.scss";
 
