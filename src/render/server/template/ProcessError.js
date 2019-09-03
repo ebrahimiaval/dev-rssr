@@ -4,6 +4,7 @@ import {Helmet} from "react-helmet";
 
 export default (props) => {
     const isDevEnv = process.env.NODE_ENV === 'development';
+
     return (
         <div className="p-5">
             <Helmet title="خطای پردازش"/>
@@ -19,7 +20,10 @@ export default (props) => {
                 {props.error.message}
             </div>
             {
-                isDevEnv ? <pre className="px-3 text-right">{props.error.stack}</pre> : ''
+                isDevEnv ?
+                    <pre className="px-3 text-right">{props.error.stack}</pre>
+                    :
+                    <script dangerouslySetInnerHTML={{__html: 'console.log(`' + JSON.stringify(props.error.stack) + '`)'}}/>
             }
         </div>
     )
