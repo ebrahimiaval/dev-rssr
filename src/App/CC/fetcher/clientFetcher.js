@@ -4,7 +4,7 @@ import {defaultState} from "../../../setup/store";
 import {clientQueryString} from "../../../setup/utility/clientQueryString";
 import {isErrorData} from "../../../setup/utility/isErrorData";
 import {responseValidation} from "../../../setup/utility/responseValidation";
-import DefaultErrors from "./CC/DefaultErrors";
+import DefaultErrors from "../DefaultErrors";
 
 
 /**

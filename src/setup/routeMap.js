@@ -4,20 +4,13 @@ import {route} from "./route";
 import Error404 from "../App/Error404/Error404";
 import Home from "../App/Home/Home";
 import Post from "../App/Post/Post";
-import Test from "../App/Home/Test";
 
 
 export const routeMap = [
     {
         path: route.home,
         component: Home,
-        exact: true,
-        subRoute: [
-            {
-                path: '/test',
-                component: Test,
-            }
-        ]
+        exact: true
     },
     {
         path: route.post(),

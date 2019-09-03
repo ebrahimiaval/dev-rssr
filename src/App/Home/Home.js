@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
 import "./home.scss";
-import Router from "../CC/Router/Router";
 import {Link} from "react-router-dom";
 import {api} from "../../setup/api";
 import {route} from "../../setup/route";
@@ -55,8 +54,6 @@ class Home extends Component {
         return (
             <div id="hme" className="container">
                 <Helmet title="صفحه ‌اصلی"/>
-
-                <Router subRoute={this.props.subRoute}/>
 
                 <div className="jumbotron mt-3" id="abc">
                     <h5>موفقیت اتفاقی نیست!</h5>

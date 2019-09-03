@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Notify from "../CC/Notify/Notify";
+import Notify from "../Notify/Notify";
 import SignIn from "./SignIn";
 
 class SignInModal extends Component {

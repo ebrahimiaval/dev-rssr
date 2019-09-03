@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import "../setup/style/bootstrap/bootstrap-rtl.scss";
 import "../setup/style/animate.scss";
 
-
+// ::4::
 if (!window.RSSR_PROCCESS_ERROR) {
     // define public structur and varibales
     localStorageSetup();

@@ -4,7 +4,7 @@ import {ToastContainer} from 'react-toastify';
 // action
 import {firstSetup} from "./CA/authentication";
 // config
-import Router from "./CC/Router/Router";
+import Router from "./CC/Router";
 // component
 // import SignInModal from "./_component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
