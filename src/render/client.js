@@ -6,15 +6,11 @@ import {clientCreateStore} from "../setup/store";
 import {browserHistory} from "../setup/browserHistory";
 import localStorageSetup from "../setup/localStorage";
 import App from "../App/App";
-// jQuery
 import 'bootstrap-v4-rtl';
 import "../setup/utility/samplejQueryPlugin";
-// style
 import 'react-toastify/dist/ReactToastify.min.css';
 import "../setup/style/bootstrap/bootstrap-rtl.scss";
 import "../setup/style/animate.scss";
-import "./server/template/ProcessError";
-
 
 
 if (!window.RSSR_PROCCESS_ERROR) {

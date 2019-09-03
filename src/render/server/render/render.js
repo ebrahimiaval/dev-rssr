@@ -4,14 +4,11 @@ import {StaticRouter} from "react-router-dom";
 import als from "async-local-storage";
 import {Helmet} from "react-helmet";
 import {Provider} from "react-redux";
-// config
-import {createStore, defaultState} from "../../setup/store";
-// component
-import App from "../../App/App";
-// template
-import Index from "./Index";
-import {errorLogger} from "../../setup/utility/errorLogger";
-import ProcessError from "./template/ProcessError";
+import {createStore, defaultState} from "../../../setup/store";
+import App from "../../../App/App";
+import {errorLogger} from "../../../setup/utility/errorLogger";
+import Template from "./Template";
+import ProcessError from "./ProcessError";
 
 
 
@@ -23,26 +20,22 @@ export const render = function (error, req, res, timerStart) {
     const context = {};
 
     if (!error) {
-        const
-            fetch = als.get('fetch'),
-            updatedState = als.get('updatedState'),
-            states = !!fetch && !!updatedState ? {...defaultState, ...updatedState} : undefined; // when passed states is undefined then createStore use defaultState
-
+        const fetch = als.get('fetch');
+        const updatedState = als.get('updatedState');
+        const states = !!fetch && !!updatedState ? {...defaultState, ...updatedState} : undefined; // when passed states is undefined then createStore use defaultState
         const store = createStore(states);
+
         app = (
             <Provider store={store}>
                 <StaticRouter location={req.url} context={context}>
-                    <App/>
+                    <App processError={error}/>
                 </StaticRouter>
             </Provider>
         );
-    }
-    /** render ERROR **/
-    else {
-        // log to console
-        errorLogger('server.js', timerStart, error, false, req);
+    } else {
+        errorLogger('server.js', timerStart, error, false, req); // log to console
 
-        app = <ProcessError error={error}/>;
+        app = <ProcessError error={error}/>
     }
 
     const renderedApp = ReactDOMServer.renderToString(app);
@@ -52,7 +45,7 @@ export const render = function (error, req, res, timerStart) {
         const status = !error ? (als.get('status') || 500) : 500;
 
         // make HTML response
-        let response = <Index renderedApp={renderedApp} helmet={helmet} error={error}/>;
+        let response = <Template renderedApp={renderedApp} helmet={helmet} error={error}/>;
         response = ReactDOMServer.renderToString(response);
         response = '<!DOCTYPE html>' + response;
 
