@@ -63,7 +63,7 @@ export const clientFetcher = function (TheComponent) {
                 })
                 .catch(function (error) {
                     const response = convertErrorToResponse(error);
-                    setStore(stateName, response);
+                    setStore(stateName, response.data);
                 })
         }
 
@@ -72,7 +72,7 @@ export const clientFetcher = function (TheComponent) {
 
         // log fetch type in development environment
         logger(inClient) {
-            if (process.env.NODE_ENV === 'development')
+            if (JSON.parse(process.env.RSSR_FETCHER_LOGGER))
                 console.info((inClient ? '🙎‍♂️' : '🌎') + ' fetch ' + this.props.match.url + ' in ' + (inClient ? 'client' : 'server'));
         }
 
