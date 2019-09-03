@@ -28,9 +28,7 @@ class Home extends Component {
             // baseURL: false,
         })
         // .then((response) => {
-        //     // var x = '';
-        //     // x = x.map(() => '');
-        //     // console.log(x);
+        //     ''.map(() => '');
         //
         //     return response;
         //

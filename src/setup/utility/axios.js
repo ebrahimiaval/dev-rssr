@@ -8,7 +8,6 @@ import {getStore} from "trim-redux";
  *
  * NOTICE: token local custom configs and by default is 'false'. see tokenProvider() for more information.
  *
- *
  * @param userConfig {object}: custom user config
  * @returns {Promise<AxiosResponse<any> | never>}
  */
@@ -29,48 +28,7 @@ export const axios = function (userConfig) {
     // insert Authorization token
     config = tokenProvider(config);
 
-    return axiosBase(config)
-    // .then((response) => {
-    //     return response;
-    // })
-        .catch(function (error) {
-            // handel error as response
-            //
-            // // NOTICE: in fetch() bellow 'response' data catch by <DefaultErrors/> ::3::
-            // if you want to catch in your component or change data structure
-            // you must return your data structure in then() of used axios()
-            let response = {
-                status: null,
-                data: {
-                    error: true,
-                    code: error.code
-                }
-            };
-
-            if (error.response) {
-                response.status = error.response.status;
-                response.data.data = error.response.data;
-            }
-            // handel request time out error
-            else if (error.code === 'ECONNABORTED') {
-                response.status = 504;
-                response.data.data = error.message;
-            }
-            // handel internet not found error
-            else if (error.code === 'ENOTFOUND') {
-                response.status = 502;
-                response.data.data = error.message;
-            }
-
-            if (response.status !== null) {
-                // none-200 status (3**, 4**, 5**), request timeout and internet not found
-                response.data.status = response.status;
-                throw response;
-            } else {
-                // internal errors (like semantic errors) and other request errors (with out timeout)
-                throw error;
-            }
-        });
+    return axiosBase(config);
 }
 
 

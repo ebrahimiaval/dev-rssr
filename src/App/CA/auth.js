@@ -126,11 +126,9 @@ export const authentication = (token) => {
             });
         })
         .catch((e) => {
-            console.log(e);
-
-            // when token is invalid
+            // token is invalid or occur an error
             signingout();
-
             toast.error('authentication error. please log in again.');
+            console.error(e);
         });
 }

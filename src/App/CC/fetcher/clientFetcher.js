@@ -4,7 +4,8 @@ import {defaultState} from "../../../setup/store";
 import {clientQueryString} from "../../../setup/utility/clientQueryString";
 import {isErrorData} from "../../../setup/utility/isErrorData";
 import {responseValidation} from "../../../setup/utility/responseValidation";
-import DefaultErrors from "../DefaultErrors";
+import DefaultErrors from "./DefaultErrors";
+import {convertErrorToResponse} from "../../../setup/utility/convertErrorToResponse";
 
 
 /**
@@ -58,8 +59,11 @@ export const clientFetcher = function (TheComponent) {
                 .then((response) => {
                     // excute 'throw new Error' if response is not valid
                     responseValidation(response);
-
                     setStore(stateName, response.data);
+                })
+                .catch(function (error) {
+                    const response = convertErrorToResponse(error);
+                    setStore(stateName, response);
                 })
         }
 
