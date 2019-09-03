@@ -6,6 +6,7 @@ import {clientQueryString} from "../../../setup/utility/clientQueryString";
 import {DUCT_DEFAULT_VALUE} from "../../../setup/constant";
 import {isErrorData} from "./CA/isErrorData";
 import DefaultErrors from "./CC/DefaultErrors";
+import {responseValidation} from "../../../setup/utility/responseValidation";
 
 
 /**
@@ -33,46 +34,11 @@ export const clientFetcher = function (TheComponent) {
                 match: this.props.match,
                 query: clientQueryString()
             };
-            this.stateName = TheComponent.redux;
-            this.isReduxBase = isSet(this.stateName);
-            this.isPropBase = !this.isReduxBase;
 
-            let dataExist;
-
-            /** Prop Base **/
-            if (this.isPropBase) {
-                dataExist = isSet(window.RSSR_DUCT);
-
-                this.state = {
-                    duct: dataExist ? window.RSSR_DUCT : DUCT_DEFAULT_VALUE
-                }
-
-                if (dataExist) {
-                    if (isErrorData(this.state.duct))
-                        this.erroredData = this.state.duct;
-
-                    delete window.RSSR_DUCT;
-                }
-            }
-
-            /** Redux Base **/
-            else {
-                dataExist = isSet(window.RSSR_UPDATED_REDUX_STATES);
-
-                if (dataExist) {
-                    const data = window.RSSR_UPDATED_REDUX_STATES[this.stateName];
-
-                    if (isErrorData(data))
-                        this.erroredData = data;
-
-                    delete window.RSSR_UPDATED_REDUX_STATES;
-                }
-            }
-
-            if (!dataExist)
+            if (JSON.stringify(this.props[stateName]) === JSON.stringify(defaultState[stateName]))
                 this.fetchProvider();
             else
-                this.logger('server');
+                this.logger(false);
         }
 
 
@@ -81,23 +47,20 @@ export const clientFetcher = function (TheComponent) {
 
         // fetch data and insert to redux or duct
         fetchProvider() {
-            this.logger('client');
+            this.logger(true);
 
             TheComponent
                 .fetch(this.ftechParams)
                 .then((response) => {
-                    if (!response.hasOwnProperty('data'))
-                        throw new Error('⛔ invalid fetch() response. "data" is required. pleace check axios returns.\n');
+                    // excute 'throw new Error' if response is not valid
+                    responseValidation(response);
 
                     if (isErrorData(response.data))
                         this.erroredData = response.data;
                     else
-                        this.erroredData = false; // reset
+                        this.erroredData = false; // reset last error
 
-                    if (this.isPropBase)
-                        this.setState({duct: response.data});
-                    else
-                        setStore(this.stateName, response.data)
+                    setStore(stateName, response.data);
                 })
         }
 
@@ -105,9 +68,8 @@ export const clientFetcher = function (TheComponent) {
 
 
 
-        logger(side) {
-            const withBase = this.isPropBase ? 'Props' : 'Redux';
-            console.info('💬 fetch data of "' + this.ftechParams.match.url + '" as ' + withBase + 'Base on the ' + side + '.');
+        logger(inClient) {
+            console.info('💬 fetch data of ' + this.ftechParams.match.url + ' in ' + (inClient ? 'browser' : 'server'));
         }
 
 
@@ -115,31 +77,30 @@ export const clientFetcher = function (TheComponent) {
 
 
         resetDataHolder() {
-            if (this.isPropBase) {
-                this.setState({duct: DUCT_DEFAULT_VALUE});
-            } else {
-                const defaultValue = defaultState[this.stateName];
-                setStore(this.stateName, defaultValue);
-            }
+            const defaultValue = defaultState[stateName];
+            setStore(stateName, defaultValue);
         }
 
 
 
 
 
+        /**
+         *  update when route update. for example click on like '/post/2' in mounted component with path '/post/1'
+         */
         componentDidUpdate(prevProps) {
-            // update when route update
-            // exp: click on '/post/2' in mounted 'post 1'
-            if (this.props.location.key !== prevProps.location.key) {
-                // update match
-                this.ftechParams.match = this.props.match;
+            if (this.props.location.key === prevProps.location.key)
+                return;
 
-                // to show loading
-                this.resetDataHolder();
+            // update match
+            this.ftechParams.match = this.props.match;
 
-                // get data of new route
-                this.fetchProvider();
-            }
+            // to show loading
+            this.resetDataHolder();
+
+            // get data of new route
+            this.fetchProvider();
+
         }
 
 
@@ -159,21 +120,14 @@ export const clientFetcher = function (TheComponent) {
             if (this.erroredData)
                 return <DefaultErrors data={this.erroredData}/>
 
-            const props = {...this.props};
-
-            if (this.isPropBase)
-                props.duct = this.state.duct;
-
-            return <TheComponent {...props}/>;
+            return <TheComponent {...this.props}/>;
         }
     }
 
-    if (isSet(stateName)) {
-        const mstp = state => ({
-            [stateName]: state[stateName]
-        });
-        Fecher = connect(mstp)(Fecher);
-    }
 
-    return Fecher;
+    const mstp = state => ({
+        [stateName]: state[stateName]
+    });
+
+    return connect(mstp)(Fecher);
 }
