@@ -1,7 +1,7 @@
 import React from "react";
 import DefaultErrors from "./CC/DefaultErrors";
+import {isErrorData} from "../../../setup/utility/isErrorData";
 import {connect} from "trim-redux";
-import {isErrorData} from "./CA/isErrorData";
 
 /**
  *  provider Fetcher HOC of server side

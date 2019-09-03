@@ -1,14 +1,13 @@
 export const responseValidation = function (response) {
-    // check data and status exist
+    // exist data and status
     if (!response.hasOwnProperty('data') || !response.hasOwnProperty('status'))
-        throw new Error('⛔ invalid fetch() response. "data" and "status" is required. pleace check axios returns.');
+        throw new Error('⛔ invalid fetch() response. check axios returns, "data" and "status" is required properties in response.');
 
-    // check status type
-    if (typeof response.status !== "number")
-        throw new Error('⛔ invalid fetch() response. value of "status" is not number! pleace check axios returns.');
+    // status data type
+    if (typeof response.status !== 'number')
+        throw new Error('⛔ invalid status data type of fetch() response. status data type must be number like 404. status is ' + response.status + ' with type ' + typeof response.status);
 
-    // check status valid range
+    // status valid range
     if (response.status < 100 || response.status >= 600)
         console.warn('📌 value of "status" is not in valid range (1** to 5**). status is ' + response.status)
-
 }

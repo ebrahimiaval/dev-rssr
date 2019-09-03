@@ -20,7 +20,7 @@
         "open": "^6.4.0",
         "popper.js": "^1.14.7",
         "react": "^16.9.0",
-        "react-dom": "^16.8.3",
+        "react-dom": "^16.8.6",
         "react-helmet": "^5.2.1",
         "react-lazy-load-image-component": "^1.3.2",
         "react-router-dom": "^4.3.1",

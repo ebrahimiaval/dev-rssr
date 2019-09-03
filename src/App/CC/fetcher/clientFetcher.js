@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {connect, setStore} from "trim-redux";
 import {defaultState} from "../../../setup/store";
-import {isSet} from "../../../setup/utility/checkSet";
 import {clientQueryString} from "../../../setup/utility/clientQueryString";
-import {DUCT_DEFAULT_VALUE} from "../../../setup/constant";
-import {isErrorData} from "./CA/isErrorData";
-import DefaultErrors from "./CC/DefaultErrors";
+import {isErrorData} from "../../../setup/utility/isErrorData";
 import {responseValidation} from "../../../setup/utility/responseValidation";
+import DefaultErrors from "./CC/DefaultErrors";
 
 
 /**
@@ -27,15 +25,20 @@ export const clientFetcher = function (TheComponent) {
         constructor(props) {
             super(props);
 
-            this.erroredData = false;
-
-            // params passed to fetch() on the client
+            // params passed to fetch() on the client ::1::
             this.ftechParams = {
                 match: this.props.match,
                 query: clientQueryString()
             };
 
-            if (JSON.stringify(this.props[stateName]) === JSON.stringify(defaultState[stateName]))
+            let needClientFetch;
+            try {
+                needClientFetch = JSON.stringify(this.props[stateName]) === JSON.stringify(defaultState[stateName])
+            } catch (e) {
+                console.error('⚠ data is not valid.', e);
+            }
+
+            if (needClientFetch)
                 this.fetchProvider();
             else
                 this.logger(false);
@@ -45,20 +48,16 @@ export const clientFetcher = function (TheComponent) {
 
 
 
-        // fetch data and insert to redux or duct
+        // fetch data and insert to redux
         fetchProvider() {
             this.logger(true);
 
+            // ::2::
             TheComponent
                 .fetch(this.ftechParams)
                 .then((response) => {
                     // excute 'throw new Error' if response is not valid
                     responseValidation(response);
-
-                    if (isErrorData(response.data))
-                        this.erroredData = response.data;
-                    else
-                        this.erroredData = false; // reset last error
 
                     setStore(stateName, response.data);
                 })
@@ -67,9 +66,10 @@ export const clientFetcher = function (TheComponent) {
 
 
 
-
+        // log fetch type in development environment
         logger(inClient) {
-            console.info('💬 fetch data of ' + this.ftechParams.match.url + ' in ' + (inClient ? 'browser' : 'server'));
+            if (process.env.NODE_ENV === 'development')
+                console.info((inClient ? '🙎‍♂️' : '🌎') + ' fetch ' + this.props.match.url + ' in ' + (inClient ? 'client' : 'server'));
         }
 
 
@@ -117,12 +117,16 @@ export const clientFetcher = function (TheComponent) {
 
 
         render() {
-            if (this.erroredData)
-                return <DefaultErrors data={this.erroredData}/>
+            const data = this.props[stateName];
+            if (isErrorData(data))
+                return <DefaultErrors data={data}/>
 
             return <TheComponent {...this.props}/>;
         }
     }
+
+
+
 
 
     const mstp = state => ({

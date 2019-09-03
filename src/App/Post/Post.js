@@ -34,8 +34,6 @@ class Post extends Component {
             postId = Number(this.props.match.params.postId),
             {post} = this.props;
 
-        return '';
-
         return (
             <div className="container">
                 <Helmet title={post !== null ? post.title : 'باگذاری ...'}/>

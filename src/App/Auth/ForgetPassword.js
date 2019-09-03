@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {toast} from 'react-toastify';
 // utility
-import {ajax, validationForm} from "../../../../render/utility/helper/helper";
+import {ajax, formValidation} from "../../../../render/utility/helper/helper";
 import {regexpPattern} from "../../../../render/utility/pattern";
 import {api} from "../../../../render/utility/api";
 import {route} from "../../../../render/utility/route";
@@ -50,7 +50,7 @@ class ForgetPassword extends Component {
 
 
     submitForm(e) {
-        if (!validationForm(e))
+        if (!formValidation(e))
             return false;
 
         const

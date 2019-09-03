@@ -12,12 +12,14 @@ export const fetchProvider = async function (req) {
         return true;
 
 
-    // pass to fetch() as params
+    // pass to fetch() as params ::1::
     const ftechParams = {
         match: als.get('match'), // match is match object of react-router-dom
         query: req.query //exp: {foo:'bar'} in 'http://www.site.com/post/1?foo=bar'
     };
 
+    // ::2::
+    // NOTICE: catch() will be handel on the server.js with failedRes()
     await
         fetch(ftechParams)
             .then(function (response) {
@@ -36,6 +38,4 @@ export const fetchProvider = async function (req) {
                 // of redux to creare store on the server
                 als.set('updatedState', updatedState, true);
             });
-    // catch() will be handel on the server.js with failedRes()
-
 }

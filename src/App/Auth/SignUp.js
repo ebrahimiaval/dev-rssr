@@ -5,7 +5,7 @@ import {withRouter} from "react-router-dom";
 import {regexpPattern} from "../../../../render/config/regexpPattern";
 import {api} from "../../../../render/config/api";
 // utility
-import {validationForm} from "../../../../render/utility/validationForm";
+import {formValidation} from "../../../../render/utility/formValidation";
 // import {ajax} from "../../../../render/utility/fetchData";
 import {isSet} from "../../../../render/utility/checkSet";
 import {errorHandeler} from "../../../../render/utility/errorHandeler";
@@ -24,7 +24,7 @@ class SignUp extends Component {
     }
 
     submitSignUp(e) {
-        if (!validationForm(e))
+        if (!formValidation(e))
             return false;
 
         const

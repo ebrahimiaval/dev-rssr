@@ -2,7 +2,7 @@
  * form validation
  * check the form have any error then retrun true or false.
  */
-export const validationForm = (e) => {
+export const formValidation = (e) => {
     const $form = $(e.target);
     e.preventDefault();
     e.stopPropagation();

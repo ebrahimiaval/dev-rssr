@@ -11,7 +11,7 @@ import {signingIn} from "../../action/authentication";
 // import {ajax} from "../../../../render/utility/fetchData";
 import {isSet} from "../../../../render/utility/checkSet";
 import {errorHandeler} from "../../../../render/utility/errorHandeler";
-import {validationForm} from "../../../../render/utility/validationForm";
+import {formValidation} from "../../../../render/utility/formValidation";
 import {random} from "../../../../render/utility/random";
 //style
 import "./signIn.scss";
@@ -31,7 +31,7 @@ class SignIn extends Component {
 
 
     submitSignIn(e) {
-        if (!validationForm(e))
+        if (!formValidation(e))
             return false;
 
         const {userName, password, rememberMe} = this.state;
@@ -81,7 +81,7 @@ class SignIn extends Component {
     submitForgetPassword(e) {
         const {forgetEmail} = this.state;
 
-        if (!validationForm(e))
+        if (!formValidation(e))
             return false;
 
         // loading
