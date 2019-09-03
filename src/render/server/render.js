@@ -9,7 +9,7 @@ import {createStore, defaultState} from "../../setup/store";
 // component
 import App from "../../App/App";
 // template
-import Index from "../template";
+import Index from "../template/Index";
 
 
 

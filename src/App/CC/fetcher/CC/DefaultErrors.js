@@ -3,6 +3,8 @@ import Error404 from "../../../Error404/Error404";
 import {Helmet} from "react-helmet";
 import {browserHistory} from "../../../../setup/browserHistory";
 
+
+// use data error of axios ::3::
 const DefaultErrors = (props) => {
     const {status, code} = props.data;
 

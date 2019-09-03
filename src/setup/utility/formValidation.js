@@ -11,6 +11,7 @@ export const formValidation = (e) => {
         $form.addClass('was-validated');
         return false;
     }
+
     $form.removeClass('was-validated');
     return true;
 }

@@ -33,8 +33,8 @@ export const axios = function (userConfig) {
         .catch(function (error) {
             // handel error as response
             //
-            // !! NOTICE !!
-            // this data catch by <DefaultErrors/> becuse data.error is true
+            // !! NOTICE
+            // this data catch by <DefaultErrors/> becuse data.error is true ::3::
             // if you want to catch in your component
             // you must write your catch data structure in fetch() with out data.error or false data.error
             let response = {
