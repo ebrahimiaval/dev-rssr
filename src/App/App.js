@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
-import Router from "./CC/Router";
+import Router from "./component/Router";
 import Menu from "./component/Menu/Menu";
 import "./app.scss";
-import FirstLoading from "./CC/FirstLoading";
-import {firstSetup} from "./CC/Auth/action/firstSetup";
+import FirstLoading from "./component/FirstLoading";
+import {firstSetup} from "./component/Auth/action/firstSetup";
 
 // import SignInModal from "./_component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
