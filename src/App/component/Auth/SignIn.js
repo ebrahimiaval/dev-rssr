@@ -4,6 +4,11 @@ import "./signIn.scss";
 import {formValidation} from "../../../setup/utility/formValidation";
 import {random} from "../../../setup/utility/random";
 import {regexp} from "../../../setup/constant";
+import {axios} from "../../../setup/utility/axios";
+import {api} from "../../../setup/api";
+import {isSet} from "../../../setup/utility/checkSet";
+import {signingIn} from "./action/signingIn";
+import {toast} from "react-toastify";
 
 
 class SignIn extends Component {
@@ -18,51 +23,33 @@ class SignIn extends Component {
     }
 
 
-    submitSignIn(e) {
+    submitSignIn = (e) => {
         if (!formValidation(e))
             return false;
 
-        // const {userName, password, rememberMe} = this.state;
+        const {userName, password, rememberMe} = this.state;
 
         // set loading
         this.setState({isLoading: true});
-        /*
-                ajax({
-                    name: 'submitSignIn',
-                    url: api.signin(),
-                    method: 'POST',
-                    data: {email: userName, password: password}
-                })
-                //----------------------------------------------
-                    .done((response) => {
+        axios({
+            url: api.signin,
+            // method: 'POST',
+            data: {email: userName, password: password}
+        })
+        //----------------------------------------------
+            .then((response) => {
+                // close the modal when launched from Notify modal
+                if (isSet(this.props.notify))
+                    this.props.notify.$modal.modal('hide');
 
-                        // exist or not exist 2 step verificaton
-                        if (isSet(response.token)) {
-                            // close the modal when launched from Notify modal
-                            if (isSet(this.props.notify))
-                                this.props.notify.$modal.modal('hide');
-                            // set token to localStorage if remember me checked and get user details
-                            signingIn(response.token, rememberMe);
-                        } else {
-                            this.setState({viewType: 'twoStepVerification',isLoading: false})
-                        }
-                    })
-                    //----------------------------------------------
-                    .fail((xhr, textStatus, text) => {
-                        if (text !== 'abort') {
-                            // remove loading
-                            this.setState({isLoading: false});
-
-                            if (xhr.status !== 0) {
-                                if (xhr.status === 401)
-                                    toast.error('username or password is not currect!');
-
-                                errorHandeler.e422(xhr);
-                            } else {
-
-                            }
-                        }
-                    });*/
+                // set token to localStorage if remember me checked and get user details
+                signingIn(response.data.token, rememberMe);
+            })
+            //----------------------------------------------
+            .catch(() => {
+                this.setState({isLoading: false});
+                toast.error('نام کاربری یا رمز عبور اشتباه است!');
+            });
     }
 
 
@@ -122,7 +109,7 @@ class SignIn extends Component {
                         (//------ login form ------
                             <form className="signin-form"
                                   ref={form => this.$form = $(form)}
-                                  onSubmit={this.submitSignIn.bind(this)}
+                                  onSubmit={this.submitSignIn}
                                   noValidate>
 
                                 {/*------ username ------*/}
@@ -133,7 +120,8 @@ class SignIn extends Component {
                                            name="username"
                                            value={userName}
                                            onChange={(e) => this.setState({userName: e.target.value})}
-                                           required/>
+                                           // required
+                                    />
                                     <div className="invalid-feedback">نام کاربری الزامی است!</div>
                                 </div>
 
@@ -146,7 +134,8 @@ class SignIn extends Component {
                                            value={password}
                                            pattern={regexp.password}
                                            onChange={(e) => this.setState({password: e.target.value})}
-                                           required/>
+                                           // required
+                                    />
                                     <div className="invalid-feedback">پسورد الزامی است</div>
                                 </div>
 
