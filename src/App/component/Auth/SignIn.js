@@ -169,30 +169,25 @@ class SignIn extends Component {
                                     </a>
                                 </div>
 
-                                <button type="submit"
-                                        className={`btn btn-block mt-3  ${(isLoading || !localUser.updated) ? 'loading-effect' : 'btn-primary'} `}
-                                        disabled={isLoading || !localUser.updated}>
-                                    Sign in
+                                <button className={`btn btn-block mt-3  ${(isLoading || !localUser.updated) ? 'loading-effect' : 'btn-primary'} `}
+                                        disabled={isLoading || !localUser.updated}
+                                        type="submit">
+                                    ورود
                                 </button>
                             </form>
                         )
                         :
                         ( //------ forget password ------
-                            <form
-                                className="forget-password-form"
-                                ref={form => this.$form = $(form)}
-                                onSubmit={this.submitForgetPassword.bind(this)}
-                                noValidate>
-                                <h3 className="my-6">
-                                    <span>Remembe Password</span>
-                                    <a className="signin-toggle"
-                                       onClick={() => this.setState({viewType: 'signInForm'})}>
-                                        <span>go back</span>
-                                        <i className="icon-angle-right"></i>
-                                    </a>
-                                </h3>
+                            <form className="forget-password-form"
+                                  ref={form => this.$form = $(form)}
+                                  onSubmit={this.submitForgetPassword.bind(this)}
+                                  noValidate>
+                                <div className="d-flex justify-content-between pb-3">
+                                    <h5>بازیابی رمز عبور</h5>
+                                    <a className="signin-toggle" onClick={() => this.setState({viewType: 'signInForm'})}>بازگشت</a>
+                                </div>
                                 <div className="form-group">
-                                    <label>your account E-mail</label>
+                                    <label>ایمیل خود را وارد نمایید:</label>
                                     <input type="text"
                                            className="form-control ltr-value"
                                            name="forgetpassword"
@@ -202,10 +197,10 @@ class SignIn extends Component {
                                            required/>
                                     <div className="invalid-feedback">this value is invaild!</div>
                                 </div>
-                                <button type="submit"
-                                        className={`btn btn-block my-5 ${(isLoading || !localUser.updated) ? 'loading-effect' : 'btn-primary'} `}
-                                        disabled={isLoading || !localUser.updated}>
-                                    submit
+                                <button className={`btn btn-block ${(isLoading || !localUser.updated) ? 'loading-effect' : 'btn-primary'} `}
+                                        disabled={isLoading || !localUser.updated}
+                                        type="submit">
+                                    بازیابی
                                 </button>
                             </form>
                         )
