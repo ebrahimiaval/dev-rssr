@@ -21,3 +21,14 @@ export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.
 
 
 export const DUCT_DEFAULT_VALUE = {isLoading: true};
+
+
+// regex pattern
+// use for validation form
+export const regexp = {
+    //like: m.ebrahimiaval@gmail.com
+    email: '((([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,})))',
+
+    //like: 09199624169 OR +989199624169
+    mobileNumber: '(^(\\+98|0)?9\\d{9}$)'
+};

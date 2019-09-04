@@ -18,7 +18,7 @@ import "./signUp.scss";
 
 class SignUp extends Component {
     state = {
-        isLoadingMod: false,
+        isLoading: false,
         username: '',
         password: ''
     }
@@ -32,7 +32,7 @@ class SignUp extends Component {
             {username, password} = this.state;
 
         // active loading mod
-        this.setState({isLoadingMod: true});
+        this.setState({isLoading: true});
 
         // ajax({
         //     name: 'submitSignUp',
@@ -64,7 +64,7 @@ class SignUp extends Component {
         //     .fail((xhr, textStatus, text) => {
         //         if (text !== 'abort') {
         //             // remove loading mode
-        //             this.setState({isLoadingMod: false});
+        //             this.setState({isLoading: false});
         //
         //             errorHandeler.e422(xhr);
         //         }
@@ -75,7 +75,7 @@ class SignUp extends Component {
     render() {
         const
             {localUser} = this.props,
-            {isLoadingMod} = this.state;
+            {isLoading} = this.state;
 
         return (
             <div className="row mx-0">
@@ -131,8 +131,8 @@ class SignUp extends Component {
 
                         {/*-------------------- submit -----------------------*/}
                         <button type="submit"
-                                className={`btn btn-block mt-7 ${(isLoadingMod) ? 'loading-effect' : 'btn-primary'} `}
-                                disabled={isLoadingMod || !localUser.updated}>
+                                className={`btn btn-block mt-7 ${(isLoading) ? 'loading-effect' : 'btn-primary'} `}
+                                disabled={isLoading || !localUser.updated}>
                             Sign up
                         </button>
                     </form>

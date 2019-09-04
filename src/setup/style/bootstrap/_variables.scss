@@ -130,17 +130,19 @@ $enable-deprecation-messages:                 true !default;
 $spacer: 1rem !default;
 $spacers: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$spacers: map-merge(
-  (
-    0: 0,
-    1: ($spacer * .25),
-    2: ($spacer * .5),
-    3: $spacer,
-    4: ($spacer * 1.5),
-    5: ($spacer * 3)
-  ),
-  $spacers
-);
+$spacers : map-merge((
+        0: 0,
+        1: 5px,
+        2: 10px,
+        3: 15px,
+        4: 20px,
+        5: 25px,
+        6: 30px,
+        7: 35px,
+        8: 40px,
+        9: 45px,
+        10: 50px,
+), $spacers);
 
 // This variable affects the `.h-*` and `.w-*` classes.
 $sizes: () !default;
@@ -189,11 +191,18 @@ $paragraph-margin-bottom:   1rem !default;
 // adapting to different screen sizes, for use in media queries.
 
 $grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
+    hs: 0,
+    xs: 310px, // +310
+    lsm: 443px, // +133 _______ 310px + ((576px - 310px) / 2)
+    sm: 576px, // +133
+    lmd: 672px, // +96 _______ 576px + ((768px - 576px) / 2)
+    md: 768px, // +96
+    llg: 880px, // +112 _______ 768px + ((992px - 768px) / 2)
+    lg: 992px, //+112
+    lxl: 1096px, // +104 _______ 992px + ((1200px - 992px) / 2)
+    xl: 1200px, // +104
+    lhl: 1330px, // +130 _______ 1200px + ((1460px - 1200px) / 2)
+    hl: 1460px, // +130
 ) !default;
 
 @include _assert-ascending($grid-breakpoints, "$grid-breakpoints");
@@ -205,10 +214,17 @@ $grid-breakpoints: (
 // Define the maximum width of `.container` for different screen sizes.
 
 $container-max-widths: (
-  sm: 540px,
-  md: 720px,
-  lg: 960px,
-  xl: 1140px
+    //xs: 280px, // +280
+    //lsm: 410px, // +130
+    sm: 540px, // +130
+    //lmd: 640px, // +100
+    md: 720px, // +80
+    //llg: 850px, // +130
+    lg: 960px, // +110
+    //lxl: 1060px, // +100
+    xl: 1140px, // +80
+    //lhl: 1300px, // +160
+    hl: 1430px // +130
 ) !default;
 
 @include _assert-ascending($container-max-widths, "$container-max-widths");
@@ -218,7 +234,7 @@ $container-max-widths: (
 //
 // Set the number of columns and specify the width of the gutters.
 
-$grid-columns:                12 !default;
+$grid-columns:                24 !default;
 $grid-gutter-width:           30px !default;
 
 
@@ -1037,7 +1053,7 @@ $figure-caption-color:              $gray-600 !default;
 
 $breadcrumb-padding-y:              .75rem !default;
 $breadcrumb-padding-x:              1rem !default;
-$breadcrumb-item-padding-x:         .5rem !default;
+$breadcrumb-item-padding:           .5rem !default;
 
 $breadcrumb-margin-bottom:          1rem !default;
 

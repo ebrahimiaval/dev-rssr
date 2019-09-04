@@ -6,8 +6,7 @@ import Menu from "./component/Menu/Menu";
 import "./app.scss";
 import FirstLoading from "./component/FirstLoading";
 import {firstSetup} from "./component/Auth/action/firstSetup";
-
-// import SignInModal from "./_component/Auth/SignInModal";
+import SignInModal from "./component/Auth/SignInModal";
 // import SignUpModal from "./_component/Auth/SignUpModal";
 
 
@@ -27,7 +26,7 @@ class App extends Component {
                 <Menu/>
                 <Router/>
                 <Helmet defaultTitle="React Server Side Rendering"/>
-                {/*<SignInModal/>*/}
+                <SignInModal/>
                 {/*<SignUpModal/>*/}
                 <ToastContainer rtl={true}/>
             </Fragment>

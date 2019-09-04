@@ -64,7 +64,7 @@ class Home extends Component {
                     {
                         (home.isLoading) ?
                             (
-                                <div className="col-12 text-center">
+                                <div className="col-24 text-center">
                                     <img src="/asset/img/loading.gif" alt="loading"/>
                                     <div> در حال بار گذاری مطالب</div>
                                 </div>
@@ -72,7 +72,7 @@ class Home extends Component {
                             :
                             (
                                 home.map((item) => (
-                                    <div className="col-md-4 my-2 px-3 animated fadeIn" key={item.id}>
+                                    <div className="col-md-8 my-2 px-3 animated fadeIn" key={item.id}>
                                         <Link to={route.post(item.id)} className="card">
                                             <div className="card-body">
                                                 <h3 className="card-title text-truncate h6">{item.title}</h3>

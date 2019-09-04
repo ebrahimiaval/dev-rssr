@@ -15,10 +15,16 @@ class Menu extends Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item">
-                                <Link to={route.home} className="nav-link">Home</Link>
+                                <Link to={route.home} className="nav-link">خانه</Link>
                             </li>
                             <li className="nav-item">
-                                <Link to="/404" className="nav-link">404</Link>
+                                <Link to="/404" className="nav-link">راهنما</Link>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" data-notify="signin-modal">ورود</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" data-notify="signup-modal">ثبت نام</a>
                             </li>
                         </ul>
                     </div>

@@ -5,7 +5,7 @@ import SignIn from "./SignIn";
 class SignInModal extends Component {
     render() {
         return (
-            <Notify id="signin-modal" size="lg" className="auth-modal">
+            <Notify id="signin-modal" title="ورود به حساب کاربری" className="auth-modal">
                 {
                     //we pass SignIn component as a function
                     // because dont need run this component when modal is not open!
