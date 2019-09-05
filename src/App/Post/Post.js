@@ -55,8 +55,8 @@ class Post extends Component {
                     }
                 </div>
                 <div className="d-flex justify-content-between pb-5">
-                    <Link to={route.post(postId - 1)} className="btn btn-secondary">last post</Link>
-                    <Link to={route.post(postId + 1)} className="btn btn-secondary">next post</Link>
+                    <Link to={route.post(postId - 1)} className="btn btn-outline-primary">last post</Link>
+                    <Link to={route.post(postId + 1)} className="btn btn-outline-primary">next post</Link>
                 </div>
             </div>
         );
