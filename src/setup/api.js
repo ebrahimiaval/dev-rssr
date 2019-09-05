@@ -11,9 +11,12 @@ let api = {
     signup: '/your-route',
     posts: '/posts',
     userDetails: 'http://www.mocky.io/v2/5d70aee23300005a00779357',
-    post: (id) => '/posts/' + id
+    post: (id) => '/posts/' + id,
+    resetPassword: {
+        trust: '/',
+        submit: '/',
+    }
 }
-
 
 
 

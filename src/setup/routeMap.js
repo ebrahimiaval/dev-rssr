@@ -4,6 +4,7 @@ import {route} from "./route";
 import Error404 from "../App/Error404/Error404";
 import Home from "../App/Home/Home";
 import Post from "../App/Post/Post";
+import ResetPassword from "../App/component/Auth/ResetPassword";
 
 
 export const routeMap = [
@@ -15,6 +16,10 @@ export const routeMap = [
     {
         path: route.post(),
         component: Post
+    },
+    {
+        path: route.resetPassword(':token'),
+        component: ResetPassword
     },
 
     // ------- E404 -------
