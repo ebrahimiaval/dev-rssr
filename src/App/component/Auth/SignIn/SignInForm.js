@@ -81,7 +81,7 @@ class SignInForm extends Component {
                            pattern={regexp.password}
                            onChange={(e) => this.setState({password: e.target.value})}
                            required/>
-                    <div className="invalid-feedback">پسورد الزامی است</div>
+                    <div className="invalid-feedback">پسورد الزامی است!</div>
                 </div>
 
                 <div className="d-flex justify-content-between">
