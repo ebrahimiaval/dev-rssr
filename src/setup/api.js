@@ -9,7 +9,7 @@
 let api = {
     // authentication
     signin: 'http://www.mocky.io/v2/5d70abc13300004d0077933f',
-    signup: '/your-route',
+    signup: 'http://www.mocky.io/v2/5d70abc13300004d0077933f',
     forgetPassword : '/',
     resetPassword: {
         trust: '/',

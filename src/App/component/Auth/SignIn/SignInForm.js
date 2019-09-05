@@ -38,7 +38,10 @@ class SignInForm extends Component {
                 this.props.closeModal();
 
                 // set token to localStorage if remember me checked and get user details
-                signingIn(response.data.token, rememberMe);
+                signingIn(response.data.token, rememberMe)
+                    .then(function () {
+                        toast.success('با موفقیت وارد حساب شدید.');
+                    });
             })
             .catch(() => {
                 this.setState({isLoading: false});
@@ -81,7 +84,7 @@ class SignInForm extends Component {
                            pattern={regexp.password}
                            onChange={(e) => this.setState({password: e.target.value})}
                            required/>
-                    <div className="invalid-feedback">پسورد معتبر نیست! باید بیش از 8 کاراکتر باشد.</div>
+                    <div className="invalid-feedback">رمز عبور معتبر نیست! باید بیش از 8 کاراکتر باشد.</div>
                 </div>
 
                 <div className="d-flex justify-content-between">
