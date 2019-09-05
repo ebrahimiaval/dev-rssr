@@ -65,14 +65,15 @@ class SignInForm extends Component {
                   noValidate>
 
                 <div className="form-group">
-                    <label>نام کاربری</label>
+                    <label>ایمیل</label>
                     <input type="text"
                            className="form-control ltr-value"
                            name="username"
+                           pattern={regexp.email}
                            value={userName}
                            onChange={(e) => this.setState({userName: e.target.value})}
                            required/>
-                    <div className="invalid-feedback">نام کاربری الزامی است!</div>
+                    <div className="invalid-feedback">ایمیل معتبری درج نشده است!</div>
                 </div>
 
                 <div className="form-group">

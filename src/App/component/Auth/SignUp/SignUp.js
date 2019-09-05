@@ -79,7 +79,7 @@ class SignUp extends Component {
                            value={this.state.username}
                            onChange={(e) => this.setState({username: e.target.value})}
                            required/>
-                    <div className="invalid-feedback">نام کاربری الزامی است!</div>
+                    <div className="invalid-feedback">ایمیل معتبری درج نشده است!</div>
                 </div>
 
                 <div className="form-group">
