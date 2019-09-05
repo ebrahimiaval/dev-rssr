@@ -17,13 +17,13 @@ export const authentication = (token) => {
         url: api.userDetails,
         token: token
     })
-        .then((userDetails) => {
+        .then((response) => {
             // token is valid and user details ready to use
             setStore({
                 localUser: {
                     updated: true,
                     token: token,
-                    detail: userDetails
+                    detail: response.data
                 }
             });
         })
