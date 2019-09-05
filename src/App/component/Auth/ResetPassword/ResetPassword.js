@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import {axios} from "../../../setup/utility/axios";
-import {api} from "../../../setup/api";
-import {route} from "../../../setup/route";
-import {formValidation} from "../../../setup/utility/formValidation";
-import {regexp} from "../../../setup/constant";
+import {axios} from "../../../../setup/utility/axios";
+import {api} from "../../../../setup/api";
+import {route} from "../../../../setup/route";
+import {formValidation} from "../../../../setup/utility/formValidation";
+import {regexp} from "../../../../setup/constant";
 import "./resetPassword.scss";
 
 
