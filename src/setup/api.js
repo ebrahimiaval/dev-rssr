@@ -7,15 +7,18 @@
  *  and in fetchData method use 'api.home' to access to api url.
  */
 let api = {
+    // authentication
     signin: 'http://www.mocky.io/v2/5d70abc13300004d0077933f',
     signup: '/your-route',
-    posts: '/posts',
-    userDetails: 'http://www.mocky.io/v2/5d70aee23300005a00779357',
-    post: (id) => '/posts/' + id,
+    forgetPassword : '/',
     resetPassword: {
         trust: '/',
         submit: '/',
-    }
+    },
+
+    posts: '/posts',
+    userDetails: 'http://www.mocky.io/v2/5d70aee23300005a00779357',
+    post: (id) => '/posts/' + id,
 }
 
 

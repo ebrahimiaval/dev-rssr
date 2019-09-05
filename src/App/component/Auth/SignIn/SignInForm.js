@@ -3,9 +3,8 @@ import {toast} from "react-toastify";
 import {formValidation} from "../../../../setup/utility/formValidation";
 import {axios} from "../../../../setup/utility/axios";
 import {api} from "../../../../setup/api";
-import {isSet} from "../../../../setup/utility/checkSet";
 import {signingIn} from "../action/signingIn";
-import {regexp} from "../../../../setup/constant";
+import {LOADING_CLASS, regexp} from "../../../../setup/constant";
 import {random} from "../../../../setup/utility/random";
 import {connect} from "trim-redux";
 
@@ -35,9 +34,8 @@ class SignInForm extends Component {
             data: {email: userName, password: password}
         })
             .then((response) => {
-                // close the modal when launched from Notify modal
-                if (isSet(this.props.notify))
-                    this.props.notify.$modal.modal('hide');
+                // close the modal when launched from  modal
+                this.props.closeModal();
 
                 // set token to localStorage if remember me checked and get user details
                 signingIn(response.data.token, rememberMe);
@@ -56,14 +54,13 @@ class SignInForm extends Component {
         const
             {localUser, showForgetPasswordForm} = this.props,
             {isLoading, userName, password, rememberMe} = this.state,
-            readmeId = "remmber-me-" + random(1000); // fix confilict in Parallel use
+            readmeId = "remmber-me-" + random(1000); // fix confilict in Parallel usage
 
         return (
             <form className="signin-form"
                   onSubmit={this.submitSignIn}
                   noValidate>
 
-                {/*------ username ------*/}
                 <div className="form-group">
                     <label>نام کاربری</label>
                     <input type="text"
@@ -71,12 +68,10 @@ class SignInForm extends Component {
                            name="username"
                            value={userName}
                            onChange={(e) => this.setState({userName: e.target.value})}
-                        // required
-                    />
+                           required/>
                     <div className="invalid-feedback">نام کاربری الزامی است!</div>
                 </div>
 
-                {/*------ password ------*/}
                 <div className="form-group">
                     <label>رمز عبور</label>
                     <input type="password"
@@ -85,12 +80,10 @@ class SignInForm extends Component {
                            value={password}
                            pattern={regexp.password}
                            onChange={(e) => this.setState({password: e.target.value})}
-                        // required
-                    />
+                           required/>
                     <div className="invalid-feedback">پسورد الزامی است</div>
                 </div>
 
-                {/*------ remember and recover pass ------*/}
                 <div className="d-flex justify-content-between">
                     <div className="custom-control custom-checkbox">
                         <input type="checkbox"
@@ -109,7 +102,7 @@ class SignInForm extends Component {
                     </a>
                 </div>
 
-                <button className={`btn btn-block mt-3  ${(isLoading || !localUser.updated) ? 'loading-effect' : 'btn-primary'} `}
+                <button className={`btn btn-block btn-primary mt-3  ${(isLoading || !localUser.updated) ? LOADING_CLASS : ''} `}
                         disabled={isLoading || !localUser.updated}
                         type="submit">
                     ورود

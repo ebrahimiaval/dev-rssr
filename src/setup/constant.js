@@ -20,7 +20,13 @@ export const IS_SERVER = !IS_BROWSER;
 export const API_DOMAIN = IS_BROWSER ? process.env.API_HOST_IN_CLIENT : process.env.API_HOST_IN_SERVER;
 
 
-export const DUCT_DEFAULT_VALUE = {isLoading: true};
+
+/**
+ * use to flash in loading items
+ */
+export const LOADING_CLASS = 'animated flash infinite d-2s';
+
+
 
 
 // regex pattern
@@ -30,5 +36,8 @@ export const regexp = {
     email: '((([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,})))',
 
     //like: 09199624169 OR +989199624169
-    mobileNumber: '(^(\\+98|0)?9\\d{9}$)'
+    mobileNumber: '(^(\\+98|0)?9\\d{9}$)',
+
+    // user password (like: SignInForm)
+    password: '(^.{8,62}$)',
 };

@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 import {connect} from "trim-redux";
 import {regexp} from "../../../../setup/constant";
 import {formValidation} from "../../../../setup/utility/formValidation";
+import {axios} from "../../../../setup/utility/axios";
+import {api} from "../../../../setup/api";
+import {route} from "../../../../setup/route";
+import {toast} from "react-toastify";
 
 
 class ForgetPasswordForm extends Component {
@@ -15,41 +19,33 @@ class ForgetPasswordForm extends Component {
         if (!formValidation(e))
             return false;
 
-        // const {email} = this.state;
-        // loading
+        const {email} = this.state;
+
         this.setState({isLoading: true});
 
-        /* ajax({
-             name: 'submitForgetPassword',
-             url: api.forgetPassword.sendEmail(),
+         axios({
+             url: api.forgetPassword,
              data: {
                  "email": email,
-                 "callback": window.location.origin + route.forgetPassword('') // NOTICE: server most be add token number to end of url
+                 // server most be add token number to end of url and redirect to it
+                 "callback": window.location.origin + route.resetPassword('')
              },
-             method: 'POST',
-             complete: () => this.setState({isLoading: false}) // remove loading
+             method: 'POST'
          })
          //--------------------------------------------------
              .done(() => {
-                 this.setState({
-                     message:
-                         'The recovery link was sent to the "'
-                         + email
-                         + '". go to mail box and click on link.'
-                 });
+                 // close the modal when launched from  modal
+                 this.props.closeModal();
 
-                 // close the modal when launched from Notify modal
-                 setTimeout(() => {
-                     const {notify} = this.props;
-                     if (isSet(notify))
-                         notify.$modal.modal('hide');
-                 }, 15000);
+                 toast.error(`برای بازیابی بر روی لینک ارسال شده به ایمیل "${email}" کلیک نمایید.`);
              })
              //--------------------------------------------------
-             .fail((xhr, textStatus, text) => {
-                 if (text !== 'abort' && xhr.status === 400)
+             .fail((e) => {
+                 if (e.status === 400)
                      toast.error('User does not have this email.');
-             });*/
+                 else
+                     toast.error('User does not have this email.');
+             });
     }
 
     render() {
