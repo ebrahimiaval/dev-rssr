@@ -1,18 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "trim-redux";
 import {withRouter} from "react-router-dom";
-// config
-import {regexpPattern} from "../../../../render/config/regexpPattern";
-import {api} from "../../../../render/config/api";
-// utility
-import {formValidation} from "../../../../render/utility/formValidation";
-// import {ajax} from "../../../../render/utility/fetchData";
-import {isSet} from "../../../../render/utility/checkSet";
-import {errorHandeler} from "../../../../render/utility/errorHandeler";
-// action
-import {signingIn} from "../../action/auth";
-//style
 import "./signUp.scss";
+import {formValidation} from "../../../setup/utility/formValidation";
+import {regexp} from "../../../setup/constant";
 
 
 
@@ -23,7 +14,7 @@ class SignUp extends Component {
         password: ''
     }
 
-    submitSignUp(e) {
+    submitSignUp = (e) => {
         if (!formValidation(e))
             return false;
 
@@ -96,24 +87,21 @@ class SignUp extends Component {
                 <div className="form-wrap col-10 pr-5 pt-4">
                     <form
                         className="signup-form"
-                        ref={form => this.$form = $(form)}
-                        onSubmit={this.submitSignUp.bind(this)}
+                        onSubmit={this.submitSignUp}
                         noValidate>
-
-                        <h6>Sign Up</h6>
 
                         {/*-------------------- username -----------------------*/}
                         <div className="form-group">
-                            <label>mail</label>
+                            <label>ایمیل</label>
                             <input type="text"
                                    className="form-control ltr-value"
                                    aria-describedby="emailHelp"
                                    name="username"
-                                   pattern={regexpPattern.email}
+                                   pattern={regexp.email}
                                    value={this.state.username}
                                    onChange={(e) => this.setState({username: e.target.value})}
                                    required/>
-                            <div className="invalid-feedback">this value is invaild!</div>
+                            <div className="invalid-feedback">نام کاربری الزامی است!</div>
                         </div>
 
                         {/*-------------------- password -----------------------*/}
@@ -122,11 +110,11 @@ class SignUp extends Component {
                             <input type="password"
                                    name="password"
                                    className="form-control ltr-value"
-                                   pattern={regexpPattern.password}
+                                   pattern={regexp.password}
                                    value={this.state.password}
                                    onChange={(e) => this.setState({password: e.target.value})}
                                    required/>
-                            <div className="invalid-feedback">password cannot be less than 8 char!</div>
+                            <div className="invalid-feedback">پسورد باید بیش از ۸ کاراکتر باشد.</div>
                         </div>
 
                         {/*-------------------- submit -----------------------*/}
