@@ -28,9 +28,7 @@ class SignUp extends Component {
         if (!formValidation(e))
             return false;
 
-        const
-            {history, notify} = this.props,
-            {username, password} = this.state;
+        const {username, password} = this.state;
 
         this.setState({isLoading: true});
 
@@ -71,7 +69,6 @@ class SignUp extends Component {
                 onSubmit={this.submitSignUp}
                 noValidate>
 
-                {/*-------------------- username -----------------------*/}
                 <div className="form-group">
                     <label>ایمیل</label>
                     <input type="text"
@@ -85,7 +82,6 @@ class SignUp extends Component {
                     <div className="invalid-feedback">نام کاربری الزامی است!</div>
                 </div>
 
-                {/*-------------------- password -----------------------*/}
                 <div className="form-group">
                     <label>رمز عبور (حداقل ۸ کاراکتر)</label>
                     <input type="password"
@@ -98,7 +94,6 @@ class SignUp extends Component {
                     <div className="invalid-feedback">رمز عبور باید بیش از ۸ کاراکتر باشد.</div>
                 </div>
 
-                {/*-------------------- submit -----------------------*/}
                 <button type="submit"
                         className={`btn btn-block mt-7 ${(isLoading) ? 'loading-effect' : 'btn-primary'} `}
                         disabled={isLoading || !localUser.updated}>
