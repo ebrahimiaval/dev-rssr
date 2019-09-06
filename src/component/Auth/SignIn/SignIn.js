@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ForgetPasswordForm from "./ForgetPasswordForm";
 import SignInForm from "./SignInForm";
-import {isSet} from "../../../../setup/utility/checkSet";
+import {isSet} from "../../../setup/utility/checkSet";
 
 
 class SignIn extends Component {

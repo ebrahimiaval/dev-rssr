@@ -1,4 +1,4 @@
-import {storage} from "../../../../setup/utility/storage";
+import {storage} from "../../../setup/utility/storage";
 import {authentication} from "./authentication";
 
 /**

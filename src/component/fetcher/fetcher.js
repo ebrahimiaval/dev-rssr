@@ -1,4 +1,4 @@
-import {IS_SERVER} from "../../../setup/constant";
+import {IS_SERVER} from "../../setup/constant";
 import {serverFetcher} from "./serverFetcher";
 import {clientFetcher} from "./clientFetcher";
 

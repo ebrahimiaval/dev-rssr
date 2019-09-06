@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
-import {route} from "../../../setup/route";
+import {route} from "../../setup/route";
 import {signingOut} from "../Auth/action/signingOut";
 import ValidUser from "../Auth/ValidUser";
 import InvalidUser from "../Auth/InvalidUser";

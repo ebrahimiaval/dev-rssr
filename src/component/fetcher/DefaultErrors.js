@@ -1,7 +1,7 @@
 import React from 'react';
 import {Helmet} from "react-helmet";
-import Error404 from "../../Error404/Error404";
-import {browserHistory} from "../../../setup/browserHistory";
+import Error404 from "../../App/Error404/Error404";
+import {browserHistory} from "../../setup/browserHistory";
 
 
 // use data error of axios ::3::

@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {toast} from "react-toastify";
-import {formValidation} from "../../../../setup/utility/formValidation";
-import {axios} from "../../../../setup/utility/axios";
-import {api} from "../../../../setup/api";
+import {formValidation} from "../../../setup/utility/formValidation";
+import {axios} from "../../../setup/utility/axios";
+import {api} from "../../../setup/api";
 import {signingIn} from "../action/signingIn";
-import {LOADING_CLASS, regexp} from "../../../../setup/constant";
-import {random} from "../../../../setup/utility/random";
+import {LOADING_CLASS, regexp} from "../../../setup/constant";
+import {random} from "../../../setup/utility/random";
 import {connect} from "trim-redux";
 
 class SignInForm extends Component {

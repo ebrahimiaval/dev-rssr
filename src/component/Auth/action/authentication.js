@@ -1,5 +1,5 @@
-import {axios} from "../../../../setup/utility/axios";
-import {api} from "../../../../setup/api";
+import {axios} from "../../../setup/utility/axios";
+import {api} from "../../../setup/api";
 import {setStore} from "trim-redux";
 import {toast} from "react-toastify";
 import {signingOut} from "./signingOut";

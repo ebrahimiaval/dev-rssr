@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import {connect, setStore} from "trim-redux";
-import {defaultState} from "../../../setup/store";
-import {clientQueryString} from "../../../setup/utility/clientQueryString";
-import {isErrorData} from "../../../setup/utility/isErrorData";
-import {responseValidation} from "../../../setup/utility/responseValidation";
-import {convertErrorToResponse} from "../../../setup/utility/convertErrorToResponse";
+import {defaultState} from "../../setup/store";
+import {clientQueryString} from "../../setup/utility/clientQueryString";
+import {isErrorData} from "../../setup/utility/isErrorData";
+import {responseValidation} from "../../setup/utility/responseValidation";
+import {convertErrorToResponse} from "../../setup/utility/convertErrorToResponse";
 import DefaultErrors from "./DefaultErrors";
 
 

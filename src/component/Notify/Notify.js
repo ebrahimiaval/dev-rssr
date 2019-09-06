@@ -300,7 +300,7 @@ class Notify extends Component {
     render() {
         // return a bootstrap modal
         return (
-            <div className={`modal animated zoomIn  d-500ms notify theme-${this.op.theme} ${this.op.className}`}
+            <div className={`modal animated slideInUp  d-500ms notify theme-${this.op.theme} ${this.op.className}`}
                  id={this.op.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                 <div className={`modal-dialog modal-dialog-centered ${this.op.size !== null ? `modal-${this.op.size}` : ''} `} role="document">
