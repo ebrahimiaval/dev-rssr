@@ -1,5 +1,4 @@
-import {applyMiddleware, compose, createStore as createStoreProvider} from 'trim-redux';
-import thunk from 'redux-thunk';
+import {compose, createStore as createStoreProvider} from 'trim-redux';
 // config
 import {IS_BROWSER} from "./constant";
 import {isSet} from "./utility/checkSet";
@@ -15,7 +14,7 @@ import {isSet} from "./utility/checkSet";
  * and value of this is default value
  */
 export const defaultState = {
-    localUser: {updated: false, token: null},
+    localUser: {updated: false, token: null, detail: null},
     post: null,
     home: {isLoading: true}
 }
@@ -34,7 +33,8 @@ export const defaultState = {
 let composeEnhancer = compose;
 //
 if (JSON.parse(process.env.RSSR_REDUX_DEV_TOOLS) && IS_BROWSER)
-    composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+// composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
 
@@ -43,7 +43,7 @@ if (JSON.parse(process.env.RSSR_REDUX_DEV_TOOLS) && IS_BROWSER)
 /**
  * redux thunk
  */
-composeEnhancer = composeEnhancer(applyMiddleware(thunk));
+// composeEnhancer = composeEnhancer(applyMiddleware(thunk));
 
 
 

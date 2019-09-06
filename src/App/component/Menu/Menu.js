@@ -1,13 +1,13 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
 import {route} from "../../../setup/route";
-import {isValidUser} from "../../../setup/utility/isValidUser";
-import {connect} from "trim-redux";
 import {signingOut} from "../Auth/action/signingOut";
+import ValidUser from "../Auth/ValidUser";
+import InvalidUser from "../Auth/InvalidUser";
+import LoadingUser from "../Auth/LoadingUser";
 
 
-const Menu = props => {
-    const {detail, updated} = props.localUser;
+const Menu = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container">
@@ -23,31 +23,33 @@ const Menu = props => {
                         <li className="nav-item">
                             <Link to="/404" className="nav-link">راهنما</Link>
                         </li>
-                        {
-                            updated ? (
-                                    isValidUser() ?
-                                        <li className="nav-item">
-                                            <a className="nav-link" onClick={() => window.confirm('می‌خواهید خارج شوید؟') ? signingOut() : ''}>
-                                                <span>سلام </span>{detail.firstName}
-                                            </a>
-                                        </li>
-                                        :
-                                        <Fragment>
-                                            <li className="nav-item">
-                                                <a className="nav-link" data-notify="signin-modal">ورود</a>
-                                            </li>
-                                            <li className="nav-item">
-                                                <a className="nav-link" data-notify="signup-modal">ثبت نام</a>
-                                            </li>
-                                        </Fragment>
-                                )
-                                :
-                                (
+
+                        <ValidUser>
+                            {
+                                (detail) => (
                                     <li className="nav-item">
-                                        <div className="nav-link">در حال اعتبار سنجی ...</div>
+                                        <a className="nav-link" onClick={() => window.confirm('می‌خواهید خارج شوید؟') ? signingOut() : ''}>
+                                            سلام {detail.firstName}
+                                        </a>
                                     </li>
                                 )
-                        }
+                            }
+                        </ValidUser>
+
+                        <InvalidUser>
+                            <li className="nav-item">
+                                <a className="nav-link" data-notify="signin-modal">ورود</a>
+                            </li>
+                            <li className="nav-item">
+                                <a className="nav-link" data-notify="signup-modal">ثبت نام</a>
+                            </li>
+                        </InvalidUser>
+
+                        <LoadingUser>
+                            <li className="nav-item">
+                                <div className="nav-link">در حال اعتبار سنجی ...</div>
+                            </li>
+                        </LoadingUser>
                     </ul>
                 </div>
             </div>
@@ -56,4 +58,4 @@ const Menu = props => {
 };
 
 
-export default connect(s => ({localUser: s.localUser}))(Menu);
+export default Menu;

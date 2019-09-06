@@ -1,5 +1,7 @@
 /**
  * convert error object to valid data object for SSR ::3::
+ * see fetcher/clientFetcher and server/fetchProvider
+ *
  * @param error {object}
  * @returns {{data: {code: *, error: boolean}, status: null}}
  */
