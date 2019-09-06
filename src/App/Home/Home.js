@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
-import "./home.scss";
 import {Link} from "react-router-dom";
 import {api} from "../../setup/api";
 import {route} from "../../setup/route";
 import {axios} from "../../setup/utility/axios";
 import {fecher} from "../component/fetcher/fetcher";
+import "./home.scss";
 
 
 
@@ -14,7 +14,6 @@ import {fecher} from "../component/fetcher/fetcher";
 class Home extends Component {
 
     static redux = 'home';
-
     static fetch() {
         return axios({
             // timeout: IS_SERVER ? 20 : 1000,

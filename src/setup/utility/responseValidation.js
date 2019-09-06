@@ -1,3 +1,9 @@
+/**
+ * check data contain valid data and status property ::3::
+ * see fetcher/clientFetcher and server/fetchProvider
+ *
+ * @param response
+ */
 export const responseValidation = function (response) {
     // exist data and status
     if (!response.hasOwnProperty('data') || !response.hasOwnProperty('status'))

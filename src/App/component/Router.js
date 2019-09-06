@@ -1,6 +1,6 @@
 import React from 'react';
-import {routeMap} from "../../setup/routeMap";
 import {Route, Switch} from "react-router-dom";
+import {routeMap} from "../../setup/routeMap";
 import {jumpScrollToTop} from "../../setup/utility/jumpScrollToTop";
 
 

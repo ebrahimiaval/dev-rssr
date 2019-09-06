@@ -1,5 +1,4 @@
 import {createBrowserHistory} from "history";
-// config
 import {IS_BROWSER} from "./constant";
 
 

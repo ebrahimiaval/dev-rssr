@@ -1,6 +1,6 @@
 import axiosBase from "axios";
-import {API_DOMAIN, IS_SERVER} from "../constant";
 import {getStore} from "trim-redux";
+import {API_DOMAIN, IS_SERVER} from "../constant";
 
 
 /**

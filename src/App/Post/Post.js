@@ -1,7 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Helmet} from "react-helmet";
 import Link from "react-router-dom/es/Link";
-// config
 import {api} from "../../setup/api";
 import {route} from "../../setup/route";
 import {axios} from "../../setup/utility/axios";
@@ -12,22 +11,12 @@ import {fecher} from "../component/fetcher/fetcher";
 
 class Post extends Component {
 
-    // constructor(props) {
-    //     super(props);
-    //
-    //     this.props.setFtechParams({postId: this.props.match.params.postId});
-    // }
     static redux = 'post';
     static fetch({match}) {
         return axios({
             url: api.post(match.params.postId)
-            // url: api.s200_post
         });
     }
-
-    // componentDidUpdate() {
-    //     this.props.setFtechParams({postId: this.props.match.params.postId});
-    // }
 
     render() {
         const

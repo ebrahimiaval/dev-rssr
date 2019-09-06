@@ -1,10 +1,8 @@
-// utility
-import {route} from "./route";
-// component
 import Error404 from "../App/Error404/Error404";
 import Home from "../App/Home/Home";
 import Post from "../App/Post/Post";
-import ResetPassword from "../App/component/Auth/ResetPassword/ResetPassword";
+import ResetPassword from "../App/component/Auth/ResetPassword";
+import {route} from "./route";
 
 
 export const routeMap = [

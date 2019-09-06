@@ -1,12 +1,8 @@
-/**
- * Notify is an custom React modal based on bootstrap
- */
 import React, {Component} from 'react';
-// style
 import "./notify.scss";
 
 
-
+// Notify is an custom React modal based on bootstrap
 class Notify extends Component {
 
     constructor(props) {

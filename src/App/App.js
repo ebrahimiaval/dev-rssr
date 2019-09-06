@@ -3,11 +3,11 @@ import {Helmet} from "react-helmet";
 import {ToastContainer} from 'react-toastify';
 import Router from "./component/Router";
 import Menu from "./component/Menu/Menu";
-import "./app.scss";
 import FirstLoading from "./component/FirstLoading";
 import {firstSetup} from "./component/Auth/action/firstSetup";
 import SignInModal from "./component/Auth/SignInModal";
 import SignUpModal from "./component/Auth/SignUpModal";
+import "./app.scss";
 
 
 class App extends Component {
@@ -18,8 +18,6 @@ class App extends Component {
     }
 
     render() {
-        // ''.map(function () {});
-
         return (
             <Fragment>
                 <FirstLoading/>

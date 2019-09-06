@@ -1,4 +1,3 @@
-// utility
 import {storage} from "./utility/storage";
 
 

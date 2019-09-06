@@ -1,6 +1,6 @@
 import {connect} from "trim-redux";
-import {isValidUser} from "../../../setup/utility/isValidUser";
 
-const InvalidUser = props => !isValidUser() ? props.children : '';
+// updated with null token
+const InvalidUser = props => (props.localUser.token === null && props.localUser.updated) ? props.children : '';
 
 export default connect(s => ({localUser: s.localUser}))(InvalidUser);

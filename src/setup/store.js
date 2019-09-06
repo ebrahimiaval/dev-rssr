@@ -1,5 +1,4 @@
 import {compose, createStore as createStoreProvider} from 'trim-redux';
-// config
 import {IS_BROWSER} from "./constant";
 import {isSet} from "./utility/checkSet";
 

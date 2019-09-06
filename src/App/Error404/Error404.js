@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Helmet} from "react-helmet";
-// style
-import "./error404.scss";
 import {browserHistory} from "../../setup/browserHistory";
 
 

@@ -1,6 +1,6 @@
 import React from 'react';
-import Error404 from "../../Error404/Error404";
 import {Helmet} from "react-helmet";
+import Error404 from "../../Error404/Error404";
 import {browserHistory} from "../../../setup/browserHistory";
 
 

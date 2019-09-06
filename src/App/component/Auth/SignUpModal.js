@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Notify from "../Notify/Notify";
-import SignUp from "./SignUp/SignUp";
+import SignUp from "./SignUp";
 
 class SignUpModal extends Component {
     render() {

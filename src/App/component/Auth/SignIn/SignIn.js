@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import "./signIn.scss";
 import ForgetPasswordForm from "./ForgetPasswordForm";
 import SignInForm from "./SignInForm";
 import {isSet} from "../../../../setup/utility/checkSet";

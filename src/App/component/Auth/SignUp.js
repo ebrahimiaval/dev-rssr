@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {connect} from "trim-redux";
 import {withRouter} from "react-router-dom";
 import {toast} from "react-toastify";
-import {formValidation} from "../../../../setup/utility/formValidation";
-import {regexp} from "../../../../setup/constant";
-import {axios} from "../../../../setup/utility/axios";
-import {api} from "../../../../setup/api";
-import {isSet} from "../../../../setup/utility/checkSet";
-import {signingIn} from "../action/signingIn";
-import "./signUp.scss";
+import {formValidation} from "../../../setup/utility/formValidation";
+import {regexp} from "../../../setup/constant";
+import {axios} from "../../../setup/utility/axios";
+import {api} from "../../../setup/api";
+import {isSet} from "../../../setup/utility/checkSet";
+import {signingIn} from "./action/signingIn";
 
 
 
