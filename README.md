@@ -1,8 +1,10 @@
 # RSSR 
-✈ welcome to RSSR  
+✈ welcome to RSSR
 
 ### what is RSSR?
-RSSR is a SSR boilerplate for React js. this boilerplate use and support these structures:
+RSSR is a SSR boilerplate for React js. RSSR contian token base Authentication structure.
+
+RSSR use and support these packages:
 - redux (trim-redux)
 - bootstrap
 - react-router-dom
