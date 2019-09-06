@@ -5,7 +5,8 @@
     "import",
     "flowtype",
     "jsx-a11y",
-    "react"
+    "react",
+    "react-hooks"
   ],
   "env": {
     "browser": true,
@@ -312,6 +313,8 @@
     "jsx-a11y/scope": "warn",
     "flowtype/define-flow-type": "warn",
     "flowtype/require-valid-file-annotation": "warn",
-    "flowtype/use-flow-type": "warn"
+    "flowtype/use-flow-type": "warn",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   }
 }
